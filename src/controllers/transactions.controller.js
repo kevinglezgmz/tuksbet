@@ -1,4 +1,8 @@
-const TransactionsModel = require('../models/transactions.model.js');
+const Database = require('../models/database.model.js');
+
+/**
+ * @typedef { import('./dataTypes').Transaction } Transaction
+ */
 
 class TransactionsController {}
 

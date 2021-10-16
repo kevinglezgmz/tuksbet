@@ -1,4 +1,8 @@
-const BetsModel = require('../models/bets.model.js');
+const Database = require('../models/database.model.js');
+
+/**
+ * @typedef { import('./dataTypes').BetHistory } BetHistory
+ */
 
 class BetsController {}
 

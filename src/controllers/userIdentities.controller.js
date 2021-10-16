@@ -1,4 +1,8 @@
-const UserIdentitiesModel = require('../models/userIdentities.model.js');
+const Database = require('../models/database.model.js');
+
+/**
+ * @typedef { import('./dataTypes').UserIdentity } UserIdentity
+ */
 
 class UserIdentitiesController {}
 
