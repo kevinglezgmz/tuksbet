@@ -46,6 +46,7 @@
  * @property { number } gameId
  * @property { string } result
  * @property { Date } roundDate
+ * @property { boolean } acceptingBets
  *
  * @typedef Game
  * @property { number } gameId

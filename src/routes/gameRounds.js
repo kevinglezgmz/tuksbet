@@ -1,12 +1,9 @@
 const router = require('express').Router();
+const GameRoundsController = require('../controllers/gameRounds.controller.js');
 
-router.get('/', (req, res) => {
-  res.send('GameRounds route works');
-});
-router.get('/:gameRoundId', (req, res) => {
-  res.send('GameRound: ' + req.params.gameRoundId + ' route works');
-});
-router.post('/', (req, res) => {});
-router.post('/:gameRoundId', (req, res) => {});
+router.get('/', GameRoundsController.getAllGameRounds);
+router.get('/:gameRoundId', GameRoundsController.getGameRoundById);
+router.post('/', GameRoundsController.createGameRound);
+router.patch('/:gameRoundId', GameRoundsController.updateGameRound);
 
 module.exports = router;
