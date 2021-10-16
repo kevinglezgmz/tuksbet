@@ -1,18 +1,11 @@
 const router = require('express').Router();
+const usersController = require('../controllers/users.controller.js');
+const multer = require('multer');
 
-router.get('/', (req, res) => {
-  res.send('Users route works');
-});
-
-router.get('/:userId', (req, res) => {
-  console.log(req.params);
-  res.send('User with id: ' + req.params.userId + ' route works');
-});
-
-router.post('/', (req, res) => {});
-
-router.post('/:userId', (req, res) => {});
-
-router.put('/:userId', (req, res) => {});
+router.get('/', usersController.getAllUsers);
+router.get('/:userId', usersController.getUserById);
+router.post('/', multer().none(), usersController.createUser);
+router.patch('/:userId', multer().none(), usersController.updateUser);
+router.delete('/:userId', usersController.deleteUser);
 
 module.exports = router;
