@@ -1,4 +1,8 @@
-const GameRoundsModel = require('../models/gameRounds.model.js');
+const Database = require('../models/database.model.js');
+
+/**
+ * @typedef { import('./dataTypes').GameRound } GameRound
+ */
 
 class GameRoundsController {}
 
