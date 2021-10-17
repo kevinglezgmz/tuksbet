@@ -1,15 +1,9 @@
 const router = require('express').Router();
+const TransactionsController = require('../controllers/transactions.controller.js');
 
-router.get('/', (req, res) => {
-  res.send('Transactions route works');
-});
-
-router.get('/:transactionId', (req, res) => {
-  res.send('Transaction: ' + req.params.transactionId + ' route works');
-});
-
-router.post('/', (req, res) => {});
-
-router.post('/:transactionId', (req, res) => {});
+router.get('/', TransactionsController.getAllTransactions);
+router.get('/:transactionId', TransactionsController.getTransactionById);
+router.post('/', TransactionsController.createTransaction);
+router.patch('/:transactionId', TransactionsController.updateTransaction);
 
 module.exports = router;
