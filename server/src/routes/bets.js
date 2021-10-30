@@ -295,7 +295,7 @@ module.exports = router;
  *        example: 617c32b2ee63d136fa191527
  *    responses:
  *      responses:
- *      20:
+ *      200:
  *        description: Success response. Retrieves status of the bet deletion
  *        schema:
  *          type: object
