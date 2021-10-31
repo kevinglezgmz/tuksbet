@@ -1,9 +1,15 @@
-const { ObjectID } = require('bson');
+const { getObjectId } = require('../utils');
 const Database = require('../models/database.model.js');
+const bcrypt = require('bcrypt');
 
 /**
  * @typedef { import('./dataTypes').User } User
  */
+
+function validateUserData(userData) {
+  const createUserFields = ['username', 'email', 'password'];
+  return createUserFields.filter((field) => !userData[field]);
+}
 
 class UsersController {
   static getAllUsers(req, res) {
@@ -15,7 +21,10 @@ class UsersController {
         if (results.length === 0) {
           res.status(400).send({ msg: 'No users found!' });
         } else {
-          res.status(200).send({ data: results });
+          const filteredUsersData = results.map((user) => {
+            return { userId: user._id, username: user.username, email: user.email };
+          });
+          res.status(200).send(filteredUsersData);
         }
       })
       .catch((err) => {
@@ -24,56 +33,106 @@ class UsersController {
   }
 
   static getUserById(req, res) {
+    if (req.userId !== req.params.userId) {
+      res.status(401).send({ err: 'Not authorized' });
+      return;
+    }
+
     const usersDb = new Database('Users');
     usersDb
-      .findOne({ _id: ObjectID(req.params.userId) }, {})
-      .then((result) => {
-        if (result) {
-          res.status(200).send({ data: result });
+      .findOne({ _id: getObjectId(req.params.userId) }, {})
+      .then((user) => {
+        if (user) {
+          const userData = { userId: user._id, username: user.username, email: user.email, balance: user.balance };
+          res.status(200).send(userData);
         } else {
-          res.status(500).send({ err: 'User ' + req.params.userId + ' does not exist' });
+          res.status(400).send({ err: 'User ' + req.params.userId + ' does not exist' });
         }
       })
       .catch((err) => {
-        res.status(500).send({ err });
+        res.status(500).send({ err: 'Unexpected error, please try again' });
       });
   }
 
   static createUser(req, res) {
-    const usersDb = new Database('Users');
-    /** @type { User} */
+    /** @type { User } */
     const userData = req.body;
+    const missingFields = validateUserData(userData);
+    if (missingFields.length > 0) {
+      res.status(400).send({ err: 'The following fields are missing: ' + missingFields.join(', ') });
+      return;
+    }
+
+    const hash = bcrypt.hashSync(userData.password, 10);
+    const userToInsert = {
+      username: userData.username,
+      email: userData.email,
+      password: hash,
+      balance: 0.0,
+    };
+
+    const usersDb = new Database('Users');
     usersDb
-      .insertOne(userData)
+      .insertOne(userToInsert)
       .then((result) => {
-        res.send({ status: result });
+        const status = { inserted: result.acknowledged, userId: result.insertedId };
+        res.status(201).send(status);
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(400).send({ err: 'This user already exists' });
       });
   }
 
   static deleteUser(req, res) {
+    if (req.userId !== req.params.userId) {
+      res.status(401).send({ err: 'Not authorized' });
+      return;
+    }
+
     const usersDb = new Database('Users');
     usersDb
-      .deleteOne({ _id: ObjectID(req.params.userId) })
+      .deleteOne({ _id: getObjectId(req.params.userId) })
       .then((result) => {
-        res.send({ status: result });
+        if (result.acknowledged) {
+          res.send({ msg: 'User deleted succesfuly, we hope to see you back again soon' });
+        } else {
+          throw 'Unexpected error, please try again';
+        }
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(500).send({ err: 'Unexpected error, please try again' });
       });
   }
 
   static updateUser(req, res) {
+    if (req.userId !== req.params.userId) {
+      res.status(401).send({ err: 'Not authorized' });
+      return;
+    }
+
+    const { password, username } = req.body;
+    const newUserInfo = {};
+
+    if (password) {
+      const hash = bcrypt.hashSync(password, 10);
+      newUserInfo.password = hash;
+    } else if (username) {
+      newUserInfo.username = username;
+    }
+
     const usersDb = new Database('Users');
     usersDb
-      .updateOne({ _id: ObjectID(req.params.userId) }, { $set: req.body })
+      .updateOne({ _id: getObjectId(req.params.userId) }, { $set: newUserInfo })
       .then((result) => {
-        res.send({ status: result });
+        const updatedField = password ? 'password' : 'username';
+        if (result.acknowledged) {
+          res.send({ msg: 'User ' + updatedField + ' updated successfuly' });
+        } else {
+          throw 'Unexpected error, please try again';
+        }
       })
       .catch((err) => {
-        res.status(400).send(err);
+        res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }
 }
