@@ -21,7 +21,7 @@ class SessionsController {
           if (!user || !user.email || !bcrypt.compareSync(req.body.password, user.password)) {
             reject({ statusCode: 400, msg: 'Could not find an user with that email and password combination' });
           }
-          const token = jwt.sign({ _id: user._id, username: user.username, email: user.email }, SECRET_JWT);
+          const token = jwt.sign({ userId: user._id, username: user.username, email: user.email }, SECRET_JWT);
           success({ user, token });
         });
       })

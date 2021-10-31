@@ -24,7 +24,7 @@ function authentication(req, res, next) {
   /** Token verification in DB */
   const sessionsDb = new Database('Sessions');
   sessionsDb
-    .findOne({ userId: getObjectId(token._id) }, {})
+    .findOne({ userId: getObjectId(token.userId) }, {})
     .then((sessionRecord) => {
       if (!sessionRecord || sessionRecord.token !== authHeaderToken) {
         res.status(401).send({ err: 'Not authorized' });
