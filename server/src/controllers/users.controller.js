@@ -93,7 +93,7 @@ class UsersController {
     usersDb
       .deleteOne({ _id: getObjectId(req.params.userId) })
       .then((result) => {
-        if (result.acknowledged && result.deletedCount === 1) {
+        if (result.acknowledged) {
           res.send({ msg: 'User deleted succesfuly, we hope to see you back again soon' });
         } else {
           throw 'Unexpected error, please try again';
@@ -127,6 +127,8 @@ class UsersController {
         const updatedField = password ? 'password' : 'username';
         if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfuly' });
+        } else {
+          throw 'Unexpected error, please try again';
         }
       })
       .catch((err) => {
