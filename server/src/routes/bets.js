@@ -88,10 +88,11 @@ module.exports = router;
  *      - in: path
  *        name: betId
  *        example: 123
- *    description: Makes a server request for a specific bet suing it's ID.
+ *        description: The identifier of the bet
+ *    description: Makes a server request for a specific bet using it's ID.
  *    responses:
  *      200:
- *        description:
+ *        description: Success response. Retrieves the data of the bet
  *        schema:
  *          type: object
  *          properties:
@@ -194,7 +195,7 @@ module.exports = router;
  *              type: string
  *              example: Could not post the bet
  *      401:
- *        description:
+ *        description: Unauthorized
  *        schema:
  *          type: object
  *          properties:
@@ -224,6 +225,7 @@ module.exports = router;
  *       - in: path
  *         name: betId
  *         example: 617c32b2ee63d136fa191527
+ *         description: The identifier of the bet
  *       - in: body
  *         name: bet
  *         description: The bet to be updated
@@ -263,7 +265,7 @@ module.exports = router;
  *              type: string
  *              example: Could not update the bet
  *      401:
- *        description:
+ *        description: Unauthorized
  *        schema:
  *          type: object
  *          properties:
@@ -293,9 +295,9 @@ module.exports = router;
  *      - in: path
  *        name: betId
  *        example: 617c32b2ee63d136fa191527
+ *        description: The identifier of the bet
  *    responses:
- *      responses:
- *      20:
+ *      200:
  *        description: Success response. Retrieves status of the bet deletion
  *        schema:
  *          type: object
@@ -312,7 +314,7 @@ module.exports = router;
  *              type: string
  *              example: Could not delete the bet
  *      401:
- *        description:
+ *        description: Unauthorized
  *        schema:
  *          type: object
  *          properties:
