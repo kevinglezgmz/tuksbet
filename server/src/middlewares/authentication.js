@@ -31,7 +31,7 @@ function authentication(req, res, next) {
         return;
       }
       /** Inject userId into the request */
-      req.userId = token._id;
+      req.userId = token.userId;
       next();
     })
     .catch((err) => {
