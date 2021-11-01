@@ -82,6 +82,7 @@ module.exports = router;
  *      - in: path
  *        name: gameRoundId
  *        example: 123
+ *        description: The game round's identifier
  *    responses:
  *      200:
  *        description: Success response. Retrieves all the data of the game round.
@@ -210,6 +211,7 @@ module.exports = router;
  *      - in: path
  *        name: gameRoundId
  *        example: 123
+ *        description: The game round's identifier
  *      - in: body
  *        name: gameRound
  *        description: The game round to be posted
@@ -278,6 +280,7 @@ module.exports = router;
  *      - in: path
  *        name: gameRoundId
  *        example: 123
+ *        description: The game round's identifier
  *    responses:
  *      200:
  *        description: Success response. Retrieves status of the bet deletion.
