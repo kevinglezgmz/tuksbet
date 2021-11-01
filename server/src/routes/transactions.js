@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const TransactionsController = require('../controllers/transactions.controller.js');
+const authentication = require('../middlewares/authentication.js');
 
 router.get('/', TransactionsController.getAllTransactions);
-router.get('/:transactionId', TransactionsController.getTransactionById);
-router.post('/', TransactionsController.createTransaction);
+router.get('/:transactionId', authentication, TransactionsController.getTransactionById);
+router.post('/', authentication, TransactionsController.createTransaction);
 router.patch('/:transactionId', TransactionsController.updateTransaction);
+router.delete('/:transactionId', TransactionsController.deleteTransaction);
 
 module.exports = router;
 
@@ -16,7 +18,7 @@ module.exports = router;
  *    tags:
  *      - Transactions
  *    summary: GET request for all the transactions
- *    description: Make a server request to get all the transactions 
+ *    description: Make a server request to get all the transactions
  *    responses:
  *      200:
  *        description: Success response. Retrieves all the data of the transactions.
@@ -41,10 +43,10 @@ module.exports = router;
  *                    type: float
  *                    example: 123.23
  *                  isDeposit:
- *                    type: boolean 
+ *                    type: boolean
  *                    example: true
  *                  status:
- *                    type: string 
+ *                    type: string
  *                    example: completed
  *      400:
  *        description: Bad request
@@ -108,10 +110,10 @@ module.exports = router;
  *                  type: float
  *                  example: 321
  *                isDeposit:
- *                  type: boolean 
+ *                  type: boolean
  *                  example: false
  *                status:
- *                  type: string 
+ *                  type: string
  *                  example: completed
  *      400:
  *        description: Bad request
@@ -202,7 +204,6 @@ module.exports = router;
  *              type: string
  *              example: Unexpected error, please try again
  */
-
 
 // PATCH TRANSACTION
 /**
