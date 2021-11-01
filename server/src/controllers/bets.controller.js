@@ -172,8 +172,7 @@ class BetsController {
           betsMadeInGameRound.forEach((bet) => {
             if (bet.betStake === gameRoundData.result && gameRoundData.result === 'roulette-green') {
               bet.betPayout = bet.betAmount * 14;
-            }
-            if (bet.betStake === gameRoundData.result) {
+            } else if (bet.betStake === gameRoundData.result) {
               bet.betPayout = bet.betAmount * 2;
             } else {
               bet.betPayout = betAmount * -1;
@@ -194,12 +193,14 @@ class BetsController {
           break;
 
         case 'blackjack':
-          const dealerResult = gameRoundData.result.split('-')[1];
+          const dealerResult = parseInt(gameRoundData.result.split('-')[1]);
           betsMadeInGameRound.forEach((bet) => {
-            const userNumber = parseFloat(bet.betStake.split('-')[1]);
-            if (userNumber <= 21 && userNumber > parseFloat(gameRoundData.result)) {
-              bet.betPayout = bet.betAmount * parseFloat(gameRoundData.result);
-            } else if (userNumber === parseFloat(gameRoundData.result)) {
+            const userNumber = parseInt(bet.betStake.split('-')[1]);
+            if (dealerResult > 21) {
+              bet.betPayout = bet.betAmount * 2;
+            } else if (userNumber <= 21 && userNumber > dealerResult) {
+              bet.betPayout = bet.betAmount * 2;
+            } else if (userNumber === dealerResult) {
               bet.betPayout = betAmount;
             } else {
               bet.betPayout = betAmount * -1;
