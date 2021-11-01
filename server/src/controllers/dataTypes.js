@@ -4,6 +4,7 @@
  * @property { string } username
  * @property { string } email
  * @property { string } password
+ * @property { float } balance
  *
  * @typedef Transaction
  * @property { number } transactionId

@@ -52,6 +52,44 @@ class BetsController {
         res.status(400).send(err);
       });
   }
+
+  static createBet(req, res) {
+    const betsDb = new Database('BetHistory');
+    const betData = req.body;
+    betsDb
+      .insertOne(betData)
+      .then((result) => {
+        res.send({ status: result });
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  }
+
+  static updateBet(req, res) {
+    const betsDb = new Database('BetHistory');
+    betsDb
+      .updateOne({ _id: ObjectID(req.params.betId) }, { $set: req.body })
+      .then((result) => {
+        res.send({ status: result });
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  }
+
+  static deleteBet(req, res) {
+    const betsDb = new Database('BetHistory');
+    const betData = req.body;
+    betsDb
+      .deleteOne({ _id: ObjectID(req.params.betId) })
+      .then((result) => {
+        res.send({ status: result });
+      })
+      .catch((err) => {
+        res.status(400).send(err);
+      });
+  }
 }
 
 module.exports = BetsController;
