@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const BetsController = require('../controllers/bets.controller.js');
+const authentication = require('../middlewares/authentication');
 
 router.get('/', BetsController.getAllBets);
 router.get('/:betId', BetsController.getBetById);
-router.post('/', BetsController.createBet);
+router.post('/', authentication, BetsController.createBet);
 router.patch('/:betId', BetsController.updateBet);
+router.patch('/', BetsController.updateAllBetsInGameRound);
 router.delete('/:betId', BetsController.deleteBet);
 
 module.exports = router;
