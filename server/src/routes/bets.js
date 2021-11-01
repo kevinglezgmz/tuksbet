@@ -65,7 +65,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Bad request
+ *              example: Not authorized
  *      500:
  *        description: Internal error
  *        schema:
@@ -134,7 +134,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Bad request
+ *              example: Not authorized
  *      500:
  *        description: Internal error
  *        schema:
@@ -200,7 +200,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Bad request
+ *              example: Not authorized
  *      500:
  *        description: Internal error
  *        schema:
@@ -269,7 +269,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Bad request
+ *              example: Not authorized
  *      500:
  *        description: Internal error
  *        schema:
@@ -318,7 +318,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Bad request
+ *              example: Not authorized
  *      500:
  *        description: Internal error
  *        schema:
