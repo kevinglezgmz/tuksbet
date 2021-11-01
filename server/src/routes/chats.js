@@ -3,6 +3,8 @@ const ChatsController = require('../controllers/chats.controller.js');
 
 router.get('/:chatRoomId', ChatsController.getAllChatMessages);
 router.post('/:chatRoomId', ChatsController.createNewChatMessage);
+router.patch('/:chatRoomId', ChatsController.updateChat);
+router.delete('/:chatRoomId', ChatsController.deleteChat);
 
 module.exports = router;
 

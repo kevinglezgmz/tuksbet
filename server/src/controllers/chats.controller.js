@@ -19,7 +19,7 @@ class ChatsController {
         }
       })
       .catch((err) => {
-        res.status(500).send({ err });
+        res.status(500).send({ err: 'Unexpected error, please try again' });
       });
   }
 
@@ -35,7 +35,35 @@ class ChatsController {
         }
       })
       .catch((err) => {
-        res.status(500).send({ err });
+        res.status(500).send({ err: 'Unexpected error, please try again' });
+      });
+  }
+
+  static updateChat(req, res) {
+    const chatRoomsDb = new Database('ChatRooms');
+    chatRoomsDb
+      .updateOne({ _id: ObjectID(req.params.chatRoomId) }, { $set: req.body })
+      .then((result) => {
+        res.status(201).send({ msg: 'Successfuly modified the chat room data' });
+      })
+      .catch((err) => {
+        res.status(500).send({ err: 'Unexpected error, please try again' });
+      });
+  }
+
+  static deleteChat(req, res) {
+    const chatsDb = new Database('ChatRooms');
+    chatsDb
+      .deleteOne({ _id: getObjectId(req.params.chatRoomId) })
+      .then((result) => {
+        if (result.deletedCount > 0) {
+          res.send({ msg: 'Chat deleted successfuly' });
+        } else {
+          res.status(400).send({ err: 'Could not find the specified chat' });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({ err: 'Unexpected error, please try again' });
       });
   }
 }
