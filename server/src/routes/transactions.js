@@ -18,44 +18,41 @@ module.exports = router;
  *    tags:
  *      - Transactions
  *    summary: GET request for all the transactions
- *    description: Make a server request to get all the transactions
+ *    description: Make a server request to get the data of all registered transactions
  *    responses:
  *      200:
- *        description: Success response. Retrieves all the data of the transactions.
+ *        description: Success response. Retrieves the data of all transactions
  *        schema:
- *          type: object
- *          properties:
- *            data:
- *              type: array
- *              items:
- *                type: object
- *                properties:
- *                  _id:
- *                    type: string
- *                    example: 616ba72320787390d5f74fce
- *                  userId:
- *                    type: string
- *                    example: 616b9a868562c959c04a3cd1
- *                  transactionDate:
- *                    type: string
- *                    example: "Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)"
- *                  amount:
- *                    type: float
- *                    example: 123.23
- *                  isDeposit:
- *                    type: boolean
- *                    example: true
- *                  status:
- *                    type: string
- *                    example: completed
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *                example: 616ba72320787390d5f74fce
+ *              userId:
+ *                type: string
+ *                example: 616b9a868562c959c04a3cd1
+ *              transactionDate:
+ *                type: string
+ *                example: "Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)"
+ *              amount:
+ *                type: float
+ *                example: 123.23
+ *              isDeposit:
+ *                type: boolean
+ *                example: true
+ *              status:
+ *                type: string
+ *                example: completed
  *      400:
  *        description: Bad request
  *        schema:
  *          type: object
  *          properties:
- *            err:
+ *            msg:
  *              type: string
- *              example: No users.
+ *              example: No transactions found!
  *      401:
  *        description: Not authorized
  *        schema:
@@ -82,7 +79,7 @@ module.exports = router;
  *    tags:
  *      - Transactions
  *    summary: GET request for one transaction
- *    description: Make a server request to get one of the transactions which has been registered.
+ *    description: Make a server request to get one of a transaction that has been registered.
  *    parameters:
  *      - in: path
  *        name: transactionId
@@ -90,39 +87,28 @@ module.exports = router;
  *        example: 616ba72320787390d5f74fce
  *    responses:
  *      200:
- *        description: Success response. Retrieves all the data of the transaction.
+ *        description: Success response. Retrieves the data of the transaction.
  *        schema:
  *          type: object
  *          properties:
- *            data:
- *              type: object
- *              properties:
- *                _id:
- *                  type: string
- *                  example: 616ba72320787390d5f74fce
- *                userId:
- *                  type: string
- *                  example: 616b9a868562c959c04a3cd1
- *                transactionDate:
- *                  type: string
- *                  example: Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)
- *                amount:
- *                  type: float
- *                  example: 321
- *                isDeposit:
- *                  type: boolean
- *                  example: false
- *                status:
- *                  type: string
- *                  example: completed
- *      400:
- *        description: Bad request
- *        schema:
- *          type: object
- *          properties:
- *            err:
+ *            _id:
  *              type: string
- *              example: No transactions.
+ *              example: 616ba72320787390d5f74fce
+ *            userId:
+ *              type: string
+ *              example: 616b9a868562c959c04a3cd1
+ *            transactionDate:
+ *              type: string
+ *              example: Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)
+ *            amount:
+ *              type: float
+ *              example: 321
+ *            isDeposit:
+ *              type: boolean
+ *              example: false
+ *            status:
+ *              type: string
+ *              example: completed
  *      401:
  *        description: Not authorized
  *        schema:
@@ -149,11 +135,11 @@ module.exports = router;
  *    tags:
  *      - Transactions
  *    summary: POST request for one transactipn
- *    description: Makes a server request to register a new transaction
+ *    description: Makes a server request to register a new transaction.
  *    parameters:
  *       - in: body
  *         name: transaction
- *         description: The transaction to be registered
+ *         description: The transaction to be registered.
  *         schema:
  *           type: object
  *           required:
@@ -172,13 +158,25 @@ module.exports = router;
  *               example: true
  *    responses:
  *      201:
- *        description: Success response. Retrieves status of the transaction.
+ *        description: Created. Returns the transaction data.
  *        schema:
  *          type: object
  *          properties:
- *            msg:
+ *            userId:
  *              type: string
- *              example: Transaction created
+ *              example: 616b9a868562c959c04a3cd1
+ *            transactionDate:
+ *              type: string
+ *              example: Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)
+ *            amount:
+ *              type: float
+ *              example: 321
+ *            isDeposit:
+ *              type: boolean
+ *              example: false
+ *            status:
+ *              type: string
+ *              example: completed
  *      400:
  *        description: Bad request
  *        schema:
@@ -186,7 +184,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: No user.
+ *              example: The following fields are missing: userId.
  *      401:
  *        description: Not authorized
  *        schema:
@@ -217,11 +215,11 @@ module.exports = router;
  *    parameters:
  *       - in: path
  *         name: transactionId
- *         description: The id of the transaction to me updated
+ *         description: The id of the transaction to be updated
  *         example: 617f104e1209eb2115030d5d
  *       - in: body
- *         name: transactions
- *         description: The transaction to be updated
+ *         name: status
+ *         description: The status to be set
  *         schema:
  *           type: object
  *           required:
@@ -238,7 +236,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Transaction updated
+ *              example: Transaction updated successfully
  *      400:
  *        description: Bad request
  *        schema:
@@ -246,15 +244,15 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: No transaction.
- *      401:
- *        description: Not authorized
+ *              example: You can only update the status of a transaction
+ *      403:
+ *        description: Forbidden
  *        schema:
  *          type: object
  *          properties:
  *            err:
  *              type: string
- *              example: Not authorized
+ *              example: You can not update a transaction that has already been completed
  *      500:
  *        description: Internal error
  *        schema:
@@ -273,7 +271,7 @@ module.exports = router;
  *    tags:
  *      - Transactions
  *    summary: DELETE request for one transaction
- *    description: Makes a server request to delete a transaction
+ *    description: Makes a server request to delete a transaction.
  *    parameters:
  *      - in: path
  *        name: transactionId
@@ -287,7 +285,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Transaction deleted
+ *              example: Transaction deleted successfully
  *      400:
  *        description: Bad request
  *        schema:
@@ -295,21 +293,5 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: No transaction.
- *      401:
- *        description: Not authorized
- *        schema:
- *          type: object
- *          properties:
- *            err:
- *              type: string
- *              example: Not authorized
- *      500:
- *        description: Internal error
- *        schema:
- *          type: object
- *          properties:
- *            err:
- *              type: string
- *              example: Unexpected error, please try again
+ *              example: Could not find the specified transaction
  */
