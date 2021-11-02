@@ -101,7 +101,7 @@ class TransactionsController {
           { $inc: { balance: transaction.isDeposit ? transaction.amount : transaction.amount * -1 } }
         );
       }
-      res.status(201).send({ msg: 'Transaction updated successfully' });
+      res.status(200).send({ msg: 'Transaction updated successfully' });
     } else {
       res.status(500).send({ err: 'Unexpected error, please try again' });
     }
