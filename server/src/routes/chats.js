@@ -147,7 +147,7 @@ module.exports = router;
  *    tags:
  *      - Chats
  *    summary: PATCH request to update a specific chat
- *    description: Makes a server request to post a new message to a chat.
+ *    description: Makes a server request to update the data of a chat.
  *    parameters:
  *      - in: path
  *        name: chatRoomId
@@ -165,13 +165,13 @@ module.exports = router;
  *            example: Roulette 2.0
  *    responses:
  *      201:
- *        description: Success response. Retrieves status of the message
+ *        description: Success response. Retrieves status of the chat room
  *        schema:
  *          type: object
  *          properties:
  *            msg:
  *              type: string
- *              example: Message added
+ *              example: Chat room updated
  *      400:
  *        description: Bad request
  *        schema:
