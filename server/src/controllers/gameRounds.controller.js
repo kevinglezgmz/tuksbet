@@ -64,6 +64,22 @@ class GameRoundsController {
         res.status(400).send(err);
       });
   }
+
+  static deleteGameRound(req, res) {
+    const gameRoundsDb = new Database('GameRounds');
+    gameRoundsDb
+      .deleteOne({ _id: getObjectId(req.params.gameRoundId) })
+      .then((result) => {
+        if (result.deletedCount > 0) {
+          res.send({ msg: 'Game round deleted successfuly' });
+        } else {
+          throw 'Could not find the specified game round';
+        }
+      })
+      .catch((err) => {
+        res.status(400).send({ err: 'Could not find the specified game round' });
+      });
+  }
 }
 
 module.exports = GameRoundsController;

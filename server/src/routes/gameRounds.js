@@ -5,6 +5,7 @@ router.get('/', GameRoundsController.getAllGameRounds);
 router.get('/:gameRoundId', GameRoundsController.getGameRoundById);
 router.post('/', GameRoundsController.createGameRound);
 router.patch('/:gameRoundId', GameRoundsController.updateGameRound);
+router.delete('/:gameRoundId', GameRoundsController.deleteGameRound);
 
 module.exports = router;
 
