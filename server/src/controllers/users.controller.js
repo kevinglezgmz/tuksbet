@@ -28,7 +28,7 @@ class UsersController {
         }
       })
       .catch((err) => {
-        res.status(500).send({ err });
+        res.status(500).send({ err: 'Unexpected error, please try again' });
       });
   }
 
@@ -94,7 +94,7 @@ class UsersController {
       .deleteOne({ _id: getObjectId(req.params.userId) })
       .then((result) => {
         if (result.acknowledged) {
-          res.send({ msg: 'User deleted succesfuly, we hope to see you back again soon' });
+          res.send({ msg: 'User deleted successfully, we hope to see you back again soon' });
         } else {
           throw 'Unexpected error, please try again';
         }
@@ -126,7 +126,7 @@ class UsersController {
       .then((result) => {
         const updatedField = password ? 'password' : 'username';
         if (result.acknowledged) {
-          res.send({ msg: 'User ' + updatedField + ' updated successfuly' });
+          res.send({ msg: 'User ' + updatedField + ' updated successfully' });
         } else {
           throw 'Unexpected error, please try again';
         }

@@ -24,42 +24,39 @@ module.exports = router;
  *      200:
  *        description: Success response. Retrieves all the data of the bets.
  *        schema:
- *          type: object
- *          properties:
- *            data:
- *              type: array
- *              items:
- *                type: object
- *                properties:
- *                  _id:
- *                    type: string
- *                    example: 616b9a868562c959c04a3cd1
- *                  userId:
- *                    type: int
- *                    example: 32
- *                  gameRoudId:
- *                    type: int
- *                    example: 13254
- *                  betDate:
- *                    type: date
- *                    example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
- *                  betAmount:
- *                    type: float
- *                    example: 0.56
- *                  betPayout:
- *                    type: float
- *                    example: -0.56
- *                  betStake:
- *                    type: string
- *                    example: "roulette"
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *                example: 616b9a868562c959c04a3cd1
+ *              userId:
+ *                type: int
+ *                example: 32
+ *              gameRoudId:
+ *                type: int
+ *                example: 13254
+ *              betDate:
+ *                type: date
+ *                example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
+ *              betAmount:
+ *                type: float
+ *                example: 0.56
+ *              betPayout:
+ *                type: float
+ *                example: -0.56
+ *              betStake:
+ *                type: string
+ *                example: "roulette"
  *      400:
  *        description: Bad request
  *        schema:
  *          type: object
  *          properties:
- *            err:
+ *            msg:
  *              type: string
- *              example: No bets
+ *              example: No bets have been made yet!
  *      401:
  *        description: Unauthorized
  *        schema:
@@ -98,30 +95,27 @@ module.exports = router;
  *        schema:
  *          type: object
  *          properties:
- *            data:
- *                type: object
- *                properties:
- *                  _id:
- *                    type: string
- *                    example: 616b9a868562c959c04a3cd1
- *                  userId:
- *                    type: int
- *                    example: 32
- *                  gameRoudId:
- *                    type: int
- *                    example: 13254
- *                  betDate:
- *                    type: date
- *                    example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
- *                  betAmount:
- *                    type: float
- *                    example: 0.56
- *                  betPayout:
- *                    type: float
- *                    example: -0.56
- *                  betStake:
- *                    type: string
- *                    example: "roulette"
+ *            _id:
+ *              type: string
+ *              example: 616b9a868562c959c04a3cd1
+ *            userId:
+ *              type: int
+ *              example: 32
+ *            gameRoudId:
+ *              type: int
+ *              example: 13254
+ *            betDate:
+ *              type: date
+ *              example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
+ *            betAmount:
+ *              type: float
+ *              example: 0.56
+ *            betPayout:
+ *              type: float
+ *              example: -0.56
+ *            betStake:
+ *              type: string
+ *              example: "roulette"
  *      400:
  *        description: Bad request
  *        schema:
@@ -129,7 +123,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Could not find bet
+ *              example: Bet with Id 616b9a868562c959c04a3cd1 does not exist
  *      401:
  *        description: Unauthorized
  *        schema:
@@ -187,7 +181,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Bet added
+ *              example: Bet placed successfuly
  *      400:
  *        description: Bad request
  *        schema:
@@ -195,7 +189,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Could not post the bet
+ *              example: Not enough balance to make the bet
  *      401:
  *        description: Unauthorized
  *        schema:
@@ -257,7 +251,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Bet updated
+ *              example: Successfuly modified the bet data
  *      400:
  *        description: Bad request
  *        schema:
@@ -306,7 +300,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Bet deleted
+ *              example: Bet deleted successfuly
  *      400:
  *        description: Bad request
  *        schema:
@@ -314,7 +308,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Could not delete the bet
+ *              example: Could not find the specified bet
  *      401:
  *        description: Unauthorized
  *        schema:

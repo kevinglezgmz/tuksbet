@@ -41,7 +41,7 @@ class BetsController {
         }
       })
       .catch((err) => {
-        res.status(500).send({ err });
+        res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }
 
@@ -53,11 +53,11 @@ class BetsController {
         if (result) {
           res.status(200).send(result);
         } else {
-          res.status(500).send({ err: 'Bet with Id ' + req.params.betId + ' does not exist' });
+          res.status(400).send({ err: 'Bet with Id ' + req.params.betId + ' does not exist' });
         }
       })
       .catch((err) => {
-        res.status(500).send({ err });
+        res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }
 
@@ -136,7 +136,7 @@ class BetsController {
     betsDb
       .updateOne({ _id: getObjectId(req.params.betId) }, { $set: overrideBetData })
       .then((result) => {
-        res.send({ msg: 'Successfuly modified the bet data' });
+        res.send({ msg: 'Successfully modified the bet data' });
       })
       .catch((err) => {
         res.status(500).send({ err: 'Unexpected error, please try again' });

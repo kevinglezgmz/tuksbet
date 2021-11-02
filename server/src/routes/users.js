@@ -25,36 +25,27 @@ module.exports = router;
  *      200:
  *        description: Success response. Retrieves all the data of the users.
  *        schema:
- *          type: object
- *          properties:
- *            data:
- *              type: array
- *              items:
- *                type: object
- *                properties:
- *                  _id:
- *                    type: string
- *                    example: 616b9a868562c959c04a3cd1
- *                  username:
- *                    type: string
- *                    example: exampleUser123
- *                  email:
- *                    type: string
- *                    example: "example@example.com"
- *                  password:
- *                    type: string
- *                    example: examplePasswordEncrypted123
- *                  balance:
- *                    type: float 
- *                    example: 12.34
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *                example: 616b9a868562c959c04a3cd1
+ *              username:
+ *                type: string
+ *                example: exampleUser123
+ *              email:
+ *                type: string
+ *                example: "example@example.com"
  *      400:
  *        description: Bad request
  *        schema:
  *          type: object
  *          properties:
- *            err:
+ *            msg:
  *              type: string
- *              example: No users.
+ *              example: No users found!
  *      401:
  *        description: Not authorized
  *        schema:
@@ -93,24 +84,18 @@ module.exports = router;
  *        schema:
  *          type: object
  *          properties:
- *            data:
- *              type: object
- *              properties:
- *                _id:
- *                  type: string
- *                  example: 616b9a868562c959c04a3cd1
- *                username:
- *                  type: string
- *                  example: exampleUser123
- *                email:
- *                  type: string
- *                  example: "example@example.com"
- *                password:
- *                  type: string
- *                  example: examplePasswordEncrypted123
- *                balance:
- *                  type: float 
- *                  example: 12.34
+ *            _id:
+ *              type: string
+ *              example: 616b9a868562c959c04a3cd1
+ *            username:
+ *              type: string
+ *              example: exampleUser123
+ *            email:
+ *              type: string
+ *              example: "example@example.com"
+ *            balance:
+ *              type: float 
+ *              example: 12.34
  *      400:
  *        description: Bad request
  *        schema:
@@ -118,7 +103,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: No user.
+ *              example: User 616b9a868562c959c04a3cd1 does not exist
  *      401:
  *        description: Not authorized
  *        schema:
@@ -156,7 +141,6 @@ module.exports = router;
  *             - username
  *             - email
  *             - password
- *             - balance
  *           properties:
  *             username:
  *               type: string
@@ -167,18 +151,18 @@ module.exports = router;
  *             password:
  *               type: string
  *               example: examplePasswordEncrypted123
- *             balance:
- *               type: int
- *               example: 22.22
  *    responses:
  *      201:
  *        description: Success response. Retrieves status of the registration.
  *        schema:
  *          type: object
  *          properties:
- *            msg:
+ *            inserted:
+ *              type: boolean
+ *              example: true
+ *            userId:
  *              type: string
- *              example: User created
+ *              example: 616b9a868562c959c04a3cd1
  *      400:
  *        description: Bad request
  *        schema:
@@ -186,7 +170,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: No user.
+ *              example: "The following fields are missing: username, email"
  *      401:
  *        description: Not authorized
  *        schema:
@@ -226,31 +210,23 @@ module.exports = router;
  *           type: object
  *           required:
  *             - username
- *             - email
  *             - password
- *             - balance
  *           properties:
  *             username:
  *               type: string
  *               example: exampleUser2
- *             email:
- *               type: string
- *               example: "example2@example.com"
  *             password:
  *               type: string
  *               example: examplePasswordEncrypted123
- *             balance:
- *               type: int
- *               example: 13.22
  *    responses:
- *      201:
+ *      200:
  *        description: Success response. Retrieves status of the registration.
  *        schema:
  *          type: object
  *          properties:
  *            msg:
  *              type: string
- *              example: User created
+ *              example: User username updated successfully
  *      400:
  *        description: Bad request
  *        schema:
@@ -258,7 +234,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: No user.
+ *              example: Unexpected error, please try again
  *      401:
  *        description: Not authorized
  *        schema:
@@ -274,7 +250,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Unexpected error, please try again
+ *              example: Unexpected error ocurred, please try again
  */
 
 // DELETE USER
@@ -293,21 +269,13 @@ module.exports = router;
  *        example: 617c3cd231a62043533f4952
  *    responses:
  *      200:
- *        description: Success response. Retrieves status of the registration.
+ *        description: Success response. Retrieves status of the deletion.
  *        schema:
  *          type: object
  *          properties:
  *            msg:
  *              type: string
- *              example: User deleted
- *      400:
- *        description: Bad request
- *        schema:
- *          type: object
- *          properties:
- *            err:
- *              type: string
- *              example: No user.
+ *              example: User deleted successfully, we hope to see you back again soon
  *      401:
  *        description: Not authorized
  *        schema:
