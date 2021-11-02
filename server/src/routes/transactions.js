@@ -229,7 +229,7 @@ module.exports = router;
  *               type: string
  *               example: completed
  *    responses:
- *      201:
+ *      200:
  *        description: Success response. Retrieves status of the transaction.
  *        schema:
  *          type: object
