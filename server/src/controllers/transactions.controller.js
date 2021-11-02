@@ -20,7 +20,7 @@ class TransactionsController {
         if (results.length === 0) {
           res.status(400).send({ msg: 'No transactions found!' });
         } else {
-          res.status(200).send({ data: results });
+          res.status(200).send(results);
         }
       })
       .catch((err) => {
@@ -68,7 +68,7 @@ class TransactionsController {
 
     const insertStatus = await transactionsDb.insertOne(transactionToInsert);
     if (insertStatus.acknowledged) {
-      res.send(transactionToInsert);
+      res.status(201).send(transactionToInsert);
     } else {
       res.status(500).send({ err: 'Unexpected error, please try again' });
     }
@@ -85,7 +85,7 @@ class TransactionsController {
     /** @type { Transaction } */
     const transaction = await transactionsDb.findOne({ _id: getObjectId(req.params.transactionId) }, {});
     if (transaction.status !== 'pending') {
-      res.status(400).send({ err: 'You can not update a transaction that has already been completed' });
+      res.status(403).send({ err: 'You can not update a transaction that has already been completed' });
       return;
     }
     const updateStatus = await transactionsDb.updateOne(
@@ -101,7 +101,7 @@ class TransactionsController {
           { $inc: { balance: transaction.isDeposit ? transaction.amount : transaction.amount * -1 } }
         );
       }
-      res.send({ msg: 'Transaction updated successfuly' });
+      res.status(201).send({ msg: 'Transaction updated successfully' });
     } else {
       res.status(500).send({ err: 'Unexpected error, please try again' });
     }
@@ -113,7 +113,7 @@ class TransactionsController {
       .deleteOne({ _id: getObjectId(req.params.transactionId) })
       .then((result) => {
         if (result.deletedCount > 0) {
-          res.send({ msg: 'Transaction deleted successfuly' });
+          res.send({ msg: 'Transaction deleted successfully' });
         } else {
           throw 'Could not find the specified transaction';
         }
