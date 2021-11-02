@@ -111,7 +111,7 @@ class BetsController {
       /** Bet has been made, we need to update the user's balance*/
       await usersDb.updateOne({ _id: newBetToInsert.userId }, { $inc: { balance: newBetToInsert.betAmount * -1 } });
 
-      res.send({ msg: 'Bet placed successfuly' });
+      res.send({ msg: 'Bet placed successfully' });
     } catch (err) {
       /** If an error ocurred inserting the bet or updating the users balance, we need to delete the bet */
       await betsDb.deleteOne(newBetToInsert);
@@ -217,7 +217,7 @@ class BetsController {
       );
 
       await Promise.all(...betPromises, ...usersPromises);
-      res.send({ msg: 'Bets and users updated successfuly' });
+      res.send({ msg: 'Bets and users updated successfully' });
     } catch (err) {
       res.status(500).send({ err: 'Unexpected error, please try again' });
     }
@@ -229,7 +229,7 @@ class BetsController {
       .deleteOne({ _id: getObjectId(req.params.betId) })
       .then((result) => {
         if (result.deletedCount > 0) {
-          res.send({ msg: 'Bet deleted successfuly' });
+          res.send({ msg: 'Bet deleted successfully' });
         } else {
           throw 'Could not find the specified bet';
         }

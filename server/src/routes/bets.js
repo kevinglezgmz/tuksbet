@@ -181,7 +181,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Bet placed successfuly
+ *              example: Bet placed successfully
  *      400:
  *        description: Bad request
  *        schema:
@@ -251,7 +251,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Successfuly modified the bet data
+ *              example: Successfully modified the bet data
  *      400:
  *        description: Bad request
  *        schema:
@@ -300,7 +300,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Bet deleted successfuly
+ *              example: Bet deleted successfully
  *      400:
  *        description: Bad request
  *        schema:

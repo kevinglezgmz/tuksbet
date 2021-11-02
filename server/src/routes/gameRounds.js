@@ -279,7 +279,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Game round deleted successfuly
+ *              example: Game round deleted successfully
  *      400:
  *        description: Bad request
  *        schema:

@@ -71,7 +71,7 @@ class GameRoundsController {
       .deleteOne({ _id: getObjectId(req.params.gameRoundId) })
       .then((result) => {
         if (result.deletedCount > 0) {
-          res.send({ msg: 'Game round deleted successfuly' });
+          res.send({ msg: 'Game round deleted successfully' });
         } else {
           throw 'Could not find the specified game round';
         }
