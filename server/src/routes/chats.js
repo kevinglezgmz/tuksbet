@@ -53,7 +53,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Could not get the chat messages
+ *              example: There are no messages in this chatroom yet
  *      401:
  *        description: Unauthorized
  *        schema:
