@@ -53,10 +53,10 @@ class ChatsController {
   }
 
   static updateChatMessage(req, res) {
-    const { message } = req.body;
+    const { message, messageId } = req.body;
     const messagesDb = new Database('ChatHistory');
     messagesDb
-      .updateOne({ _id: getObjectId(messageData.messageId) }, { $set: { message } })
+      .updateOne({ _id: getObjectId(messageId) }, { $set: { message } })
       .then((result) => {
         res.status(201).send({ msg: 'Successfully modified the message data' });
       })
@@ -66,9 +66,10 @@ class ChatsController {
   }
 
   static deleteChatMessage(req, res) {
-    const chatsDb = new Database('ChatHistory');
-    chatsDb
-      .deleteOne({ _id: getObjectId(req.body.chatRoomId) })
+    const { messageId } = req.body.messageId
+    const messagesDb = new Database('ChatHistory');
+    messagesDb
+      .deleteOne({ _id: getObjectId(messageId) })
       .then((result) => {
         if (result.deletedCount > 0) {
           res.send({ msg: 'Message deleted successfully' });

@@ -11,7 +11,7 @@ module.exports = router;
 // GET ALL CHAT MESSAGES BY CHAT ID
 /**
  * @swagger
- * /api/chats/{chatRoomId}:
+ * /api/chats/{chatRoomId}/messages:
  *  get:
  *    tags:
  *      - Chats
@@ -77,7 +77,7 @@ module.exports = router;
 // POST A MESSAGE BY CHAT ID
 /**
  * @swagger
- * /api/chats/{chatRoomId}:
+ * /api/chats/{chatRoomId}/messages:
  *  post:
  *    tags:
  *      - Chats
@@ -94,15 +94,11 @@ module.exports = router;
  *        type: object
  *        required:
  *             - userId
- *             - chatRoomId
  *             - message
  *        properties:
  *          userId:
  *            type: string
  *            example: 616b9a358864b959c04a3cd1
- *          chatRoomId:
- *             type: string
- *             example: 616b9a868562c959c04x3123
  *          message:
  *            type: string
  *            example: Hello!
@@ -141,15 +137,15 @@ module.exports = router;
  *              example: Unexpected error, please try again
  */
 
-// PATCH A CHAT
+// PATCH A MESSAGE
 /**
  * @swagger
- * /api/chats/{chatRoomId}:
+ * /api/chats/{chatRoomId}/messages:
  *  patch:
  *    tags:
  *      - Chats
- *    summary: PATCH request to update a specific chat
- *    description: Makes a server request to update the data of a chat.
+ *    summary: PATCH request to update a message
+ *    description: Makes a server request to update the data of a message.
  *    parameters:
  *      - in: path
  *        name: chatRoomId
@@ -157,23 +153,27 @@ module.exports = router;
  *        example: 616b9a868562c959c04a3cd1
  *      - in: body
  *        name: chat
- *        description: The chat data to be updated
+ *        description: The message data to be updated
  *        type: object
  *        required:
- *             - chatRoomName
+ *             - messageId
+ *             - message
  *        properties:
- *          chatRoomName:
+ *          messageId:
  *            type: string
- *            example: Roulette 2.0
+ *            example: abcdefghijklmnopqrstuvwxyz
+ *          message:
+ *            type: string
+ *            example: Oh no!
  *    responses:
  *      201:
- *        description: Success response. Retrieves status of the chat room
+ *        description: Success response. Retrieves status of the message
  *        schema:
  *          type: object
  *          properties:
  *            msg:
  *              type: string
- *              example: Chat room updated
+ *              example: Message updated
  *      400:
  *        description: Bad request
  *        schema:
@@ -181,7 +181,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Could not update the chat room
+ *              example: Could not update the message
  *      401:
  *        description: Unauthorized
  *        schema:
@@ -203,26 +203,36 @@ module.exports = router;
 // DELETE A CHAT
 /**
  * @swagger
- * /api/chats/{chatRoomId}:
+ * /api/chats/{chatRoomId}/messages:
  *  delete:
  *    tags:
  *      - Chats
- *    summary: DELETE request for a specific chat
- *    description: Makes a server request to delete a specific chat using it's ID.
+ *    summary: DELETE request for a specific message
+ *    description: Makes a server request to delete a specific message using it's ID.
  *    parameters:
  *      - in: path
  *        name: chatRoomId
  *        description: The identifier of the chat room
  *        example: 616b9a868562c959c04a3cd1
+ *      - in: body
+ *        name: message
+ *        description: The message to be deleted
+ *        type: object
+ *        required:
+ *             - messageId
+ *        properties:
+ *          messageId:
+ *            type: string
+ *            example: abcdefghijklmnopqrstuvwxyz
  *    responses:
  *      200:
- *        description: Success response. Retrieves status of the chat
+ *        description: Success response. Retrieves status of the message
  *        schema:
  *          type: object
  *          properties:
  *            msg:
  *              type: string
- *              example: Chat deleted
+ *              example: Message deleted
  *      400:
  *        description: Bad request
  *        schema:
@@ -230,7 +240,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Could not delete the chat room
+ *              example: Could not delete the message
  *      401:
  *        description: Unauthorized
  *        schema:
