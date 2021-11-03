@@ -15,7 +15,7 @@ class ChatRoomsController {
         if (results.length === 0) {
           res.status(400).send({ msg: 'The are no chatrooms in the database yet' });
         } else {
-          res.status(200).send({ data: results });
+          res.status(200).send(results);
         }
       })
       .catch((err) => {
