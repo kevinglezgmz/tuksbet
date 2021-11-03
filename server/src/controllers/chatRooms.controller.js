@@ -65,7 +65,7 @@ class ChatRoomsController {
   static deleteChatRoom(req, res) {
     const chatRoomsDb = new Database('ChatRooms');
     chatRoomsDb
-      .deleteOne({ _id: getObjectId(req.params.chatMessageId) })
+      .deleteOne({ _id: getObjectId(req.params.chatRoomId) })
       .then((result) => {
         if (result.deletedCount > 0) {
           res.send({ msg: 'Chat room deleted successfully' });
