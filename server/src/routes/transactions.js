@@ -184,7 +184,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: The following fields are missing: userId.
+ *              example: "The following fields are missing: userId"
  *      401:
  *        description: Not authorized
  *        schema:
@@ -200,7 +200,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Unexpected error, please try again
+ *              example: "Unexpected error, please try again"
  */
 
 // PATCH TRANSACTION
@@ -229,7 +229,7 @@ module.exports = router;
  *               type: string
  *               example: completed
  *    responses:
- *      201:
+ *      200:
  *        description: Success response. Retrieves status of the transaction.
  *        schema:
  *          type: object
