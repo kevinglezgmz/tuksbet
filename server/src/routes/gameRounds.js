@@ -195,7 +195,7 @@ module.exports = router;
  *  patch:
  *    tags:
  *      - Game Rounds
- *    summary: PATCH request for a gamee round
+ *    summary: PATCH request for a game round
  *    description: Makes a server request to register changes of a game round.
  *    parameters:
  *      - in: path

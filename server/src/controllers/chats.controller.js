@@ -6,7 +6,7 @@ const { getObjectId } = require('../utils.js');
  */
 
 function validateMessageData(messageData) {
-  const createMessageData = ['userId', 'chatRoomId', 'message'];
+  const createMessageData = ['userId', 'message'];
   return createMessageData.filter((field) => !messageData[field]);
 }
 
@@ -31,10 +31,13 @@ class ChatsController {
   static createNewChatMessage(req, res) {
     const { userId, message } = req.body;
     const messageData = {
-      userId,
+      userId: getObjectId(userId),
       message,
-      chatRoomId: req.params.chatRoomId,
+      chatRoomId: getObjectId(req.params.chatRoomId),
     };
+
+    console.log(messageData.chatRoomId);
+    console.log(req.params);
 
     const missingFields = validateMessageData(messageData);
 
@@ -57,12 +60,19 @@ class ChatsController {
   }
 
   static updateChatMessage(req, res) {
-    const { message, messageId } = req.body;
+    const { message } = req.body;
     const messagesDb = new Database('ChatHistory');
     messagesDb
-      .updateOne({ _id: getObjectId(messageId) }, { $set: { message } })
+      .updateOne(
+        { _id: getObjectId(req.params.chatMessageId), chatRoomId: getObjectId(req.params.chatRoomId) },
+        { $set: { message } }
+      )
       .then((result) => {
-        res.status(201).send({ msg: 'Successfully modified the message data' });
+        if (result.acknowledged && result.modifiedCount === 1) {
+          res.status(200).send({ msg: 'Successfully modified the message data' });
+        } else {
+          res.status(400).send({ msg: 'Could not find the specified message' });
+        }
       })
       .catch((err) => {
         res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
@@ -70,10 +80,9 @@ class ChatsController {
   }
 
   static deleteChatMessage(req, res) {
-    const { messageId } = req.body.messageId;
     const messagesDb = new Database('ChatHistory');
     messagesDb
-      .deleteOne({ _id: getObjectId(messageId) })
+      .deleteOne({ _id: getObjectId(req.params.chatMessageId), chatRoomId: getObjectId(req.params.chatRoomId) })
       .then((result) => {
         if (result.deletedCount > 0) {
           res.send({ msg: 'Message deleted successfully' });

@@ -1,17 +1,17 @@
 const router = require('express').Router();
 const ChatsController = require('../controllers/chats.controller.js');
 
-router.get('/:chatRoomId/messages', ChatsController.getAllChatMessages);
-router.post('/:chatRoomId/messages', ChatsController.createNewChatMessage);
-router.patch('/:chatRoomId/messages', ChatsController.updateChatMessage);
-router.delete('/:chatRoomId/messages', ChatsController.deleteChatMessage);
+router.get('/:chatRoomId/messages/', ChatsController.getAllChatMessages);
+router.post('/:chatRoomId/messages/', ChatsController.createNewChatMessage);
+router.patch('/:chatRoomId/messages/:chatMessageId', ChatsController.updateChatMessage);
+router.delete('/:chatRoomId/messages/:chatMessageId', ChatsController.deleteChatMessage);
 
 module.exports = router;
 
-// GET ALL CHAT MESSAGES BY CHAT ID
+// GET ALL CHAT MESSAGES BY CHATROOM ID
 /**
  * @swagger
- * /api/chats/{chatRoomId}/messages:
+ * /api/chatrooms/{chatRoomId}/messages:
  *  get:
  *    tags:
  *      - Chats
@@ -74,10 +74,10 @@ module.exports = router;
  *              example: Unexpected error, please try again
  */
 
-// POST A MESSAGE BY CHAT ID
+// POST A MESSAGE BY CHATROOM ID
 /**
  * @swagger
- * /api/chats/{chatRoomId}/messages:
+ * /api/chatrooms/{chatRoomId}/messages:
  *  post:
  *    tags:
  *      - Chats
@@ -137,10 +137,10 @@ module.exports = router;
  *              example: Unexpected error, please try again
  */
 
-// PATCH A MESSAGE
+// PATCH A MESSAGE BY MESSAGEID
 /**
  * @swagger
- * /api/chats/{chatRoomId}/messages:
+ * /api/chatrooms/{chatRoomId}/messages/{chatMessageId}:
  *  patch:
  *    tags:
  *      - Chats
@@ -151,17 +151,17 @@ module.exports = router;
  *        name: chatRoomId
  *        description: The identifier of the chat room
  *        example: 616b9a868562c959c04a3cd1
+ *      - in: path
+ *        name: chatMessageId
+ *        description: The identifier of the chat message
+ *        example: 616b9a868562c459c32a3dc4
  *      - in: body
  *        name: chat
  *        description: The message data to be updated
  *        type: object
  *        required:
- *             - messageId
  *             - message
  *        properties:
- *          messageId:
- *            type: string
- *            example: abcdefghijklmnopqrstuvwxyz
  *          message:
  *            type: string
  *            example: Oh no!
@@ -200,10 +200,10 @@ module.exports = router;
  *              example: Unexpected error, please try again
  */
 
-// DELETE A CHAT
+// DELETE A CHATMESSAGE
 /**
  * @swagger
- * /api/chats/{chatRoomId}/messages:
+ * /api/chatrooms/{chatRoomId}/messages/{chatMessageId}:
  *  delete:
  *    tags:
  *      - Chats
@@ -214,16 +214,10 @@ module.exports = router;
  *        name: chatRoomId
  *        description: The identifier of the chat room
  *        example: 616b9a868562c959c04a3cd1
- *      - in: body
- *        name: message
- *        description: The message to be deleted
- *        type: object
- *        required:
- *             - messageId
- *        properties:
- *          messageId:
- *            type: string
- *            example: abcdefghijklmnopqrstuvwxyz
+ *      - in: path
+ *        name: chatMessageId
+ *        description: The identifier of the chat message
+ *        example: 616b9a868562c459c32a3dc4
  *    responses:
  *      200:
  *        description: Success response. Retrieves status of the message
