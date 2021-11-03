@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const ChatsController = require('../controllers/chats.controller.js');
 
-router.get('/:chatRoomId', ChatsController.getAllChatMessages);
-router.post('/:chatRoomId', ChatsController.createNewChatMessage);
-router.patch('/:chatRoomId', ChatsController.updateChat);
-router.delete('/:chatRoomId', ChatsController.deleteChat);
+router.get('/:chatRoomId/messages', ChatsController.getAllChatMessages);
+router.post('/:chatRoomId/messages', ChatsController.createNewChatMessage);
+router.patch('/:chatRoomId/messages', ChatsController.updateChatMessage);
+router.delete('/:chatRoomId/messages', ChatsController.deleteChatMessage);
 
 module.exports = router;
 

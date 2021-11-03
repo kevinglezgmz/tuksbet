@@ -1,15 +1,20 @@
-const { ObjectID } = require('bson');
 const Database = require('../models/database.model.js');
+const { getObjectId } = require('../utils.js');
 
 /**
  * @typedef { import('./dataTypes').ChatHistory } ChatHistory
  */
 
+function validateMessageData(messageData) {
+  const createMessageData = ['userId', 'chatRoomId', 'message'];
+  return createMessageData.filter((field) => !messageData[field]);
+}
+
 class ChatsController {
   static getAllChatMessages(req, res) {
     const chatsDb = new Database('ChatHistory');
     chatsDb
-      .find({ chatRoomId: ObjectID(req.params.chatRoomId) }, {})
+      .find({ chatRoomId: getObjectId(req.params.chatRoomId) }, {})
       .toArray()
       .then((results) => {
         if (results.length === 0) {
@@ -24,11 +29,19 @@ class ChatsController {
   }
 
   static createNewChatMessage(req, res) {
-    const chatsDb = new Database('ChatHistory');
-    const chatMsgData = req.body;
-    chatMsgData.chatRoomId = ObjectID(req.params.chatRoomId);
-    chatsDb
-      .insertOne(chatMsgData)
+    const messageData = req.body;
+    messageData['chatRoomId'] = req.params.chatRoomId;
+
+    const missingFields = validateMessageData(messageData);
+
+    if (missingFields.length > 0) {
+      res.status(400).send({ err: 'The following fields are missing: ' + missingFields.join(', ') });
+      return;
+    }
+
+    const messagesDb = new Database('ChatHistory');
+    messagesDb
+      .insertOne(messageData)
       .then((result) => {
         if (result) {
           res.status(201).send({ status: result });
@@ -39,27 +52,28 @@ class ChatsController {
       });
   }
 
-  static updateChat(req, res) {
-    const chatRoomsDb = new Database('ChatRooms');
-    chatRoomsDb
-      .updateOne({ _id: ObjectID(req.params.chatRoomId) }, { $set: req.body })
+  static updateChatMessage(req, res) {
+    const messageData = req.body;
+    const messagesDb = new Database('ChatHistory');
+    messagesDb
+      .updateOne({ _id: getObjectId(messageData.messageId) }, { $set: messageData })
       .then((result) => {
-        res.status(201).send({ msg: 'Successfuly modified the chat room data' });
+        res.status(201).send({ msg: 'Successfuly modified the message data' });
       })
       .catch((err) => {
         res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }
 
-  static deleteChat(req, res) {
-    const chatsDb = new Database('ChatRooms');
+  static deleteChatMessage(req, res) {
+    const chatsDb = new Database('ChatHistory');
     chatsDb
-      .deleteOne({ _id: getObjectId(req.params.chatRoomId) })
+      .deleteOne({ _id: getObjectId(req.body.chatRoomId) })
       .then((result) => {
         if (result.deletedCount > 0) {
-          res.send({ msg: 'Chat deleted successfuly' });
+          res.send({ msg: 'Message deleted successfuly' });
         } else {
-          res.status(400).send({ err: 'Could not find the specified chat' });
+          res.status(400).send({ err: 'Could not find the specified message' });
         }
       })
       .catch((err) => {
