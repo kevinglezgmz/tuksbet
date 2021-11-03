@@ -1,0 +1,15 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  background: rgb(47, 61, 69);
+  height: 100px;
+  align-items: center;
+
+  .nav-item {
+    width: calc(100% / 3);
+    > button {
+      margin: 0 auto;
+      display: block;
+    }
+  }
+}

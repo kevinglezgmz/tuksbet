@@ -15,11 +15,11 @@ class ChatsController {
         if (results.length === 0) {
           res.status(400).send({ msg: 'There are no messages in this chatroom yet' });
         } else {
-          res.status(200).send({ data: results });
+          res.status(200).send(results);
         }
       })
       .catch((err) => {
-        res.status(500).send({ err: 'Unexpected error, please try again' });
+        res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }
 
@@ -31,11 +31,11 @@ class ChatsController {
       .insertOne(chatMsgData)
       .then((result) => {
         if (result) {
-          res.status(200).send({ status: result });
+          res.status(201).send({ status: result });
         }
       })
       .catch((err) => {
-        res.status(500).send({ err: 'Unexpected error, please try again' });
+        res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }
 
@@ -47,7 +47,7 @@ class ChatsController {
         res.status(201).send({ msg: 'Successfuly modified the chat room data' });
       })
       .catch((err) => {
-        res.status(500).send({ err: 'Unexpected error, please try again' });
+        res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }
 
@@ -63,7 +63,7 @@ class ChatsController {
         }
       })
       .catch((err) => {
-        res.status(500).send({ err: 'Unexpected error, please try again' });
+        res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }
 }

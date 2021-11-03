@@ -39,6 +39,9 @@ module.exports = router;
  *        schema:
  *          type: object
  *          properties:
+ *            statusInsert:
+ *              type: boolean
+ *              example: true
  *            token:
  *              type: string
  *              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTdlZmMxMDFkYzRjMGIwMDVhODMxZDAiLCJ1c2VybmFtZSI6InVzdWFyaW9OdWV2byIsImVtYWlsIjoibmV3TWFpbEBtYWlsLmNvbSIsImlhdCI6MTYzNTcyMDIzM30.sJbwN2PrHKaRRY2_eJNfu0ccjJy1Uw2G-tSfmuNsraM
@@ -47,17 +50,9 @@ module.exports = router;
  *        schema:
  *          type: object
  *          properties:
- *            err:
+ *            msg:
  *              type: string
- *              example: No user.
- *      401:
- *        description: Not authorized
- *        schema:
- *          type: object
- *          properties:
- *            err:
- *              type: string
- *              example: Not authorized
+ *              example: Missing email or password.
  *      500:
  *        description: Internal error
  *        schema:
@@ -65,7 +60,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Unexpected error, please try again
+ *              example: Unexpected error ocurred, please try again
  */
 
 // GET LOGOUT
@@ -92,7 +87,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Succesfully logged out
+ *              example: Successfully logged out
  *      400:
  *        description: Bad request
  *        schema:
@@ -108,7 +103,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Not authorized
+ *              example: You can not logout if you are not logged in
  *      500:
  *        description: Internal error
  *        schema:
