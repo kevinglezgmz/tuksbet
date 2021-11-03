@@ -53,12 +53,12 @@ class ChatsController {
   }
 
   static updateChatMessage(req, res) {
-    const messageData = req.body;
+    const { message } = req.body;
     const messagesDb = new Database('ChatHistory');
     messagesDb
-      .updateOne({ _id: getObjectId(messageData.messageId) }, { $set: messageData })
+      .updateOne({ _id: getObjectId(messageData.messageId) }, { $set: { message } })
       .then((result) => {
-        res.status(201).send({ msg: 'Successfuly modified the message data' });
+        res.status(201).send({ msg: 'Successfully modified the message data' });
       })
       .catch((err) => {
         res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
@@ -71,7 +71,7 @@ class ChatsController {
       .deleteOne({ _id: getObjectId(req.body.chatRoomId) })
       .then((result) => {
         if (result.deletedCount > 0) {
-          res.send({ msg: 'Message deleted successfuly' });
+          res.send({ msg: 'Message deleted successfully' });
         } else {
           res.status(400).send({ err: 'Could not find the specified message' });
         }
