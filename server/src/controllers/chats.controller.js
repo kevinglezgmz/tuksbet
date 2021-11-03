@@ -29,7 +29,10 @@ class ChatsController {
   }
 
   static createNewChatMessage(req, res) {
-    const messageData = req.body;
+    const { userId, message } = req.body
+    const messageData = {}
+    messageData['userId'] = userId;
+    messageData['message'] = message;
     messageData['chatRoomId'] = req.params.chatRoomId;
 
     const missingFields = validateMessageData(messageData);
