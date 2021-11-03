@@ -29,11 +29,12 @@ class ChatsController {
   }
 
   static createNewChatMessage(req, res) {
-    const { userId, message } = req.body
-    const messageData = {}
-    messageData['userId'] = userId;
-    messageData['message'] = message;
-    messageData['chatRoomId'] = req.params.chatRoomId;
+    const { userId, message } = req.body;
+    const messageData = {
+      userId,
+      message,
+      chatRoomId: req.params.chatRoomId,
+    };
 
     const missingFields = validateMessageData(messageData);
 
@@ -69,7 +70,7 @@ class ChatsController {
   }
 
   static deleteChatMessage(req, res) {
-    const { messageId } = req.body.messageId
+    const { messageId } = req.body.messageId;
     const messagesDb = new Database('ChatHistory');
     messagesDb
       .deleteOne({ _id: getObjectId(messageId) })

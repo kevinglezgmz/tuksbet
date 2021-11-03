@@ -134,7 +134,7 @@ module.exports = router;
  *  post:
  *    tags:
  *      - Transactions
- *    summary: POST request for one transactipn
+ *    summary: POST request for one transaction
  *    description: Makes a server request to register a new transaction.
  *    parameters:
  *       - in: body
