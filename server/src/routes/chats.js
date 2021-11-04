@@ -100,9 +100,9 @@ module.exports = router;
  *            userId:
  *              type: string
  *              example: 616b9a358864b959c04a3cd1
- *          message:
- *              type: string
- *              example: Hello!
+ *            message:
+ *                type: string
+ *                example: Hello!
  *    responses:
  *      201:
  *        description: Success response. Retrieves status of the message
@@ -157,7 +157,7 @@ module.exports = router;
  *        description: The identifier of the chat message
  *        example: 616b9a868562c459c32a3dc4
  *      - in: body
- *        name: chat
+ *        name: message
  *        description: The message data to be updated
  *        schema:
  *          type: object
@@ -168,7 +168,7 @@ module.exports = router;
  *              type: string
  *              example: Oh no!
  *    responses:
- *      201:
+ *      200:
  *        description: Success response. Retrieves status of the message
  *        schema:
  *          type: object
