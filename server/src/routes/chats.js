@@ -91,17 +91,18 @@ module.exports = router;
  *      - in: body
  *        name: message
  *        description: The message to be posted in the chat
- *        type: object
- *        required:
- *             - userId
- *             - message
- *        properties:
- *          userId:
- *            type: string
- *            example: 616b9a358864b959c04a3cd1
+ *        schema:
+ *          type: object
+ *          required:
+ *            - userId
+ *            - message
+ *          properties:
+ *            userId:
+ *              type: string
+ *              example: 616b9a358864b959c04a3cd1
  *          message:
- *            type: string
- *            example: Hello!
+ *              type: string
+ *              example: Hello!
  *    responses:
  *      201:
  *        description: Success response. Retrieves status of the message
@@ -158,13 +159,14 @@ module.exports = router;
  *      - in: body
  *        name: chat
  *        description: The message data to be updated
- *        type: object
- *        required:
- *             - message
- *        properties:
- *          message:
- *            type: string
- *            example: Oh no!
+ *        schema:
+ *          type: object
+ *          required:
+ *            - message
+ *          properties:
+ *            message:
+ *              type: string
+ *              example: Oh no!
  *    responses:
  *      201:
  *        description: Success response. Retrieves status of the message

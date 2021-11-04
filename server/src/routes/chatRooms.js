@@ -62,13 +62,14 @@ module.exports = router;
  *      - in: body
  *        name: roomName
  *        description: The name of the chat room to be created
- *        type: object
- *        required:
- *             - roomName
- *        properties:
- *          chatRoomName:
- *            type: string
- *            example: Crash
+ *        schema:
+ *          type: object
+ *          required:
+ *            - chatroomName
+ *          properties:
+ *            chatRoomName:
+ *              type: string
+ *              example: Crash
  *    responses:
  *      201:
  *        description: Success response. Chat room created successfully.
@@ -121,13 +122,14 @@ module.exports = router;
  *      - in: body
  *        name: roomName
  *        description: The new name of the specified chat room
- *        type: object
- *        required:
- *             - roomName
- *        properties:
- *          chatRoomName:
- *            type: string
- *            example: Crash
+ *        schema:
+ *          type: object
+ *          required:
+ *            - chatroomName
+ *          properties:
+ *            chatRoomName:
+ *              type: string
+ *              example: Crash
  *    responses:
  *      200:
  *        description: Success response. Chat room name updated successfully
