@@ -30,8 +30,8 @@ module.exports = router;
  *                type: string
  *                example: 616b9a868562c959c04a3cd1
  *              gameId:
- *                type: int
- *                example: 32
+ *                type: string
+ *                example: 616b9a868562c959c04a3cd1
  *              result:
  *                type: string
  *                example: abc
@@ -79,7 +79,7 @@ module.exports = router;
  *    parameters:
  *      - in: path
  *        name: gameRoundId
- *        example: 123
+ *        example: 616b9a868562c959c04dp871
  *        description: The game round's identifier
  *    responses:
  *      200:
@@ -91,8 +91,8 @@ module.exports = router;
  *              type: string
  *              example: 616b9a868562c959c04a3cd1
  *            gameId:
- *              type: int
- *              example: 32
+ *              type: string
+ *              example: 616b9a868562c959c04a3cd1
  *            result:
  *              type: string
  *              example: abc
@@ -142,8 +142,8 @@ module.exports = router;
  *            - acceptingBets
  *          properties:
  *            gameId:
- *              type: int
- *              example: 32
+ *              type: string
+ *              example: 616b9a868562c959c04a3cd1
  *            result:
  *              type: string
  *              example: abc
@@ -200,7 +200,7 @@ module.exports = router;
  *    parameters:
  *      - in: path
  *        name: gameRoundId
- *        example: 123
+ *        example: 616b9a868562c959c04dp871
  *        description: The game round's identifier
  *      - in: body
  *        name: gameRound
@@ -211,8 +211,8 @@ module.exports = router;
  *            - gameId
  *          properties:
  *            gameId:
- *              type: int
- *              example: 32
+ *              type: string
+ *              example: 616b9a868562c959c04a3cd1
  *            result:
  *              type: string
  *              example: abc
@@ -269,7 +269,7 @@ module.exports = router;
  *    parameters:
  *      - in: path
  *        name: gameRoundId
- *        example: 123
+ *        example: 616b9a868562c959c04dp871
  *        description: The game round's identifier
  *    responses:
  *      200:

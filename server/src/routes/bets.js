@@ -32,11 +32,11 @@ module.exports = router;
  *                type: string
  *                example: 616b9a868562c959c04a3cd1
  *              userId:
- *                type: int
- *                example: 32
+ *                type: string
+ *                example: 616b9a868562c959c04a3er2
  *              gameRoudId:
- *                type: int
- *                example: 13254
+ *                type: string
+ *                example: 616b9a868562c959c04a6548
  *              betDate:
  *                type: date
  *                example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
@@ -86,7 +86,7 @@ module.exports = router;
  *    parameters:
  *      - in: path
  *        name: betId
- *        example: 123
+ *        example: 616b9a868562c959c04a3cd1
  *        description: The bet's identifier
  *    description: Makes a server request for a specific bet using it's ID.
  *    responses:
@@ -99,11 +99,11 @@ module.exports = router;
  *              type: string
  *              example: 616b9a868562c959c04a3cd1
  *            userId:
- *              type: int
- *              example: 32
+ *              type: string
+ *              example: 616b9a868562c959c04a4562
  *            gameRoudId:
- *              type: int
- *              example: 13254
+ *              type: string
+ *              example: 616b9a868562c959c04a454j
  *            betDate:
  *              type: date
  *              example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
@@ -162,11 +162,11 @@ module.exports = router;
  *             - gameRoundId
  *           properties:
  *             userId:
- *               type: int
- *               example: 32
- *             gameRoudId:
- *               type: int
- *               example: 13254
+ *               type: string
+ *               example: 616b9a868562c959c04a3cd1
+ *             gameRoundId:
+ *               type: string
+ *               example: 616b9a868562c95984sdei01
  *             betAmount:
  *               type: float
  *               example: 0.56
@@ -232,11 +232,11 @@ module.exports = router;
  *             - gameRoundId
  *           properties:
  *             userId:
- *               type: int
- *               example: 32
- *             gameRoudId:
- *               type: int
- *               example: 13254
+ *               type: string
+ *               example: 616b9a868562c959c04a3cd1
+ *             gameRoundId:
+ *               type: string
+ *               example: 616b9a868562c95984sdei01
  *             betAmount:
  *               type: float
  *               example: 0.56
@@ -244,7 +244,7 @@ module.exports = router;
  *               type: string
  *               example: "roulette"
  *    responses:
- *      201:
+ *      200:
  *        description: Success response. Retrieves status of the bet
  *        schema:
  *          type: object
