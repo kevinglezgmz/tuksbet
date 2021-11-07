@@ -15,6 +15,7 @@ import { DepositComponent } from './pages/deposit/deposit.component';
 import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BetHistoryComponent } from './common/components/bet-history/bet-history.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     DepositComponent,
     WithdrawComponent,
     TransactionsComponent,
+    BetHistoryComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
