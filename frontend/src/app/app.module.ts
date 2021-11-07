@@ -14,6 +14,7 @@ import { ChatSidebarComponent } from './layout/chat-sidebar/chat-sidebar.compone
 import { DepositComponent } from './pages/deposit/deposit.component';
 import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,13 +29,10 @@ import { TransactionsComponent } from './pages/transactions/transactions.compone
     ChatSidebarComponent,
     DepositComponent,
     WithdrawComponent,
-    TransactionsComponent
+    TransactionsComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
