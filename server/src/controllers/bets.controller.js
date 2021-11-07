@@ -31,7 +31,54 @@ class BetsController {
   static getAllBets(req, res) {
     const betsDb = new Database('BetHistory');
     betsDb
-      .find({}, {})
+      .findAggregate([
+        {
+          $lookup: {
+            from: 'Users',
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'fromUser',
+          },
+        },
+        {
+          $lookup: {
+            from: 'GameRounds',
+            localField: 'gameRoundId',
+            foreignField: '_id',
+            as: 'fromGameRound',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromUser', 0] }, '$$ROOT'] } },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromGameRound', 0] }, '$$ROOT'] } },
+        },
+        {
+          $lookup: {
+            from: 'Games',
+            localField: 'gameId',
+            foreignField: '_id',
+            as: 'fromGame',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromGame', 0] }, '$$ROOT'] } },
+        },
+        {
+          $project: {
+            _id: 1,
+            username: 1,
+            userId: 1,
+            gameRoundId: 1,
+            gameName: 1,
+            betDate: 1,
+            betAmount: 1,
+            betPayout: 1,
+            betStake: 1,
+          },
+        },
+      ])
       .toArray()
       .then((results) => {
         if (results.length === 0) {

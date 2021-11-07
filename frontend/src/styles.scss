@@ -1,1 +1,67 @@
 /* You can add global styles to this file, and also import other style files */
+@import './variables';
+
+@mixin column-width($column-span) {
+  width: calc(100% / (12 / #{$column-span}));
+}
+
+@mixin column-define($device-size) {
+  > .col#{$device-size}-1 {
+    @include column-width(1);
+  }
+
+  > .col#{$device-size}-2 {
+    @include column-width(2);
+  }
+
+  > .col#{$device-size}-3 {
+    @include column-width(3);
+  }
+
+  > .col#{$device-size}-4 {
+    @include column-width(4);
+  }
+
+  > .col#{$device-size}-6 {
+    @include column-width(6);
+  }
+
+  > .col#{$device-size}-8 {
+    @include column-width(8);
+  }
+
+  > .col#{$device-size}-12 {
+    @include column-width(12);
+  }
+}
+
+.grid::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.grid {
+  > div {
+    float: left;
+  }
+
+  @include column-define('');
+
+  @include tablet() {
+    @include column-define('-sm');
+  }
+
+  @include laptop() {
+    @include column-define('-md');
+  }
+
+  @include desktop() {
+    @include column-define('-lg');
+  }
+}
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
+}
