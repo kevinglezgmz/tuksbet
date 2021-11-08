@@ -1,0 +1,14 @@
+<div *ngIf="user" class="user-container">
+  <div class="card">
+    <h3>Cuenta</h3>
+    <h1>Nombre de usuario: {{ user.username }}</h1>
+  </div>
+  <div class="card">
+    <h3>Detalles</h3>
+    <div class="details">
+      <p>Cuenta: {{ user.username }}</p>
+      <p>Correo: {{ user.email }}</p>
+      <p>Saldo: {{ user.balance }}</p>
+    </div>
+  </div>
+</div>

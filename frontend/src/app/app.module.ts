@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,7 +17,8 @@ import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BetHistoryComponent } from './common/components/bet-history/bet-history.component';
-import { FormsModule } from '@angular/forms';
+import { UserDetailsComponent } from './pages/user-details/user-details.component';
+import { UsersComponent } from './pages/users/users.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { FormsModule } from '@angular/forms';
     WithdrawComponent,
     TransactionsComponent,
     BetHistoryComponent,
+    UserDetailsComponent,
+    UsersComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
