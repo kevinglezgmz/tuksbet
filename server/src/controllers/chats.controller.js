@@ -14,13 +14,49 @@ class ChatsController {
   static getAllChatMessages(req, res) {
     const chatsDb = new Database('ChatHistory');
     chatsDb
-      .find({ chatRoomId: getObjectId(req.params.chatRoomId) }, {})
+      .findAggregate([
+        { $match: { chatRoomId: getObjectId(req.params.chatRoomId) } },
+        {
+          $lookup: {
+            from: 'Users',
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'fromUser',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromUser', 0] }, '$$ROOT'] } },
+        },
+        {
+          $lookup: {
+            from: 'ChatRooms',
+            localField: 'chatRoomId',
+            foreignField: '_id',
+            as: 'fromChatRoom',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromChatRoom', 0] }, '$$ROOT'] } },
+        },
+        {
+          $project: {
+            _id: 1,
+            username: 1,
+            userId: 1,
+            chatRoomId: 1,
+            chatRoomName: 1,
+            message: 1,
+          },
+        },
+      ])
+      .sort({ _id: -1 })
+      .limit(50)
       .toArray()
       .then((results) => {
         if (results.length === 0) {
           res.status(400).send({ msg: 'There are no messages in this chatroom yet' });
         } else {
-          res.status(200).send(results);
+          res.status(200).send(results.reverse());
         }
       })
       .catch((err) => {
@@ -34,10 +70,8 @@ class ChatsController {
       userId: getObjectId(userId),
       message,
       chatRoomId: getObjectId(req.params.chatRoomId),
+      sentAt: new Date(),
     };
-
-    console.log(messageData.chatRoomId);
-    console.log(req.params);
 
     const missingFields = validateMessageData(messageData);
 

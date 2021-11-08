@@ -16,6 +16,7 @@ import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BetHistoryComponent } from './common/components/bet-history/bet-history.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { BetHistoryComponent } from './common/components/bet-history/bet-history
     TransactionsComponent,
     BetHistoryComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,63 @@
+@import '../../../variables';
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: rgb(129, 0, 0);
+
+  &:visited {
+    color: rgb(134, 24, 24);
+  }
+}
+
+.chat-sidebar-container {
+  background: rgb(95, 95, 95);
+  color: #f0f8ff;
+  position: fixed;
+  left: 0;
+  top: $header-height;
+  width: $chat-sidebar-width;
+  height: calc(100% - #{$header-height});
+}
+
+.chat-messages-container {
+  display: flex;
+  align-items: flex-end;
+  overflow-y: scroll;
+  flex-direction: column-reverse;
+  height: 92%;
+
+  @include scrollbar;
+
+  > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    > li {
+      display: block;
+      padding: 5px;
+      margin: 5px;
+      font-size: larger;
+      border-radius: 7px;
+      &:nth-of-type(2n) {
+        background-color: rgb(148, 143, 143);
+      }
+      span {
+        word-break: break-word;
+      }
+    }
+  }
+}
+
+.chat-sidebar-footer {
+  height: 6%;
+  padding: 3px 37px;
+  > input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0 1em;
+    font-size: large;
+  }
+}

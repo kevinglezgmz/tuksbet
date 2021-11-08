@@ -1,1 +1,17 @@
-<p>chat-sidebar works!</p>
+<div class="chat-sidebar-container">
+  <div class="chat-messages-container" (scroll)="scrollAdjustment($event)">
+    <ul class="messages-list">
+      <li *ngFor="let message of chatMessages">
+        <span
+          ><a routerLink="/users/{{ message.userId }}"> {{ message.username }}: </a></span
+        >
+        <span>
+          {{ message.message }}
+        </span>
+      </li>
+    </ul>
+  </div>
+  <div class="chat-sidebar-footer">
+    <input type="text" name="message" [(ngModel)]="currentMessage" (keydown.enter)="sendMessage($event)" />
+  </div>
+</div>
