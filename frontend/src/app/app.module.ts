@@ -16,6 +16,8 @@ import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BetHistoryComponent } from './common/components/bet-history/bet-history.component';
+import { UserDetailsComponent } from './pages/user-details/user-details.component';
+import { UsersComponent } from './pages/users/users.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { BetHistoryComponent } from './common/components/bet-history/bet-history
     WithdrawComponent,
     TransactionsComponent,
     BetHistoryComponent,
+    UserDetailsComponent,
+    UsersComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],

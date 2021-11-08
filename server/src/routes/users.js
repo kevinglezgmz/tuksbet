@@ -4,13 +4,12 @@ const multer = require('multer');
 const authentication = require('../middlewares/authentication');
 
 router.get('/', usersController.getAllUsers);
-router.get('/:userId', authentication, usersController.getUserById);
+router.get('/:userId', usersController.getUserById);
 router.post('/', multer().none(), usersController.createUser);
 router.patch('/:userId', authentication, multer().none(), usersController.updateUser);
 router.delete('/:userId', authentication, usersController.deleteUser);
 
 module.exports = router;
-
 
 // GET ALL USERS
 /**
@@ -94,7 +93,7 @@ module.exports = router;
  *              type: string
  *              example: "example@example.com"
  *            balance:
- *              type: float 
+ *              type: float
  *              example: 12.34
  *      400:
  *        description: Bad request
