@@ -1,1 +1,26 @@
-<p>transactions works!</p>
+<table class="transactions-container">
+  <thead>
+    <tr>
+      <th>USUARIO</th>
+      <th>FECHA</th>
+      <th>MONTO</th>
+      <th>TIPO</th>
+      <th>ESTADO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let transaction of transactions">
+      <td>
+        <a routerLink="/users/{{ transaction.userId }}">{{ transaction.username }}</a>
+      </td>
+      <td>{{ transaction.transactionDate | date: 'short' }}</td>
+      <td>${{ transaction.amount | number: '1.2-2' }}</td>
+      <td>{{ transaction.isDeposit ? 'Depósito' : 'Retiro' }}</td>
+      <td>
+        {{
+          transaction.status === 'completed' ? 'Completado' : transaction.status === 'pending' ? 'Pendiente' : 'Cancelado'
+        }}
+      </td>
+    </tr>
+  </tbody>
+</table>
