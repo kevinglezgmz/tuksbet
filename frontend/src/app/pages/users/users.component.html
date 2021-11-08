@@ -1,0 +1,16 @@
+<table class="users-container">
+  <thead>
+    <tr>
+      <th>USUARIO</th>
+      <th>CORREO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>
+        <a routerLink="/users/{{ user.userId }}">{{ user.username }}</a>
+      </td>
+      <td>{{ user.email }}</td>
+    </tr>
+  </tbody>
+</table>
