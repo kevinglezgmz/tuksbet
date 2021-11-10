@@ -22,6 +22,12 @@ import { UserDetailsComponent } from './pages/user-details/user-details.componen
 import { UsersComponent } from './pages/users/users.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ShowIfLoggedDirective } from './common/directives/show-if-logged.directive';
+import { GameHistoryComponent } from './pages/game-history/game-history.component';
+import { RouletteHistoryComponent } from './pages/game-history/roulette-history/roulette-history.component';
+import { CrashHistoryComponent } from './pages/game-history/crash-history/crash-history.component';
+import { BlackjackHistoryComponent } from './pages/game-history/blackjack-history/blackjack-history.component';
+import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
+import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-showcase.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +48,12 @@ import { ShowIfLoggedDirective } from './common/directives/show-if-logged.direct
     UsersComponent,
     LoginComponent,
     ShowIfLoggedDirective,
+    GameHistoryComponent,
+    RouletteHistoryComponent,
+    CrashHistoryComponent,
+    BlackjackHistoryComponent,
+    GameRoundDetailsComponent,
+    GameShowcaseComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [],
