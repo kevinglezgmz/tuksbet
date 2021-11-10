@@ -22,6 +22,7 @@ import { UserDetailsComponent } from './pages/user-details/user-details.componen
 import { UsersComponent } from './pages/users/users.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ShowIfLoggedDirective } from './common/directives/show-if-logged.directive';
+import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-showcase.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ShowIfLoggedDirective } from './common/directives/show-if-logged.direct
     UsersComponent,
     LoginComponent,
     ShowIfLoggedDirective,
+    GameShowcaseComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [],
