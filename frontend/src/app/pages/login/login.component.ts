@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
   handleLoginSubmit(event: Event) {
     this.loginService
       .login({ email: this.email, password: this.password })
-      .then(({ token }: { token: string }) => {
-        this.authService.saveToken(token);
+      .then(({ token, userId, username }: { token: string; userId: string; username: string }) => {
+        this.authService.saveUserDetails({ token, userId, username });
         this.router.navigate(['']);
       })
       .catch((res) => {

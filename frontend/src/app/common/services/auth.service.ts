@@ -7,16 +7,22 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   constructor() {}
 
-  saveToken(token: string) {
-    localStorage.setItem('token', token);
+  saveUserDetails(userDetails: { token: string; userId: string; username: string }) {
+    localStorage.setItem('userDetails', JSON.stringify(userDetails));
+  }
+
+  getUserDetails(): { username: string | undefined; userId: string | undefined } {
+    const { username, userId } = JSON.parse(localStorage.getItem('userDetails') || '');
+    return { username, userId };
   }
 
   getToken(): string {
-    return localStorage.getItem('token') || '';
+    const { token } = JSON.parse(localStorage.getItem('userDetails') || '');
+    return token || '';
   }
 
   deleteToken(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userDetails');
   }
 
   getAuthHeader(): HttpHeaders {
@@ -24,6 +30,6 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!this.getToken();
   }
 }
