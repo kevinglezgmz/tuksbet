@@ -15,6 +15,10 @@ export class AuthService {
     return localStorage.getItem('token') || '';
   }
 
+  deleteToken(): void {
+    localStorage.removeItem('token');
+  }
+
   getAuthHeader(): HttpHeaders {
     return new HttpHeaders({ ['Authorization']: ['Bearer ' + this.getToken()] });
   }
