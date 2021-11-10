@@ -9,7 +9,24 @@ class GameRoundsController {
   static getAllGameRounds(req, res) {
     const gameRoundsDb = new Database('GameRounds');
     gameRoundsDb
-      .find({}, {})
+      .findAggregate([
+        {
+          $lookup: {
+            from: 'Games',
+            localField: 'gameId',
+            foreignField: '_id',
+            as: 'fromGame',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromGame', 0] }, '$$ROOT'] } },
+        },
+        {
+          $project: {
+            fromGame: 0,
+          },
+        },
+      ])
       .toArray()
       .then((results) => {
         if (results.length === 0) {
@@ -26,10 +43,30 @@ class GameRoundsController {
   static getGameRoundById(req, res) {
     const gameRoundsDb = new Database('GameRounds');
     gameRoundsDb
-      .findOne({ _id: getObjectId(req.params.gameRoundId) }, {})
+      .findAggregate([
+        { $match: { _id: getObjectId(req.params.gameRoundId) } },
+        {
+          $lookup: {
+            from: 'Games',
+            localField: 'gameId',
+            foreignField: '_id',
+            as: 'fromGame',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromGame', 0] }, '$$ROOT'] } },
+        },
+        {
+          $project: {
+            fromGame: 0,
+          },
+        },
+      ])
+      .limit(1)
+      .next()
       .then((result) => {
         if (result) {
-          res.status(200).send({ data: result });
+          res.status(200).send(result);
         } else {
           res.status(400).send({ err: 'Game round with id ' + req.params.gameRoundId + ' does not exist' });
         }

@@ -1,0 +1,21 @@
+<h1>Crash</h1>
+<table class="crash-container">
+  <thead>
+    <tr>
+      <th>Game round id</th>
+      <th>Game result</th>
+      <th>Round date</th>
+      <th>Accepting bets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let round of gamerounds">
+      <td>
+        <a routerLink="/gamehistory/{{ round._id }}">{{ round._id }}</a>
+      </td>
+      <td>{{ round.result }}</td>
+      <td>{{ round.roundDate }}</td>
+      <td>{{ round.acceptingBets }}</td>
+    </tr>
+  </tbody>
+</table>
