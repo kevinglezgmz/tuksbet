@@ -58,7 +58,20 @@ MongoClient.connect(
       database = client.db();
       Database.setDatabase(database);
 
-      app.listen(PORT, () => {
+      /** We use an http server to handle both express and socket.io communication on the same port*/
+      const server = require('http').createServer(app);
+      /** WebSocket Server */
+      const io = require('socket.io')(server, {
+        cors: {
+          origin: '*',
+        },
+      });
+
+      const mainEventHandler = require('./src/socketEvents');
+      /** Event handlers for real time communication */
+      io.on('connection', mainEventHandler);
+
+      server.listen(PORT, () => {
         console.log('Server listening on port:', PORT, 'http://localhost:' + PORT);
       });
     }
