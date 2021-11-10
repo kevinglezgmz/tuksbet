@@ -1,0 +1,73 @@
+.roulette-container {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background-color: rgb(241, 240, 240);
+
+  tbody {
+    max-height: 480px;
+    overflow-y: scroll;
+    border-color: inherit;
+    tr {
+      height: 44px;
+      &:nth-of-type(2n) {
+        background-color: rgb(187, 183, 183);
+      }
+
+      td {
+        text-align: center;
+        overflow: hidden;
+        font-size: 15px;
+        font-weight: 500;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        &:first-of-type {
+          border-bottom-left-radius: 7px;
+          border-top-left-radius: 7px;
+        }
+
+        &:last-of-type {
+          border-bottom-right-radius: 7px;
+          border-top-right-radius: 7px;
+        }
+      }
+    }
+  }
+
+  thead {
+    background-color: rgb(136, 136, 136);
+    display: table-header-group;
+    border-color: inherit;
+    vertical-align: middle;
+    height: 40px;
+    tr th {
+      &:first-of-type {
+        border-bottom-left-radius: 7px;
+        border-top-left-radius: 7px;
+      }
+
+      &:last-of-type {
+        border-bottom-right-radius: 7px;
+        border-top-right-radius: 7px;
+      }
+    }
+  }
+
+  tr {
+    td,
+    th {
+      padding: 0 18px;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: rgb(27, 27, 102);
+
+    &:visited {
+      color: rgb(27, 27, 102);
+    }
+  }
+}

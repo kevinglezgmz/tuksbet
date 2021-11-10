@@ -1,0 +1,29 @@
+<div class="game-round-details-container">
+  <h1>Información del juego: {{ gameRoundId }}</h1>
+  <div class="main-info">
+    <p>Nombre del juego: {{ gameRound ? gameRound.gameName : 'Not available' }}</p>
+    <p>Resultado: {{ gameRound ? gameRound.result : 'Not available' }}</p>
+    <p>Fecha: {{ gameRound ? gameRound.roundDate : 'Not available' }}</p>
+  </div>
+
+  <table class="bets-container">
+    <thead>
+      <tr>
+        <th>USUARIO</th>
+        <th>APUESTA</th>
+        <th>MULT</th>
+        <th>GANANCIA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bet of bets">
+        <td>
+          <a routerLink="/users/{{ bet.userId }}">{{ bet.username }}</a>
+        </td>
+        <td>${{ bet.betAmount | number: '1.2-2' }}</td>
+        <td>{{ (bet.betPayout || 0) / bet.betAmount | number: '1.2-2' }}x</td>
+        <td>${{ bet.betPayout || 0 | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
