@@ -1,1 +1,33 @@
-<p>roulette works!</p>
+<h1>La siguiente ronda comenzará en: {{ counter | number: '1.2-2' }}s</h1>
+<div class="roulette-wrapper" id="rouletteWrapper">
+  <div
+    [@rouletteRoll]="{
+      value: activateRoll ? 'rolling' : 'waitingRoll',
+      params: { landingPosition: this.landingPosition, animationTime: this.animationTime }
+    }"
+    class="roulette-container translate"
+  >
+    <ng-container *ngFor="let i of rouletteLength">
+      <ng-container *ngIf="i === 1; else nonWinningCards">
+        <div
+          *ngFor="let number of order"
+          [@winningCard]="number === winningRoll ? 'winner' : 'loser'"
+          #rouletteNumberCard
+          class="roulette-number {{ number === 0 ? 'roulette-green' : number <= 7 ? 'roulette-red' : 'roulette-black' }}"
+        >
+          <p>{{ number }}</p>
+        </div>
+      </ng-container>
+      <ng-template #nonWinningCards>
+        <div
+          *ngFor="let number of order"
+          #rouletteNumberCard
+          class="roulette-number {{ number === 0 ? 'roulette-green' : number <= 7 ? 'roulette-red' : 'roulette-black' }}"
+        >
+          <p>{{ number }}</p>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+  <div class="winning-number-selector"></div>
+</div>
