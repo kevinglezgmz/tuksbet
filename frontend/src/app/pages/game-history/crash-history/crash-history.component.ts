@@ -13,7 +13,6 @@ export class CrashHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameRoundService.getAllGameRounds().then((gamerounds: GameRound[]) => {
-      //this.gamerounds=filterArray('6188288cc4ce0eee3f274fa2', gamerounds);
       this.gamerounds = gamerounds.filter((gameround) => gameround.gameName === 'Crash').reverse();
     });
   }
