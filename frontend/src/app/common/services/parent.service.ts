@@ -11,9 +11,9 @@ export class ParentService {
 
   constructor(private httpClient: HttpClient) {}
 
-  get(endpoint: string): Promise<any> {
+  get(endpoint: string, headers?: HttpHeaders | undefined): Promise<any> {
     const fullApiUrl = this.url + endpoint;
-    return this.httpClient.get(fullApiUrl).toPromise();
+    return this.httpClient.get(fullApiUrl, { headers }).toPromise();
   }
 
   update(endpoint: string, body: object, headers?: HttpHeaders | undefined): Promise<any> {

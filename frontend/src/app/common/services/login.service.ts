@@ -1,0 +1,24 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class LoginService {
+  url: string = environment.serverUrl + '/api/sessions';
+
+  constructor(private httpClient: HttpClient, private authService: AuthService) {}
+
+  login(userData: { email: string; password: string }): Promise<any> {
+    const loginUrl = this.url + '/login';
+    return this.httpClient.post(loginUrl, userData).toPromise();
+  }
+
+  logout(): Promise<any> {
+    const logoutUrl = this.url + '/logout';
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.httpClient.get(logoutUrl, { headers }).toPromise();
+  }
+}

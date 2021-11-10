@@ -10,17 +10,20 @@ import { TransactionsComponent } from './pages/transactions/transactions.compone
 import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { UsersComponent } from './pages/users/users.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthGuard } from './common/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'roulette', component: RouletteComponent },
   { path: 'crash', component: CrashComponent },
   { path: 'blackjack', component: BlackjackComponent },
-  { path: 'deposit', component: DepositComponent },
-  { path: 'withdraw', component: WithdrawComponent },
-  { path: 'transactions', component: TransactionsComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'users/:userId', component: UserDetailsComponent },
+  { path: 'deposit', component: DepositComponent, canActivate: [AuthGuard] },
+  { path: 'withdraw', component: WithdrawComponent, canActivate: [AuthGuard] },
+  { path: 'transactions', component: TransactionsComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+  { path: 'users/:userId', component: UserDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

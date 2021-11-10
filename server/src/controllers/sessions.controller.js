@@ -15,7 +15,7 @@ class SessionsController {
     const sessionsDb = new Database('Sessions');
 
     usersDb
-      .findOne({ email: req.body.email })
+      .findOne({ email: req.body.email.toLowerCase() })
       .then((user) => {
         return new Promise((success, reject) => {
           if (!user || !user.email || !bcrypt.compareSync(req.body.password, user.password)) {

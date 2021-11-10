@@ -66,7 +66,7 @@ class UsersController {
     const hash = bcrypt.hashSync(userData.password, 10);
     const userToInsert = {
       username: userData.username,
-      email: userData.email,
+      email: userData.email.toLowerCase(),
       password: hash,
       balance: 0.0,
     };

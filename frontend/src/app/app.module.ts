@@ -20,6 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BetHistoryComponent } from './common/components/bet-history/bet-history.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { UsersComponent } from './pages/users/users.component';
+import { LoginComponent } from './pages/login/login.component';
+import { ShowIfLoggedDirective } from './common/directives/show-if-logged.directive';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { UsersComponent } from './pages/users/users.component';
     BetHistoryComponent,
     UserDetailsComponent,
     UsersComponent,
+    LoginComponent,
+    ShowIfLoggedDirective,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [],
