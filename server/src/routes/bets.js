@@ -31,15 +31,21 @@ module.exports = router;
  *              _id:
  *                type: string
  *                example: 616b9a868562c959c04a3cd1
+ *              gameName:
+ *                type: string
+ *                example: exampleGame
+ *              username:
+ *                type: string
+ *                example: exampleUser
  *              userId:
  *                type: string
  *                example: 616b9a868562c959c04a3er2
- *              gameRoudId:
+ *              gameRoundId:
  *                type: string
  *                example: 616b9a868562c959c04a6548
  *              betDate:
  *                type: date
- *                example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
+ *                example: 2021-11-07T19:28:03.824Z
  *              betAmount:
  *                type: float
  *                example: 0.56
@@ -101,12 +107,12 @@ module.exports = router;
  *            userId:
  *              type: string
  *              example: 616b9a868562c959c04a4562
- *            gameRoudId:
+ *            gameRoundId:
  *              type: string
  *              example: 616b9a868562c959c04a454j
  *            betDate:
  *              type: date
- *              example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
+ *              example: 2021-11-07T19:28:03.824Z
  *            betAmount:
  *              type: float
  *              example: 0.56
@@ -115,7 +121,7 @@ module.exports = router;
  *              example: -0.56
  *            betStake:
  *              type: string
- *              example: "roulette"
+ *              example: "red_10"
  *      400:
  *        description: Bad request
  *        schema:

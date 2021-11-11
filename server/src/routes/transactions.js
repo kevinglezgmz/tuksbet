@@ -30,12 +30,12 @@ module.exports = router;
  *              _id:
  *                type: string
  *                example: 616ba72320787390d5f74fce
+ *              username:
+ *                type: string
+ *                example: exampleUser
  *              userId:
  *                type: string
  *                example: 616b9a868562c959c04a3cd1
- *              transactionDate:
- *                type: string
- *                example: "Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)"
  *              amount:
  *                type: float
  *                example: 123.23
@@ -45,6 +45,9 @@ module.exports = router;
  *              status:
  *                type: string
  *                example: completed
+ *              transactionDate:
+ *                type: string
+ *                example: "Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)"
  *      400:
  *        description: Bad request
  *        schema:
@@ -87,28 +90,31 @@ module.exports = router;
  *        example: 616ba72320787390d5f74fce
  *    responses:
  *      200:
- *        description: Success response. Retrieves the data of the transaction.
+ *        description: Success response. Retrieves the data of all transactions
  *        schema:
  *          type: object
  *          properties:
  *            _id:
  *              type: string
  *              example: 616ba72320787390d5f74fce
+ *            username:
+ *              type: string
+ *              example: exampleUser
  *            userId:
  *              type: string
  *              example: 616b9a868562c959c04a3cd1
- *            transactionDate:
- *              type: string
- *              example: Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)
  *            amount:
  *              type: float
- *              example: 321
+ *              example: 123.23
  *            isDeposit:
  *              type: boolean
- *              example: false
+ *              example: true
  *            status:
  *              type: string
  *              example: completed
+ *            transactionDate:
+ *              type: string
+ *              example: "Sun Oct 31 2021 15:10:01 GMT-0600 (hora estándar central)"
  *      401:
  *        description: Not authorized
  *        schema:
