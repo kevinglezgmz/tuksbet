@@ -28,7 +28,7 @@ module.exports = router;
  *          items:
  *            type: object
  *            properties:
- *              _id:
+ *              userId:
  *                type: string
  *                example: 616b9a868562c959c04a3cd1
  *              username:
@@ -83,7 +83,7 @@ module.exports = router;
  *        schema:
  *          type: object
  *          properties:
- *            _id:
+ *            userId:
  *              type: string
  *              example: 616b9a868562c959c04a3cd1
  *            username:
