@@ -4,22 +4,24 @@
     border-radius: 1vw;
     background-color: #888888;
     margin-top: 2%;
+    display: flex;
 
     .col-4{
-        margin: 0% 6%;
+        margin: 0px 6px 0px 6px;
         >.head{
-            font-size: 1.3vw;
+            font-size: 14px;
             font-weight: bold;
         }
         .media {
             display: flex;
             >div {
-                margin: 0% 5%;
+                margin: 0px 10px;
             } 
         }
         .row{
-            height: 2.8vw;
+            height: 40px;
             align-items: center;
+            margin: 0px 15px;
         }
     }
 }
