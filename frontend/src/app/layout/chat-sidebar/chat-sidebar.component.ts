@@ -1,44 +1,117 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { ChatMessage } from 'src/app/common/data-types/chat-message';
+import { AuthService } from 'src/app/common/services/auth.service';
 import { ChatHistoryService } from 'src/app/common/services/chat-history.service';
+import { ChatStatusService } from 'src/app/common/services/chat-status.service';
+import { WebSocketService } from 'src/app/common/services/web-socket.service';
 
 @Component({
   selector: 'app-chat-sidebar',
+  animations: [
+    trigger('chatToggle', [
+      state(
+        'opened',
+        style({
+          transform: 'translate3d(0px, 0px, 0px)',
+        })
+      ),
+      state(
+        'closed',
+        style({
+          transform: 'translate3d(-375px, 0px, 0px)',
+        })
+      ),
+      transition('opened => closed', [animate('0.3s')]),
+      transition('closed => opened', [animate('0.3s')]),
+    ]),
+  ],
   templateUrl: './chat-sidebar.component.html',
   styleUrls: ['./chat-sidebar.component.scss'],
 })
 export class ChatSidebarComponent implements OnInit {
   chatMessages: ChatMessage[] = [];
   currentMessage: string = '';
+  currentRoom: string = '6189a967db3a4a2f9cc7d31e';
 
-  constructor(private chatHistory: ChatHistoryService) {}
+  isChatOpen: boolean = true;
+  isLoggedIn: boolean = false;
+
+  private username: string = '';
+  private userId: string = '';
+
+  constructor(
+    private webSocket: WebSocketService,
+    private chatHistory: ChatHistoryService,
+    private authService: AuthService,
+    private chatStatusService: ChatStatusService
+  ) {
+    this.chatStatusService.isChatOpen().subscribe((status) => {
+      this.isChatOpen = status;
+    });
+
+    this.authService.isLoggedIn().subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+  }
 
   ngOnInit(): void {
-    /** USING TEMPORARY ROULETTE ID (NEEDS TO BE CHANGED TO CURRENT ROOM'S ID) */
-    this.chatHistory.getAllMessagesInRoom('6189a967db3a4a2f9cc7d31e').then((messages: ChatMessage[]) => {
-      this.chatMessages = messages;
+    this.chatHistory.getAllMessagesInRoom(this.currentRoom).then((messages: ChatMessage[]) => {
+      this.chatMessages = messages.slice(0, 50);
+    });
+
+    this.webSocket.listen('connect').subscribe((data) => {});
+    const { username, userId } = this.authService.getUserDetails();
+    this.userId = userId || '';
+    this.username = username || '';
+
+    this.webSocket.emit('join-room', this.currentRoom);
+
+    this.webSocket.listen('new-message').subscribe((newMessage: ChatMessage) => {
+      this.addNewMessage(newMessage);
     });
   }
 
   sendMessage(event: Event) {
-    if (this.currentMessage === '') {
+    if (!this.currentMessage || !this.userId || !this.currentRoom) {
       return;
     }
-    /** This also needs to be updated to current user and room */
+    /** For now, only roulette will be available as a room */
     const newMessage: ChatMessage = {
       message: this.currentMessage,
-      userId: 'INVALID',
-      username: 'NO USERNAME',
-      chatRoomId: '6189a967db3a4a2f9cc7d31e',
+      userId: this.userId,
+      username: this.username,
+      chatRoomId: this.currentRoom,
     };
-    this.chatMessages.push(newMessage);
-    this.currentMessage = '';
+    /** First we try to save it in the DB, then we send it to the other users */
+    this.chatHistory.createNewMessageInRoom(newMessage.chatRoomId!, newMessage).then(({ status }) => {
+      if (status.acknowledged) {
+        this.addNewMessage(newMessage);
+        this.webSocket.emit('new-message', newMessage);
+        this.currentMessage = '';
+      }
+    });
+  }
+
+  private addNewMessage(message: ChatMessage) {
+    this.chatMessages.push(message);
+    while (this.chatMessages.length > 50) {
+      this.chatMessages.shift();
+    }
   }
 
   scrollAdjustment(event: Event) {
     const target = event.target as HTMLDivElement;
     if (target.scrollTop === 1) {
       target.scrollTop = 0;
+    }
+  }
+
+  toggleChatSidebar(event: MouseEvent) {
+    if (this.isChatOpen) {
+      this.chatStatusService.chatClose();
+    } else {
+      this.chatStatusService.chatOpen();
     }
   }
 }

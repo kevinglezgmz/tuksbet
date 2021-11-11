@@ -41,15 +41,15 @@ class SessionsController {
             )
             .then((status) => {
               if (status.acknowledged) {
-                success({ statusInsert: status, token });
+                success({ statusInsert: status, token, user });
               } else {
                 reject({ statusCode: 500, msg: 'Unexpected error ocurred, please try again' });
               }
             });
         });
       })
-      .then(({ statusInsert, token }) => {
-        res.status(200).send({ statusInsert, token });
+      .then(({ statusInsert, token, user }) => {
+        res.status(200).send({ statusInsert, token, userId: user._id, username: user.username });
       })
       .catch(({ statusCode, msg }) => {
         res.status(statusCode).send({ err: msg });
