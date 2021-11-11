@@ -26,28 +26,28 @@ module.exports = router;
  *      200:
  *        description: Success response. Retrieves the messages of the chat
  *        schema:
- *          type: object
- *          properties:
- *            _id:
- *              type: string
- *              example: 616b9a868562c959c04a3cd1
- *            messages:
- *              type: array
- *              items:
- *                type: object
- *                properties:
- *                  _id:
- *                    type: string
- *                    example: 616b9a868562c959c04a3cd1
- *                  userId:
- *                    type: string
- *                    example: 616b9a358864b959c04a3cd1
- *                  chatRoomId:
- *                    type: string
- *                    example: 616b9a868562c959c04x3123
- *                  message:
- *                    type: string
- *                    example: Hello!
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              _id:
+ *                type: string
+ *                example: 616b9a868562c959c04a3cd1
+ *              chatRoomName:
+ *                type: string
+ *                example: exampleGame
+ *              username:
+ *                type: string
+ *                example: exampleUser
+ *              userId:
+ *                type: string
+ *                example: 616b9a358864b959c04a3cd1
+ *              message:
+ *                type: string
+ *                example: Hello!
+ *              chatRoomId:
+ *                type: string
+ *                example: 616b9a868562c959c04x3123
  *      400:
  *        description: Bad request
  *        schema:

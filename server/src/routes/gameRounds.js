@@ -29,18 +29,21 @@ module.exports = router;
  *              _id:
  *                type: string
  *                example: 616b9a868562c959c04a3cd1
+ *              gameName:
+ *                type: string
+ *                example: exampleGame
  *              gameId:
  *                type: string
  *                example: 616b9a868562c959c04a3cd1
- *              result:
- *                type: string
- *                example: abc
- *              roundDate:
- *                type: date
- *                example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
  *              acceptingBets:
  *                type: boolean
  *                example: true
+ *              roundDate:
+ *                type: date
+ *                example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
+ *              result:
+ *                type: string
+ *                example: abc
  *      400:
  *        description: Bad request
  *        schema:
@@ -79,7 +82,7 @@ module.exports = router;
  *    parameters:
  *      - in: path
  *        name: gameRoundId
- *        example: 616b9a868562c959c04dp871
+ *        example: 6188290d4f8d8391936dfe96
  *        description: The game round's identifier
  *    responses:
  *      200:
@@ -90,18 +93,21 @@ module.exports = router;
  *            _id:
  *              type: string
  *              example: 616b9a868562c959c04a3cd1
+ *            gameName:
+ *              type: string
+ *              example: exampleGame
  *            gameId:
  *              type: string
  *              example: 616b9a868562c959c04a3cd1
- *            result:
- *              type: string
- *              example: abc
- *            roundDate:
- *               type: date
- *               example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
  *            acceptingBets:
  *              type: boolean
  *              example: true
+ *            roundDate:
+ *               type: date
+ *               example: 2021-11-07T19:28:03.824Z
+ *            result:
+ *              type: string
+ *              example: abc
  *      400:
  *        description: Bad request
  *        schema:
