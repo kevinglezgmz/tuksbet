@@ -5,12 +5,15 @@ const { Socket } = require('socket.io');
  */
 const chatEvents = (clientSocket) => {
   clientSocket.on('new-message', (newMessage) => {
-    console.log(newMessage);
+    clientSocket.to(newMessage.chatRoomId).emit('new-message', newMessage);
   });
 
   clientSocket.on('join-room', (room) => {
-    console.log(room);
-    console.log(clientSocket.rooms);
+    clientSocket.join(room);
+  });
+
+  clientSocket.on('leave-room', (room) => {
+    clientSocket.leave(room);
   });
 };
 

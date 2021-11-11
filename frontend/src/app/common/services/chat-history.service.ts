@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ChatMessage } from '../data-types/chat-message';
+import { AuthService } from './auth.service';
 import { ParentService } from './parent.service';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { ParentService } from './parent.service';
 export class ChatHistoryService extends ParentService {
   chatHistoryEndpoint = '/chatrooms/';
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private authService: AuthService) {
     super(httpClient);
   }
 
@@ -18,7 +19,8 @@ export class ChatHistoryService extends ParentService {
   }
 
   createNewMessageInRoom(chatRoomId: string, message: ChatMessage): Promise<any> {
-    return this.create(this.chatHistoryEndpoint + chatRoomId + '/messages', message);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.create(this.chatHistoryEndpoint + chatRoomId + '/messages', message, headers);
   }
 
   deleteMessageInRoom(chatRoomId: string, messageId: string): Promise<any> {

@@ -1,4 +1,4 @@
-<div class="chat-sidebar-container">
+<div [@chatToggle]="isChatOpen ? 'opened' : 'closed'" class="chat-sidebar-container">
   <div class="chat-messages-container" (scroll)="scrollAdjustment($event)">
     <ul class="messages-list">
       <li *ngFor="let message of chatMessages">
@@ -12,6 +12,18 @@
     </ul>
   </div>
   <div class="chat-sidebar-footer">
-    <input type="text" name="message" [(ngModel)]="currentMessage" (keydown.enter)="sendMessage($event)" />
+    <input
+      type="text"
+      name="message"
+      [placeholder]="isLoggedIn ? 'Introduce un mensaje...' : 'Inicia sesión para chatear...'"
+      [(ngModel)]="currentMessage"
+      (keydown.enter)="sendMessage($event)"
+      [disabled]="!isLoggedIn"
+    />
   </div>
+  <button class="toggle-chat-button" (click)="toggleChatSidebar($event)">
+    <strong>
+      {{ isChatOpen ? '⬅' : '➡' }}
+    </strong>
+  </button>
 </div>
