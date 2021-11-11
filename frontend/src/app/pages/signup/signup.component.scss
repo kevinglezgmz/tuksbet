@@ -1,0 +1,27 @@
+.col-1 {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  form {
+    div {
+      margin: 5px;
+      input,
+      label {
+        display: block;
+      }
+      label {
+        text-align: left;
+        font-size: medium;
+      }
+      button {
+        background-color: #4c4c9d;
+        color: white;
+        font-weight: bold;
+        font-size: larger;
+        border-radius: 7px;
+        margin: 10px 0px;
+      }
+    }
+  }
+  margin: 165px 0px;
+}

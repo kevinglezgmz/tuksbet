@@ -1,0 +1,30 @@
+<div class="grid col-1">
+    <div>
+        <h1>
+            Regístrate
+        </h1>
+    <form (submit)="signUp()" [formGroup]="form">
+        <div>
+            <label for="username">Nombre de usuario</label>
+            <input type="text" name="username" placeholder="user123" required formControlName="username">
+        </div>
+        <div>
+            <label for="email">Correo electrónico</label>
+            <input type="email" name="email" placeholder="unemail@example.com" required formControlName="email">
+        </div>
+        <div>
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" placeholder="******************" required formControlName="password">
+        </div>
+        <div>
+            <label for="confirm">Confirmar contraseña</label>
+            <input type="password" name="confirm" placeholder="******************" required formControlName="confirm">
+        </div>
+        <div>
+            <button>
+                Crear cuenta
+            </button>
+        </div>
+    </form>
+    </div>
+</div>
