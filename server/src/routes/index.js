@@ -8,6 +8,7 @@ const transactionRoutes = require('./transactions');
 const userIdentityRoutes = require('./userIdentities');
 const userRoutes = require('./users');
 const sessionRoutes = require('./sessions');
+const gamesRoutes = require('./games');
 
 indexRouter.use('/bets', betRoutes);
 indexRouter.use('/chatrooms', chatRoutes);
@@ -17,5 +18,6 @@ indexRouter.use('/transactions', transactionRoutes);
 indexRouter.use('/identities', userIdentityRoutes);
 indexRouter.use('/users', userRoutes);
 indexRouter.use('/sessions', sessionRoutes);
+indexRouter.use('/games', gamesRoutes);
 
 module.exports = indexRouter;
