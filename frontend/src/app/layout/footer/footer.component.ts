@@ -13,7 +13,6 @@ export class FooterComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.getAllGames().then((games: Game[]) => {
-      console.log(games);
       this.games = games;
     })
   }
