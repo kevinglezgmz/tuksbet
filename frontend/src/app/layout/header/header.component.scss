@@ -1,8 +1,8 @@
 nav {
   display: flex;
-  justify-content: space-between;
-  background: rgb(47, 61, 69);
-  height: 100px;
+  justify-content: space-around;
+  background: rgb(119, 119, 119);
+  height: 30px;
   align-items: center;
 
   .nav-item {
@@ -11,5 +11,15 @@ nav {
       margin: 0 auto;
       display: block;
     }
+  }
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: rgb(129, 0, 0);
+
+  &:visited {
+    color: rgb(134, 24, 24);
   }
 }
