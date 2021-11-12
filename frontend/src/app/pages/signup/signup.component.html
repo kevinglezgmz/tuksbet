@@ -1,0 +1,12 @@
+<form (submit)="signUp()" [formGroup]="form" class="signup-form">
+    <h1>Regístrate</h1>
+    <label for="username">Nombre de usuario</label>
+    <input type="text" name="username" placeholder="user123" required formControlName="username">
+    <label for="email">Correo electrónico</label>
+    <input type="email" name="email" placeholder="unemail@example.com" required formControlName="email">
+    <label for="password">Contraseña</label>
+    <input type="password" name="password" placeholder="******************" required formControlName="password">
+    <label for="confirm">Confirmar contraseña</label>
+    <input type="password" name="confirm" placeholder="******************" required formControlName="confirm">
+    <button type="submit">Crear cuenta</button>
+</form>
