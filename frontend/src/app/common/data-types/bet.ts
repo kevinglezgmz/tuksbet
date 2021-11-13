@@ -1,5 +1,5 @@
 export interface Bet {
-  betId?: string;
+  _id?: string;
   userId: string;
   username: string;
   gameRoundId: string;

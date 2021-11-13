@@ -16,6 +16,7 @@ import { GameHistoryComponent } from './pages/game-history/game-history.componen
 import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { BetDetailsComponent } from './pages/bet-details/bet-details.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'gamehistory', component: GameHistoryComponent },
   { path: 'gamehistory/:gameRoundId', component: GameRoundDetailsComponent },
+  { path: 'bets/:betId', component: BetDetailsComponent },
   { path: '**', component: NotFoundComponent },
 ];
 
