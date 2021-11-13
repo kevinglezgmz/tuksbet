@@ -37,6 +37,7 @@ import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-show
 import { SignupComponent } from './pages/signup/signup.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { BetDetailsComponent } from './pages/bet-details/bet-details.component';
+import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { BetDetailsComponent } from './pages/bet-details/bet-details.component';
     GameShowcaseComponent,
     LogoutComponent,
     SignupComponent,
-    BetDetailsComponent
+    BetDetailsComponent,
+    TransactionDetailsComponent
   ],
   imports: [
     BrowserModule,

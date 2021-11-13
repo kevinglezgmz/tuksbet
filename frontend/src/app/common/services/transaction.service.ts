@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { Transaction } from '../data-types/transaction';
+import { AuthService } from './auth.service';
 import { ParentService } from './parent.service';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { ParentService } from './parent.service';
 export class TransactionService extends ParentService {
   transactionsEndpoint = '/transactions/';
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private authService: AuthService) {
     super(httpClient);
   }
 
@@ -19,7 +19,8 @@ export class TransactionService extends ParentService {
   }
 
   getTransactionDetails(transactionId: string): Promise<any> {
-    return this.get(this.transactionsEndpoint + transactionId);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.get(this.transactionsEndpoint + transactionId, headers);
   }
 
   createTransaction(transaction: Transaction): Promise<any> {
