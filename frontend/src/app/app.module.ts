@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   GoogleLoginProvider,
@@ -34,6 +34,7 @@ import { CrashHistoryComponent } from './pages/game-history/crash-history/crash-
 import { BlackjackHistoryComponent } from './pages/game-history/blackjack-history/blackjack-history.component';
 import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
 import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-showcase.component';
+import { SignupComponent } from './pages/signup/signup.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 
 @NgModule({
@@ -62,8 +63,17 @@ import { LogoutComponent } from './pages/logout/logout.component';
     GameRoundDetailsComponent,
     GameShowcaseComponent,
     LogoutComponent,
+    SignupComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule, SocialLoginModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    SocialLoginModule,
+    ReactiveFormsModule,
+  ],
   providers: [
     {
       provide: 'SocialAuthServiceConfig',

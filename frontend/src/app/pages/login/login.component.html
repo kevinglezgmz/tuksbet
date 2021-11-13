@@ -1,6 +1,6 @@
 <form class="login-form" (submit)="handleLoginSubmit($event)">
   <h3>Inicia sesión en tu cuenta</h3>
-  <h6>¿No tienes cuenta? <a routerLink="/register">Registrate</a></h6>
+  <h6>¿No tienes cuenta? <a routerLink="/signup">Registrate</a></h6>
   <input [(ngModel)]="email" type="text" name="email" placeholder="Email" />
   <input [(ngModel)]="password" type="text" name="password" placeholder="Contraseña" />
   <button type="submit">Iniciar sesión</button>

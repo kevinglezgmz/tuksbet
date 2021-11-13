@@ -15,6 +15,7 @@ import { AuthGuard } from './common/guards/auth.guard';
 import { GameHistoryComponent } from './pages/game-history/game-history.component';
 import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'users/:userId', component: UserDetailsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'gamehistory', component: GameHistoryComponent },
   { path: 'gamehistory/:gameRoundId', component: GameRoundDetailsComponent },
   { path: '**', component: NotFoundComponent },
