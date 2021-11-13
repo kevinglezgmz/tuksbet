@@ -4,6 +4,8 @@ const sessionsController = require('../controllers/sessions.controller');
 const authentication = require('../middlewares/authentication');
 
 router.post('/login', sessionsController.loginUser);
+router.post('/login/google', sessionsController.injectGoogleUser, sessionsController.loginSocialUser);
+router.post('/login/facebook', sessionsController.injectFacebookUser, sessionsController.loginSocialUser);
 router.get('/logout', authentication, sessionsController.logoutUser);
 
 module.exports = router;

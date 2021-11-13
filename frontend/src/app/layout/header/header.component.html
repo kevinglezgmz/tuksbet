@@ -1,1 +1,13 @@
-<p>header works!</p>
+<nav>
+  <span class="nav-item left-nav-section">
+    <a routerLink="/">HOME</a>
+  </span>
+  <span class="nav-item center-nav-section">
+    <div>Balance: 0</div>
+    <!-- Balance/Wallet component here -->
+  </span>
+  <span class="nav-item right-nav-section">
+    <a *ngIf="!isLoggedIn" routerLink="/login"> <button class="btn">Login</button></a>
+    <a *ngIf="isLoggedIn" routerLink="/logout"><button class="btn">Logout</button></a>
+  </span>
+</nav>

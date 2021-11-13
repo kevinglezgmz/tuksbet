@@ -67,7 +67,7 @@ module.exports = router;
  *          required:
  *            - gameName
  *          properties:
- *            GameName:
+ *            gameName:
  *              type: string
  *              example: Crash
  *    responses:

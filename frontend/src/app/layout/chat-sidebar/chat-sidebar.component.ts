@@ -52,6 +52,9 @@ export class ChatSidebarComponent implements OnInit {
 
     this.authService.isLoggedIn().subscribe((status) => {
       this.isLoggedIn = status;
+      const { username, userId } = this.authService.getUserDetails();
+      this.userId = userId || '';
+      this.username = username || '';
     });
   }
 
@@ -61,9 +64,6 @@ export class ChatSidebarComponent implements OnInit {
     });
 
     this.webSocket.listen('connect').subscribe((data) => {});
-    const { username, userId } = this.authService.getUserDetails();
-    this.userId = userId || '';
-    this.username = username || '';
 
     this.webSocket.emit('join-room', this.currentRoom);
 

@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  GoogleLoginProvider,
+  SocialLoginModule,
+  FacebookLoginProvider,
+  SocialAuthServiceConfig,
+} from 'angularx-social-login';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +34,8 @@ import { CrashHistoryComponent } from './pages/game-history/crash-history/crash-
 import { BlackjackHistoryComponent } from './pages/game-history/blackjack-history/blackjack-history.component';
 import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
 import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-showcase.component';
+import { SignupComponent } from './pages/signup/signup.component';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -54,9 +62,36 @@ import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-show
     BlackjackHistoryComponent,
     GameRoundDetailsComponent,
     GameShowcaseComponent,
+    LogoutComponent,
+    SignupComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
-  providers: [],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    SocialLoginModule,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('961252936672-rlmniuqk2sv5858v3ljbm18kqts2fc7l.apps.googleusercontent.com'),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('555113948919381'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
