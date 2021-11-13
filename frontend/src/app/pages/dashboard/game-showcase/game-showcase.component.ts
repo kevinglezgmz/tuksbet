@@ -15,7 +15,6 @@ export class GameShowcaseComponent implements OnInit {
   ngOnInit(): void {
     this.gameService.getAllGames().then((games: Game[]) => {
       this.games = games;
-      console.log(games.length);
     });
     
   }
