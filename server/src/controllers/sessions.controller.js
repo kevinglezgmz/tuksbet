@@ -46,7 +46,7 @@ class SessionsController {
       });
   }
 
-  static async loginGoogleUser(req, res) {
+  static async injectGoogleUser(req, res, next) {
     const authHeader = req.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       res.status(401).send({ err: 'Not authorized' });
@@ -64,30 +64,14 @@ class SessionsController {
       return;
     }
 
-    // Get all details from payload
+    // Get all details from payload and update social user (profileData)
     const googleUserDetails = ticket.getPayload();
-
-    const usersDb = new Database('Users');
-    const user = await usersDb.findOne({ email: googleUserDetails.email.toLowerCase() }, {});
-    if (!user) {
-      // User is not registered, register the user and log it in
-      const isUserInserted = await registerUserFromSocial(googleUserDetails);
-      const isIdentityInserted = await registerNewUserIdentity(
-        googleUserDetails,
-        isUserInserted.insertedId,
-        req.body.provider
-      );
-      // Generamos un token para el usuario
-      const sessionStatusAndToken = await createOrUpdateUserToken(getObjectId(isUserInserted.insertedId));
-      res.send({ ...sessionStatusAndToken, userId: isUserInserted.insertedId, username: googleUserDetails.name });
-    } else {
-      // User already exists, generate a new token, and log the user in
-      const sessionStatusAndToken = await createOrUpdateUserToken(user._id, googleUserDetails.name, googleUserDetails.email);
-      res.send({ ...sessionStatusAndToken, userId: user._id, username: googleUserDetails.name });
-    }
+    Object.assign(googleUserDetails, req.body.socialUser);
+    req.body.socialUser = googleUserDetails;
+    next();
   }
 
-  static async loginFacebookUser(req, res) {
+  static async injectFacebookUser(req, res, next) {
     const authHeader = req.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       res.status(401).send({ err: 'Not authorized' });
@@ -113,30 +97,31 @@ class SessionsController {
       return;
     }
 
-    // Get all details userprofile
-    const facebookUserDetails = req.body.socialUser;
+    next();
+  }
 
+  static async loginSocialUser(req, res) {
+    const socialUserDetails = req.body.socialUser;
     const usersDb = new Database('Users');
-    const user = await usersDb.findOne({ email: facebookUserDetails.email.toLowerCase() }, {});
+    const user = await usersDb.findOne({ email: socialUserDetails.email.toLowerCase() }, {});
     if (!user) {
       // User is not registered, register the user and log it in
-      const isUserInserted = await registerUserFromSocial(facebookUserDetails);
-      const isIdentityInserted = await registerNewUserIdentity(
-        facebookUserDetails,
-        isUserInserted.insertedId,
-        req.body.provider
-      );
-      // Generamos un token para el usuario
+      const isUserInserted = await registerUserFromSocial(socialUserDetails);
+      user._id = isUserInserted.insertedId;
+      user.username = socialUserDetails.name;
+      // Generate a new token for the user to authenticate with the server
       const sessionStatusAndToken = await createOrUpdateUserToken(getObjectId(isUserInserted.insertedId));
-      res.send({ ...sessionStatusAndToken, userId: isUserInserted.insertedId, username: facebookUserDetails.name });
-    } else {
-      // User already exists, generate a new token, and log the user in
-      const sessionStatusAndToken = await createOrUpdateUserToken(
-        user._id,
-        facebookUserDetails.name,
-        facebookUserDetails.email
-      );
-      res.send({ ...sessionStatusAndToken, userId: user._id, username: facebookUserDetails.name });
+      res.send({ ...sessionStatusAndToken, userId: isUserInserted.insertedId, username: socialUserDetails.name });
+    }
+
+    try {
+      // Associate the user identity with the user's id
+      const isIdentityInserted = await registerOrUpdateUserIdentity(socialUserDetails, user._id, req.body.provider);
+      // Generate a new token, and log the user in
+      const sessionStatusAndToken = await createOrUpdateUserToken(user._id, socialUserDetails.name, socialUserDetails.email);
+      res.send({ ...sessionStatusAndToken, userId: user._id, username: user.username });
+    } catch (err) {
+      res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
     }
   }
 
@@ -152,7 +137,7 @@ class SessionsController {
         }
       })
       .catch((err) => {
-        res.status(500).send({ err: 'Unexpected error, please try again' });
+        res.status(500).send({ err: 'Unexpected error, please try again' + err });
       });
   }
 }
@@ -167,21 +152,22 @@ function registerUserFromSocial(userAuthDetails) {
   return usersDb.insertOne(userToInsert);
 }
 
-function registerNewUserIdentity(profileData, userId, provider) {
+function registerOrUpdateUserIdentity(profileData, userId, provider) {
   const userIdentitiesDb = new Database('UserIdentities');
-  return userIdentitiesDb.insertOne({ profileData, userId, provider: provider.toLowerCase() });
+  return userIdentitiesDb.insertOrUpdateOne(
+    { userId: getObjectId(userId.toString()), provider: provider.toLowerCase() },
+    { $set: { profileData, userId, provider: provider.toLowerCase() } },
+    { upsert: true }
+  );
 }
 
 function createOrUpdateUserToken(userId, username, email) {
   const token = jwt.sign({ userId: userId.toString(), username, email }, SECRET_JWT);
   const sessionsDb = new Database('Sessions');
-  if (typeof userId === 'string') {
-    userId = getObjectId(userId);
-  }
   return new Promise((success, reject) => {
     sessionsDb
       .insertOrUpdateOne(
-        { userId },
+        { userId: getObjectId(userId.toString()) },
         {
           $set: {
             token,

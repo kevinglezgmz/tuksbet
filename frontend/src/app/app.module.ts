@@ -34,6 +34,7 @@ import { CrashHistoryComponent } from './pages/game-history/crash-history/crash-
 import { BlackjackHistoryComponent } from './pages/game-history/blackjack-history/blackjack-history.component';
 import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
 import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-showcase.component';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -60,13 +61,14 @@ import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-show
     BlackjackHistoryComponent,
     GameRoundDetailsComponent,
     GameShowcaseComponent,
+    LogoutComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule, SocialLoginModule],
   providers: [
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
-        autoLogin: true, //keeps the user signed in
+        autoLogin: false,
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
