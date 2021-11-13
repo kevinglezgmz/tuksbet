@@ -1,4 +1,12 @@
+@import '../variables';
+
 .main-content {
-  margin-left: 400px;
+  margin-top: $header-height;
+  margin-left: 25px;
   margin-right: 25px;
+}
+
+.chat-sidebar {
+  min-height: calc(100vh - $header-height);
+  max-height: calc(100vh - $header-height);
 }

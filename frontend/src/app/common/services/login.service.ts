@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SocialUser } from 'angularx-social-login';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -20,5 +21,25 @@ export class LoginService {
     const logoutUrl = this.url + '/logout';
     const headers: HttpHeaders = this.authService.getAuthHeader();
     return this.httpClient.get(logoutUrl, { headers }).toPromise();
+  }
+
+  loginWithSocialNetwork(socialUser: SocialUser): Promise<{ token: string; userId: string; username: string }> {
+    let token = '';
+    switch (socialUser.provider) {
+      case 'GOOGLE':
+        token = socialUser.idToken;
+        break;
+      case 'FACEBOOK':
+        token = socialUser.authToken;
+        break;
+    }
+    const headers = new HttpHeaders({ ['Authorization']: ['Bearer ' + token] });
+    return this.httpClient
+      .post<{ token: string; userId: string; username: string }>(
+        this.url + '/login/' + socialUser.provider.toLowerCase(),
+        { provider: socialUser.provider, socialUser },
+        { headers }
+      )
+      .toPromise();
   }
 }
