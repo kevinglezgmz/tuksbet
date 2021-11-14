@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div [@chatToggle]="isChatOpen ? 'opened' : 'closed'" class="main-content">
-  <router-outlet></router-outlet>
-  <app-footer></app-footer>
+  <router-outlet class="page-div"></router-outlet>
+  <app-footer class="page-footer"></app-footer>
 </div>
 <div class="chat-sidebar">
   <app-chat-sidebar></app-chat-sidebar>

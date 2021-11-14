@@ -67,7 +67,7 @@ import { TransactionDetailsComponent } from './pages/transaction-details/transac
     LogoutComponent,
     SignupComponent,
     BetDetailsComponent,
-    TransactionDetailsComponent
+    TransactionDetailsComponent,
   ],
   imports: [
     BrowserModule,
