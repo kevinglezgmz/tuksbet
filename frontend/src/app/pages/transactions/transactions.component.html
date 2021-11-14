@@ -1,6 +1,7 @@
 <table class="transactions-container">
   <thead>
     <tr>
+      <th>TRANSACCIÓN</th>
       <th>USUARIO</th>
       <th>FECHA</th>
       <th>MONTO</th>
@@ -10,6 +11,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let transaction of transactions">
+      <td>
+        <a routerLink="/transactions/{{ transaction._id }}">{{ transaction._id }}</a>
+      </td>
       <td>
         <a routerLink="/users/{{ transaction.userId }}">{{ transaction.username }}</a>
       </td>
