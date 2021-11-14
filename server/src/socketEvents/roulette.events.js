@@ -65,16 +65,20 @@ function waitForRoundToStart(cbStartRound) {
   }, 200);
 
   if (rouletteCurrentStatus.nextRollIdx >= rouletteCurrentStatus.rollArray.length - 1) {
-    axios
-      .get('https://www.random.org/integers/?num=200&min=0&max=14&col=1&base=10&format=plain&rnd=new', {
-        headers: {
-          'User-Agent': process.env.request_email | 'tuksbet@gmail.com',
-        },
-      })
-      .then((res) => {
-        rouletteCurrentStatus.rollArray = res.data.split('\n').map((num) => parseInt(num));
-        rouletteCurrentStatus.nextRollIdx = 0;
-      });
+    if (process.env.enviroment === 'production') {
+      axios
+        .get('https://www.random.org/integers/?num=200&min=0&max=14&col=1&base=10&format=plain&rnd=new', {
+          headers: {
+            'User-Agent': process.env.request_email | 'tuksbet@gmail.com',
+          },
+        })
+        .then((res) => {
+          rouletteCurrentStatus.rollArray = res.data.split('\n').map((num) => parseInt(num));
+        });
+    } else {
+      rouletteCurrentStatus.rollArray = Array.from({ length: 100 }, () => Math.floor(Math.random() * 14.9999));
+    }
+    rouletteCurrentStatus.nextRollIdx = 0;
   }
 
   setTimeout(() => {
