@@ -1,0 +1,13 @@
+<div class="transaction-details-container" *ngIf="transaction">
+    <h1>Información de transacción: {{ transactionId }}</h1>
+    <div class="main-info">
+      <p>Fecha: {{ transaction!.transactionDate | date: 'short'}}</p>
+      <p>Cantidad: ${{ transaction!.amount }}</p>
+      <p>Estatus: {{ transaction!.status }}</p>
+      <p>Depósito: {{ transaction!.isDeposit ?  'Sí' : 'No'}}</p>
+    </div>
+</div>
+
+<div *ngIf="transaction === undefined">
+    <h1>Información de transacción no encontrada</h1>
+</div>

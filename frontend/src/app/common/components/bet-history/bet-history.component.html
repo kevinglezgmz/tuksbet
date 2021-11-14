@@ -4,6 +4,7 @@
       <th>JUEGO</th>
       <th>USUARIO</th>
       <th>FECHA</th>
+      <th>ID</th>
       <th>APUESTA</th>
       <th>MULT</th>
       <th>GANANCIA</th>
@@ -18,6 +19,9 @@
         <a routerLink="/users/{{ bet.userId }}">{{ bet.username }}</a>
       </td>
       <td>{{ bet.betDate | date: 'short' }}</td>
+      <td>
+        <a routerLink="/bets/{{ bet._id }}">{{ bet._id }}</a>
+      </td>
       <td>${{ bet.betAmount | number: '1.2-2' }}</td>
       <td>{{ (bet.betPayout || 0) / bet.betAmount | number: '1.2-2' }}x</td>
       <td>${{ bet.betPayout || 0 | number: '1.2-2' }}</td>

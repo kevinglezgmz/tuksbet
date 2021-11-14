@@ -19,3 +19,8 @@
   min-height: calc(100vh - $header-height);
   max-height: calc(100vh - $header-height);
 }
+
+.chat-sidebar {
+  min-height: calc(100vh - $header-height);
+  max-height: calc(100vh - $header-height);
+}
