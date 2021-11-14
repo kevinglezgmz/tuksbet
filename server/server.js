@@ -67,9 +67,9 @@ MongoClient.connect(
         },
       });
 
-      const mainEventHandler = require('./src/socketEvents');
+      const setMainSocketInstance = require('./src/socketEvents');
       /** Event handlers for real time communication */
-      io.on('connection', mainEventHandler);
+      setMainSocketInstance(io);
 
       server.listen(PORT, () => {
         console.log('Server listening on port:', PORT, 'http://localhost:' + PORT);

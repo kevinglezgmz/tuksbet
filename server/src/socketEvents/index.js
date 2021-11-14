@@ -1,13 +1,15 @@
 const { Socket } = require('socket.io');
 
 /** Events */
-const chatEvents = require('./chat.events');
+const initChatEventsSocket = require('./chat.events');
+const initRouletteEventsSocket = require('./roulette.events');
 
 /**
- * @param { Socket } clientSocket
+ * @param { Socket } ioSocket
  */
-const mainEventHandler = (clientSocket) => {
-  chatEvents(clientSocket);
-};
+function setMainSocketInstance(ioSocket) {
+  initChatEventsSocket(ioSocket);
+  initRouletteEventsSocket(ioSocket);
+}
 
-module.exports = mainEventHandler;
+module.exports = setMainSocketInstance;
