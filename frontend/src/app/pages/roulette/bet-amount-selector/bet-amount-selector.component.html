@@ -1,0 +1,14 @@
+<div class="amount-input">
+  <input type="text" [(ngModel)]="internalBetAmount" (blur)="onBlur($event)" />
+</div>
+<div class="amount-buttons">
+  <button (click)="clearAmount($event)">BORRAR</button>
+  <button (click)="addAmount($event, 0.5)">+$0.50</button>
+  <button (click)="addAmount($event, 1)">+$1</button>
+  <button (click)="addAmount($event, 5)">+$5</button>
+  <button (click)="addAmount($event, 25)">+$25</button>
+  <button (click)="addAmount($event, 100)">+$100</button>
+  <button (click)="addAmount($event, -internalBetAmount / 2)">1/2</button>
+  <button (click)="addAmount($event, internalBetAmount)">X2</button>
+  <button (click)="setAmountToMax($event)">MAX</button>
+</div>

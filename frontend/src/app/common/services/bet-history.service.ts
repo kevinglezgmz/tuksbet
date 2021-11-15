@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Bet } from '../data-types/bet';
+import { AuthService } from './auth.service';
 import { ParentService } from './parent.service';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { ParentService } from './parent.service';
 export class BetHistoryService extends ParentService {
   betsEndpoint = '/bets/';
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private authService: AuthService) {
     super(httpClient);
   }
 
@@ -22,7 +23,8 @@ export class BetHistoryService extends ParentService {
   }
 
   createBet(bet: Bet): Promise<any> {
-    return this.create(this.betsEndpoint, bet);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.create(this.betsEndpoint, bet, headers);
   }
 
   deleteBet(betId: string): Promise<any> {

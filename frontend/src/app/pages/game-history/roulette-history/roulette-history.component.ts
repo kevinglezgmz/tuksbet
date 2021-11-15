@@ -14,7 +14,6 @@ export class RouletteHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.gameRoundService.getAllGameRounds().then((gamerounds: GameRound[]) => {
       this.gamerounds = gamerounds.filter((gameround) => gameround.gameName === 'Roulette').reverse();
-      console.log(this.gamerounds);
     });
   }
 }

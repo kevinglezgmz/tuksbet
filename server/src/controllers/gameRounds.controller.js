@@ -91,7 +91,7 @@ class GameRoundsController {
     gameRoundsDb
       .insertOne(gameRoundToInsert)
       .then((result) => {
-        res.status(201).send({ result });
+        res.status(201).send(result);
       })
       .catch((err) => {
         res.status(500).send({ err: 'Unexpected error ocurred, please try again' });

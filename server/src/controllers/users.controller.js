@@ -43,7 +43,12 @@ class UsersController {
       .findOne({ _id: getObjectId(req.params.userId) }, {})
       .then((user) => {
         if (user) {
-          const userData = { userId: user._id, username: user.username, email: user.email, balance: user.balance };
+          const userData = {
+            userId: user._id,
+            username: user.username,
+            email: user.email,
+            balance: user.balance.toString(),
+          };
           res.status(200).send(userData);
         } else {
           res.status(400).send({ err: 'User ' + req.params.userId + ' does not exist' });

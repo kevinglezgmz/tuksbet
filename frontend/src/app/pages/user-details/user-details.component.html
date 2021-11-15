@@ -8,7 +8,7 @@
     <div class="details">
       <p>Cuenta: {{ user.username }}</p>
       <p>Correo: {{ user.email }}</p>
-      <p>Saldo: {{ user.balance }}</p>
+      <p>Saldo: ${{ user.balance || 0 | number: '1.2-2' }}</p>
     </div>
   </div>
 </div>

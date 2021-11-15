@@ -1,0 +1,14 @@
+<button
+  (click)="onClickBet($event)"
+  class="{{ bettingColor === 'red' ? 'red-btn' : bettingColor === 'green' ? 'green-btn' : 'black-btn' }} betting-btn"
+>
+  {{ bettingColor === 'red' ? '1 a 7' : bettingColor === 'green' ? '0' : '8 a 14' }}
+</button>
+<div class="current-bets-container">
+  <div class="bet-entry" *ngFor="let bet of currentBets">
+    <div class="bet-entry-user">{{ bet.username }}</div>
+    <div class="bet-entry-amount">
+      <p>${{ bet.betAmount | number: '1.2-2' }}</p>
+    </div>
+  </div>
+</div>

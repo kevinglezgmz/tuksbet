@@ -24,7 +24,6 @@ export class GameRoundDetailsComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.gameRoundId = params.gameRoundId;
       this.gameRoundService.getGameRoundDetails(this.gameRoundId).then((gameRound: GameRound) => {
-        console.log(gameRound);
         this.gameRound = gameRound;
       });
       this.betHistory.getAllBets().then((bets: Bet[]) => {
