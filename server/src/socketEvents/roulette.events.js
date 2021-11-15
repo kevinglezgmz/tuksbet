@@ -94,7 +94,7 @@ function waitForRoundToStart(cbStartRoundForClients) {
 
 function waitForRoundToStartDevelopment(cbStartRoundForClientsDevelopment) {
   rouletteCurrentStatus.currentGameRoundId = 'DEV';
-  startClientRound();
+  startClientRound('DEV');
   const waitingRollInterval = startInternalCountdown();
   checkAndUpdateResultsArray();
   setTimeout(() => {
