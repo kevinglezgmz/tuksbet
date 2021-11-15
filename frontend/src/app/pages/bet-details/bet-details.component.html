@@ -1,10 +1,10 @@
-<div class="bet-details-container">
-    <h1>Información de apuesta: {{ betId }}</h1>
-    <div class="main-info">
-      <p>Id del juego: {{ bet!.gameRoundId }}</p>
-      <p>Fecha: {{ bet!.betDate | date: 'short'}}</p>
-      <p>Apuesta: {{ bet!.betStake }}</p>
-      <p>Monto de la apuesta: ${{ bet!.betAmount }}</p>
-      <p>Ganancia: {{ bet!.betPayout }}</p>
-    </div>
+<div *ngIf="bet" class="bet-details-container">
+  <h1>Información de apuesta: {{ betId }}</h1>
+  <div class="main-info">
+    <p>Id del juego: {{ bet!.gameRoundId }}</p>
+    <p>Fecha: {{ bet!.betDate | date: 'short' }}</p>
+    <p>Apuesta: {{ bet!.betStake }}</p>
+    <p>Monto de la apuesta: ${{ bet!.betAmount }}</p>
+    <p>Ganancia: {{ bet!.betPayout }}</p>
+  </div>
 </div>

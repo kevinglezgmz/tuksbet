@@ -123,6 +123,11 @@ class BetsController {
       return;
     }
 
+    if (isNaN(Number(betData.betAmount)) || Number(betData.betAmount) <= 0) {
+      res.status(400).send({ err: 'BetAmount can only be a positive number' });
+      return;
+    }
+
     /** Before accepting the bet we need to verify the current game is accepting bets and the user has the remaining balance*/
     try {
       const { user, gameRoundData } = await retrieveUserAndGameRound(betData);
@@ -198,15 +203,16 @@ class BetsController {
     const { gameRoundId } = req.body;
     try {
       const gameRoundsDb = new Database('GameRounds');
-      const betsDb = new Database('BetHistory');
       /** @type { GameRound } */
       const gameRoundData = await gameRoundsDb.findOne({ _id: getObjectId(gameRoundId) }, {});
-      if (!gameRoundData.result) {
-        throw 'Unexpected error, please try again';
+      if (typeof gameRoundData.result !== 'string') {
+        throw 'This game round has not ended';
       }
 
+      const betsDb = new Database('BetHistory');
       /** @type { BetHistory[] } */
-      const betsMadeInGameRound = await betsDb.find({ gameRoundId: getObjectId(gameRoundId) }, {}).toArray();
+      const betsMadeInGameRoundCursor = await betsDb.find({ gameRoundId: getObjectId(gameRoundId) }, {});
+      const betsMadeInGameRound = await betsMadeInGameRoundCursor.toArray();
       if (betsMadeInGameRound.length === 0) {
         res.status(400).send({ err: 'No bets were made in this game round' });
         return;
@@ -216,13 +222,15 @@ class BetsController {
       const game = gameRoundData.result.split('-')[0];
       switch (game) {
         case 'roulette':
+          const winningColor = gameRoundData.result.split('-')[1];
+          const gameRoundResult = game + '-' + winningColor;
           betsMadeInGameRound.forEach((bet) => {
-            if (bet.betStake === gameRoundData.result && gameRoundData.result === 'roulette-green') {
+            if (bet.betStake === gameRoundResult && gameRoundResult === 'roulette-green') {
               bet.betPayout = bet.betAmount * 14;
-            } else if (bet.betStake === gameRoundData.result) {
+            } else if (bet.betStake === gameRoundResult) {
               bet.betPayout = bet.betAmount * 2;
             } else {
-              bet.betPayout = betAmount * -1;
+              bet.betPayout = bet.betAmount * -1;
             }
           });
           break;
@@ -256,17 +264,22 @@ class BetsController {
           break;
       }
 
+      const promisesArray = [];
       /** We now have the bets updated, we need to update them and update the user's balances */
-      const betPromises = betsMadeInGameRound.map((bet) => betsDb.updateOne({ _id: getObjectId(bet._id) }, { $set: bet }));
+      betsMadeInGameRound.forEach((bet) =>
+        promisesArray.push(betsDb.updateOne({ _id: getObjectId(bet._id) }, { $set: bet }))
+      );
       const usersDb = new Database('Users');
-      const usersPromises = betsMadeInGameRound.map(async (bet) =>
-        usersDb.updateOne({ _id: getObjectId(bet.userId) }, { $inc: { balance: bet.betPayout <= 0 ? 0 : bet.betPayout } })
+      betsMadeInGameRound.forEach((bet) =>
+        promisesArray.push(
+          usersDb.updateOne({ _id: getObjectId(bet.userId) }, { $inc: { balance: bet.betPayout <= 0 ? 0 : bet.betPayout } })
+        )
       );
 
-      await Promise.all(...betPromises, ...usersPromises);
+      await Promise.all(promisesArray);
       res.send({ msg: 'Bets and users updated successfully' });
     } catch (err) {
-      res.status(500).send({ err: 'Unexpected error, please try again' });
+      res.status(500).send({ err: err ? err : 'Unexpected error, please try again' });
     }
   }
 

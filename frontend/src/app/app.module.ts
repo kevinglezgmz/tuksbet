@@ -38,6 +38,9 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { BetDetailsComponent } from './pages/bet-details/bet-details.component';
 import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
+import { NDecimalPlacesDirective } from './common/directives/n-decimal-places.directive';
+import { BettingSlotComponent } from './pages/roulette/betting-slot/betting-slot.component';
+import { BetAmountSelectorComponent } from './pages/roulette/bet-amount-selector/bet-amount-selector.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +71,9 @@ import { TransactionDetailsComponent } from './pages/transaction-details/transac
     SignupComponent,
     BetDetailsComponent,
     TransactionDetailsComponent,
+    NDecimalPlacesDirective,
+    BettingSlotComponent,
+    BetAmountSelectorComponent,
   ],
   imports: [
     BrowserModule,

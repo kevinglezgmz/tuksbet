@@ -1,6 +1,11 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { BetHistoryService } from 'src/app/common/services/bet-history.service';
+import { Bet } from 'src/app/common/data-types/bet';
+import { AuthService } from 'src/app/common/services/auth.service';
 
 @Component({
   selector: 'app-roulette',
@@ -47,16 +52,21 @@ import { WebSocketService } from 'src/app/common/services/web-socket.service';
   styleUrls: ['./roulette.component.scss'],
 })
 export class RouletteComponent implements OnInit, AfterViewInit {
+  isLoggedIn: boolean = false;
+
   rouletteLength: number[] = [0, 1, 2, 3, 4, 5, 6, 7];
   order: number[] = [1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8];
   animationTime: number = 6;
   landingPosition: number = 0;
   activateRoll: boolean = false;
   winningRoll: number | undefined = undefined;
-
   lastRoll: number = 0;
-
   counter: number = 0;
+  currentGameRoundId: string = '';
+  currentRoundBets: Bet[] = [];
+
+  /** Parent property to know the bet amount typed */
+  betAmount: number = 0;
 
   /** Local properties needed to calculate the landing position */
   private cardWidth: number = 0;
@@ -70,23 +80,50 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     this.webSocket.emit('join-roulette-game', undefined);
   }
 
-  constructor(private webSocket: WebSocketService) {
+  /** Destroy observables when we leave the page */
+  private unsubscribe: Subject<void> = new Subject<void>();
+
+  constructor(private webSocket: WebSocketService, private betService: BetHistoryService, private authService: AuthService) {
     this.webSocket.emit('join-roulette-game', undefined);
 
-    this.webSocket.listen('roulette-game-roll').subscribe((roll) => {
-      this.spinWheel(roll);
-    });
+    this.webSocket
+      .listen('roulette-game-roll')
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((roll) => {
+        this.spinWheel(roll);
+      });
 
-    this.webSocket.listen('roulette-game-timer').subscribe((timerSeconds) => {
-      this.startCounter(timerSeconds);
-    });
+    this.webSocket
+      .listen('roulette-game-round-start')
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(({ timerCountown, currentGameRoundId }) => {
+        this.startCounter(timerCountown);
+        this.currentGameRoundId = currentGameRoundId;
+      });
 
-    this.webSocket.listen('roulette-game-status').subscribe((data) => {
-      this.syncWithServer(data);
+    this.webSocket
+      .listen('roulette-game-status')
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((data) => {
+        this.syncWithServer(data);
+      });
+
+    this.authService.isLoggedIn().subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this should be temporary, we need an endpoint to filter bets by gameroundid (query parameter)
+    this.betService.getAllBets().then((bets: Bet[]) => {
+      this.currentRoundBets = bets.filter((bet) => bet.gameRoundId === this.currentGameRoundId);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.unsubscribe();
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -141,11 +178,14 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     currentTimer,
     isRolling,
     lastRoll,
+    currentGameRoundId,
   }: {
     currentTimer: number;
     isRolling: boolean;
     lastRoll: number;
+    currentGameRoundId: string;
   }) {
+    this.currentGameRoundId = currentGameRoundId;
     this.startCounter(currentTimer);
     // Game is in sync and currently rolling, no need to do anything
     if (this.activateRoll) {
@@ -160,5 +200,9 @@ export class RouletteComponent implements OnInit, AfterViewInit {
       this.spinWheel(lastRoll);
     }
     this.animationTime = tempAnimationTime;
+  }
+
+  setBetAmount(event: number) {
+    this.betAmount = event;
   }
 }

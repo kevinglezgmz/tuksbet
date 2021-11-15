@@ -67,11 +67,10 @@ MongoClient.connect(
         },
       });
 
-      const setMainSocketInstance = require('./src/socketEvents');
-      /** Event handlers for real time communication */
-      setMainSocketInstance(io);
-
       server.listen(PORT, () => {
+        const setMainSocketInstance = require('./src/socketEvents');
+        /** Event handlers for real time communication */
+        setMainSocketInstance(io);
         console.log('Server listening on port:', PORT, 'http://localhost:' + PORT);
       });
     }
