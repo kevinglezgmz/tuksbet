@@ -2,11 +2,9 @@
   <div class="chat-messages-container" (scroll)="scrollAdjustment($event)">
     <ul class="messages-list">
       <li *ngFor="let message of chatMessages">
-        <div *ngIf="roles.includes('Moderator')">
-          <button class="delete-msg-button" (click)="deleteMessage($event, message._id!)">
-            <strong> ❌ </strong>
-          </button>
-        </div>
+        <button class="delete-msg-button" (click)="deleteMessage($event, message._id!)">
+          <strong> ❌ </strong>
+        </button>
         <span
           ><a routerLink="/users/{{ message.userId }}"> {{ message.username }}: </a></span
         >
