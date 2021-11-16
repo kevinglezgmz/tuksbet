@@ -52,8 +52,18 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  private loginSuccess({ token, userId, username }: { token: string; userId: string; username: string }): void {
-    this.authService.saveUserDetails({ token, userId, username });
+  private loginSuccess({
+    token,
+    userId,
+    username,
+    roles,
+  }: {
+    token: string;
+    userId: string;
+    username: string;
+    roles: string;
+  }): void {
+    this.authService.saveUserDetails({ token, userId, username, roles });
     this.router.navigate(['']);
   }
 }

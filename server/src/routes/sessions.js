@@ -44,15 +44,18 @@ module.exports = router;
  *            statusInsert:
  *              type: boolean
  *              example: true
+ *            token:
+ *              type: string
+ *              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTdlZmMxMDFkYzRjMGIwMDVhODMxZDAiLCJ1c2VybmFtZSI6InVzdWFyaW9OdWV2byIsImVtYWlsIjoibmV3TWFpbEBtYWlsLmNvbSIsImlhdCI6MTYzNTcyMDIzM30.sJbwN2PrHKaRRY2_eJNfu0ccjJy1Uw2G-tSfmuNsraM
  *            userId:
  *              type: string
  *              example: 6188290d4f8d8391936dfe96
  *            username:
  *              type: string
  *              example: exampleUser
- *            token:
+ *            roles:
  *              type: string
- *              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTdlZmMxMDFkYzRjMGIwMDVhODMxZDAiLCJ1c2VybmFtZSI6InVzdWFyaW9OdWV2byIsImVtYWlsIjoibmV3TWFpbEBtYWlsLmNvbSIsImlhdCI6MTYzNTcyMDIzM30.sJbwN2PrHKaRRY2_eJNfu0ccjJy1Uw2G-tSfmuNsraM
+ *              example: User
  *      400:
  *        description: Bad request
  *        schema:
@@ -225,4 +228,3 @@ module.exports = router;
  *              type: string
  *              example: Unexpected error ocurred, please try again
  */
-

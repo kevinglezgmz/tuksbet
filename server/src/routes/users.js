@@ -34,6 +34,9 @@ module.exports = router;
  *              username:
  *                type: string
  *                example: exampleUser123
+ *              roles:
+ *                type: string
+ *                example: User
  *              email:
  *                type: string
  *                example: "example@example.com"
@@ -89,6 +92,9 @@ module.exports = router;
  *            username:
  *              type: string
  *              example: exampleUser123
+ *            roles:
+ *               type: string
+ *               example: User
  *            email:
  *              type: string
  *              example: "example@example.com"

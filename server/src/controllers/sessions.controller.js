@@ -39,7 +39,7 @@ class SessionsController {
         });
       })
       .then(({ statusInsert, token, user }) => {
-        res.status(200).send({ statusInsert, token, userId: user._id, username: user.username });
+        res.status(200).send({ statusInsert, token, userId: user._id, username: user.username, roles: user.roles });
       })
       .catch(({ statusCode, msg }) => {
         res.status(statusCode).send({ err: msg });
@@ -111,7 +111,12 @@ class SessionsController {
       user.username = socialUserDetails.name;
       // Generate a new token for the user to authenticate with the server
       const sessionStatusAndToken = await createOrUpdateUserToken(getObjectId(isUserInserted.insertedId));
-      res.send({ ...sessionStatusAndToken, userId: isUserInserted.insertedId, username: socialUserDetails.name });
+      res.send({
+        ...sessionStatusAndToken,
+        userId: isUserInserted.insertedId,
+        username: socialUserDetails.name,
+        roles: socialUserDetails.roles,
+      });
     }
 
     try {
@@ -119,7 +124,7 @@ class SessionsController {
       const isIdentityInserted = await registerOrUpdateUserIdentity(socialUserDetails, user._id, req.body.provider);
       // Generate a new token, and log the user in
       const sessionStatusAndToken = await createOrUpdateUserToken(user._id, socialUserDetails.name, socialUserDetails.email);
-      res.send({ ...sessionStatusAndToken, userId: user._id, username: user.username });
+      res.send({ ...sessionStatusAndToken, userId: user._id, username: user.username, roles: user.roles });
     } catch (err) {
       res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
     }
@@ -148,6 +153,7 @@ function registerUserFromSocial(userAuthDetails) {
     email: userAuthDetails.email,
     username: userAuthDetails.name,
     balance: 0,
+    roles: 'User',
   };
   return usersDb.insertOne(userToInsert);
 }

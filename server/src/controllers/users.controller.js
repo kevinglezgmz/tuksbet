@@ -22,7 +22,7 @@ class UsersController {
           res.status(400).send({ msg: 'No users found!' });
         } else {
           const filteredUsersData = results.map((user) => {
-            return { userId: user._id, username: user.username, email: user.email };
+            return { userId: user._id, username: user.username, roles: user.roles, email: user.email };
           });
           res.status(200).send(filteredUsersData);
         }
@@ -46,6 +46,7 @@ class UsersController {
           const userData = {
             userId: user._id,
             username: user.username,
+            roles: user.roles,
             email: user.email,
             balance: user.balance.toString(),
           };
@@ -72,6 +73,7 @@ class UsersController {
     const userToInsert = {
       username: userData.username,
       email: userData.email.toLowerCase(),
+      roles: 'User',
       password: hash,
       balance: 0.0,
     };
