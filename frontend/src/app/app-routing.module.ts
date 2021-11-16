@@ -18,6 +18,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { BetDetailsComponent } from './pages/bet-details/bet-details.component';
 import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
+import { NoAuthGuard } from './common/guards/no-auth.guard';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -30,9 +31,9 @@ const routes: Routes = [
   { path: 'transactions/:transactionId', component: TransactionDetailsComponent, canActivate: [AuthGuard] },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'users/:userId', component: UserDetailsComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
-  { path: 'logout', component: LogoutComponent },
-  { path: 'signup', component: SignupComponent },
+  { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
+  { path: 'signup', component: SignupComponent, canActivate: [NoAuthGuard] },
   { path: 'gamehistory', component: GameHistoryComponent },
   { path: 'gamehistory/:gameRoundId', component: GameRoundDetailsComponent },
   { path: 'bets/:betId', component: BetDetailsComponent },
