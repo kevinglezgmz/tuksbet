@@ -2,7 +2,7 @@
   <div class="chat-messages-container" (scroll)="scrollAdjustment($event)">
     <ul class="messages-list">
       <li *ngFor="let message of chatMessages">
-        <button class="delete-msg-button" (click)="deleteMessage($event, message._id!)">
+        <button *ngIf="roles.includes('Moderator')" class="delete-msg-button" (click)="deleteMessage($event, message._id!)">
           <strong> ❌ </strong>
         </button>
         <span
