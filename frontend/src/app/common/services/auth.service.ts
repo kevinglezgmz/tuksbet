@@ -12,14 +12,14 @@ export class AuthService {
     this.loginStatus.next(!!this.getToken());
   }
 
-  saveUserDetails(userDetails: { token: string; userId: string; username: string }) {
+  saveUserDetails(userDetails: { token: string; userId: string; username: string; roles: string }) {
     localStorage.setItem('userDetails', JSON.stringify(userDetails));
     this.loginStatus.next(true);
   }
 
-  getUserDetails(): { username: string | undefined; userId: string | undefined } {
-    const { username, userId } = JSON.parse(localStorage.getItem('userDetails') || '{}');
-    return { username, userId };
+  getUserDetails(): { username: string | undefined; userId: string | undefined; roles: string | undefined } {
+    const { username, userId, roles } = JSON.parse(localStorage.getItem('userDetails') || '{}');
+    return { username, userId, roles };
   }
 
   getToken(): string {

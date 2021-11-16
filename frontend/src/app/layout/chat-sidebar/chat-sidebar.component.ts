@@ -36,6 +36,7 @@ export class ChatSidebarComponent implements OnInit {
 
   isChatOpen: boolean = true;
   isLoggedIn: boolean = false;
+  roles: string = '';
 
   private username: string = '';
   private userId: string = '';
@@ -52,9 +53,10 @@ export class ChatSidebarComponent implements OnInit {
 
     this.authService.isLoggedIn().subscribe((status) => {
       this.isLoggedIn = status;
-      const { username, userId } = this.authService.getUserDetails();
+      const { username, userId, roles } = this.authService.getUserDetails();
       this.userId = userId || '';
       this.username = username || '';
+      this.roles = roles || '';
     });
   }
 
@@ -69,6 +71,10 @@ export class ChatSidebarComponent implements OnInit {
 
     this.webSocket.listen('new-message').subscribe((newMessage: ChatMessage) => {
       this.addNewMessage(newMessage);
+    });
+
+    this.webSocket.listen('deleted-message').subscribe((deleted: ChatMessage) => {
+      this.deleteMessageUsers(deleted._id);
     });
   }
 
@@ -86,6 +92,7 @@ export class ChatSidebarComponent implements OnInit {
     /** First we try to save it in the DB, then we send it to the other users */
     this.chatHistory.createNewMessageInRoom(newMessage.chatRoomId!, newMessage).then(({ status }) => {
       if (status.acknowledged) {
+        newMessage._id = status.insertedId;
         this.addNewMessage(newMessage);
         this.webSocket.emit('new-message', newMessage);
         this.currentMessage = '';
@@ -113,5 +120,24 @@ export class ChatSidebarComponent implements OnInit {
     } else {
       this.chatStatusService.chatOpen();
     }
+  }
+
+  deleteMessageUsers(msgId: string | undefined) {
+    return this.chatMessages.splice(
+      this.chatMessages.findIndex((msg) => msg._id === msgId),
+      1
+    );
+  }
+
+  deleteMessage(event: MouseEvent, msgId: string) {
+    this.chatHistory
+      .deleteMessageInRoom(this.currentRoom, msgId)
+      .then((msg) => {
+        const [deletedMsg] = this.deleteMessageUsers(msgId);
+        this.webSocket.emit('deleted-message', deletedMsg);
+      })
+      .catch((err) => {
+        console.log('Hubo un problema en la eliminación del mensaje');
+      });
   }
 }

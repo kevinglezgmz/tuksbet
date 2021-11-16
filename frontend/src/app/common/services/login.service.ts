@@ -23,7 +23,9 @@ export class LoginService {
     return this.httpClient.get(logoutUrl, { headers }).toPromise();
   }
 
-  loginWithSocialNetwork(socialUser: SocialUser): Promise<{ token: string; userId: string; username: string }> {
+  loginWithSocialNetwork(
+    socialUser: SocialUser
+  ): Promise<{ token: string; userId: string; username: string; roles: string }> {
     let token = '';
     switch (socialUser.provider) {
       case 'GOOGLE':
@@ -35,7 +37,7 @@ export class LoginService {
     }
     const headers = new HttpHeaders({ ['Authorization']: ['Bearer ' + token] });
     return this.httpClient
-      .post<{ token: string; userId: string; username: string }>(
+      .post<{ token: string; userId: string; username: string; roles: string }>(
         this.url + '/login/' + socialUser.provider.toLowerCase(),
         { provider: socialUser.provider, socialUser },
         { headers }

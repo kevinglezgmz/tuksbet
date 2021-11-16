@@ -21,6 +21,11 @@ function chatEvents(clientSocket) {
     clientSocket.to(newMessage.chatRoomId).emit('new-message', newMessage);
   });
 
+  clientSocket.on('deleted-message', (deletedMessage) => {
+    console.log(deletedMessage);
+    clientSocket.to(deletedMessage.chatRoomId).emit('deleted-message', deletedMessage);
+  });
+
   clientSocket.on('join-room', (room) => {
     clientSocket.join(room);
   });
