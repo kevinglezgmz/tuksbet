@@ -41,6 +41,7 @@ import { TransactionDetailsComponent } from './pages/transaction-details/transac
 import { NDecimalPlacesDirective } from './common/directives/n-decimal-places.directive';
 import { BettingSlotComponent } from './pages/roulette/betting-slot/betting-slot.component';
 import { BetAmountSelectorComponent } from './pages/roulette/bet-amount-selector/bet-amount-selector.component';
+import { CrashBettingSlotComponent } from './pages/crash/crash-betting-slot/crash-betting-slot.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { BetAmountSelectorComponent } from './pages/roulette/bet-amount-selector
     NDecimalPlacesDirective,
     BettingSlotComponent,
     BetAmountSelectorComponent,
+    CrashBettingSlotComponent,
   ],
   imports: [
     BrowserModule,
