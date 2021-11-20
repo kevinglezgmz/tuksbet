@@ -120,17 +120,13 @@ class UsersController {
     const { password, username } = req.body;
     const newUserInfo = {};
 
-    console.log(req);
     if (password) {
       const hash = bcrypt.hashSync(password, 10);
       newUserInfo.password = hash;
     } else if (username) {
       newUserInfo.username = username;
     } else if (req.file) {
-      console.log('entró');
-      console.log(req.file);
       newUserInfo.avatar = req.file.location;
-      console.log(newUserInfo);
     } else if (req.files) {
       newUserInfo.identification = { front: req.files[0].location, back: req.files[1].location };
     }
@@ -139,7 +135,6 @@ class UsersController {
     usersDb
       .updateOne({ _id: getObjectId(req.params.userId) }, { $set: newUserInfo })
       .then((result) => {
-        console.log(result);
         const updatedField = password ? 'password' : 'username';
         if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfully' });

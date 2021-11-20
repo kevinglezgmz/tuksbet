@@ -25,7 +25,6 @@ export class UpdateUserNameComponent implements OnInit {
       let newUsername = {
         username: this.inputUsername,
       };
-      console.log(newUsername);
       this.userService.updateUser(newUsername, this.userId);
       window.location.reload();
     }

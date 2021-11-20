@@ -16,7 +16,6 @@ export class UpdateAvatarComponent implements OnInit {
   fileSelected(event: Event) {
     const avatar = (event.target as HTMLInputElement).files![0];
     this.avatarObject = avatar;
-    console.log(avatar);
   }
 
   updateAvatar(event: Event) {
@@ -29,11 +28,8 @@ export class UpdateAvatarComponent implements OnInit {
       const { userId } = this.authService.getUserDetails();
       this.userId = userId!;
 
-      this.userService.updateUser(imageForm, this.userId).then(res => {
-        console.log(res);
-      })
-      console.log('Image updated');
-      // window.location.reload();
+      this.userService.updateUser(imageForm, this.userId).then((res) => {});
+      window.location.reload();
     }
   }
   ngOnInit(): void {}

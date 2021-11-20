@@ -27,7 +27,6 @@ export class UpdatePasswordComponent implements OnInit {
         password: this.inputPassword,
       };
       this.userService.updateUser(newPassword, this.userId);
-      console.log('Password updated');
     }
   }
 
