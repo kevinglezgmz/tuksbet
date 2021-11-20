@@ -22,7 +22,7 @@ class UsersController {
           res.status(400).send({ msg: 'No users found!' });
         } else {
           const filteredUsersData = results.map((user) => {
-            return { userId: user._id, username: user.username, roles: user.roles, email: user.email };
+            return { userId: user._id, username: user.username, roles: user.roles, email: user.email, avatar: user.avatar };
           });
           res.status(200).send(filteredUsersData);
         }
@@ -49,6 +49,7 @@ class UsersController {
             roles: user.roles,
             email: user.email,
             balance: user.balance.toString(),
+            avatar: user.avatar,
           };
           res.status(200).send(userData);
         } else {
@@ -119,13 +120,17 @@ class UsersController {
     const { password, username } = req.body;
     const newUserInfo = {};
 
+    console.log(req);
     if (password) {
       const hash = bcrypt.hashSync(password, 10);
       newUserInfo.password = hash;
     } else if (username) {
       newUserInfo.username = username;
     } else if (req.file) {
+      console.log('entró');
+      console.log(req.file);
       newUserInfo.avatar = req.file.location;
+      console.log(newUserInfo);
     } else if (req.files) {
       newUserInfo.identification = { front: req.files[0].location, back: req.files[1].location };
     }
@@ -134,6 +139,7 @@ class UsersController {
     usersDb
       .updateOne({ _id: getObjectId(req.params.userId) }, { $set: newUserInfo })
       .then((result) => {
+        console.log(result);
         const updatedField = password ? 'password' : 'username';
         if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfully' });

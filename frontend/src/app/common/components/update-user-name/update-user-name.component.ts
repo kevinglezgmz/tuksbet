@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from 'src/app/common/services/user.service';
 import { AuthService } from 'src/app/common/services/auth.service';
-import { User } from 'src/app/common/data-types/users';
 
 @Component({
   selector: 'app-update-user-name',

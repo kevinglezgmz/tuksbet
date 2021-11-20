@@ -30,7 +30,7 @@ export class UserService extends ParentService {
     return this.delete(this.usersEndpoint + userId);
   }
 
-  updateUser(user: User, userId: string): Promise<any> {
+  updateUser(user: User | FormData, userId: string): Promise<any> {
     const headers: HttpHeaders = this.authService.getAuthHeader();
     return this.update(this.usersEndpoint + userId, user, headers);
   }
