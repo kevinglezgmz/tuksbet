@@ -116,7 +116,6 @@ class UsersController {
       res.status(401).send({ err: 'Not authorized' });
       return;
     }
-
     const { password, username } = req.body;
     const newUserInfo = {};
 
@@ -125,6 +124,10 @@ class UsersController {
       newUserInfo.password = hash;
     } else if (username) {
       newUserInfo.username = username;
+    } else if (req.file) {
+      newUserInfo.avatar = req.file.location;
+    } else if (req.files) {
+      newUserInfo.identification = { front: req.files[0].location, back: req.files[1].location };
     }
 
     const usersDb = new Database('Users');

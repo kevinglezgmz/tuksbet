@@ -1,0 +1,8 @@
+<input
+  type="text"
+  name="newUsername"
+  placeholder="{{ usernameValue }}"
+  [(ngModel)]="inputUsername"
+  (keydown.enter)="updateUsername($event)"
+/>
+<button (click)="updateUsername($event)">Actualizar</button>

@@ -13,9 +13,8 @@
         }}"
         alt=""
       />
-      <p>Cuenta: {{ user.username }}</p>
-      <p>Correo: {{ user.email }}</p>
-      <p>Saldo: ${{ user.balance || 0 | number: '1.2-2' }}</p>
+      <br />
+      <app-update-user-name usernameValue="{{ user.username }}"></app-update-user-name>
     </div>
   </div>
 </div>
