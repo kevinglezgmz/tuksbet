@@ -1,23 +1,33 @@
 <div *ngIf="user" class="user-container">
   <div class="card">
     <h3>Cuenta</h3>
-    <h1>Nombre de usuario: {{ user.username }}</h1>
+    <h1>{{ user.username }}</h1>
   </div>
   <div class="card">
     <h3>Detalles</h3>
     <div class="details">
-      <img
-        src="{{
-          user.avatar ||
-            'https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640'
-        }}"
-        alt=""
-      />
-      <app-update-avatar></app-update-avatar>
+      <div class="update-element">
+        <h4>Avatar</h4>
+        <img
+          src="{{
+            user.avatar ||
+              'https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640'
+          }}"
+          alt=""
+        />
+        <br />
+        <app-update-avatar></app-update-avatar>
+      </div>
       <br />
-      <app-update-user-name usernameValue="{{ user.username }}"></app-update-user-name>
+      <div class="update-element">
+        <h4>Cambiar nombre de usuario</h4>
+        <app-update-user-name usernameValue="{{ user.username }}"></app-update-user-name>
+      </div>
       <br />
-      <app-update-password></app-update-password>
+      <div class="update-element">
+        <h4>Cambiar contraseña</h4>
+        <app-update-password></app-update-password>
+      </div>
     </div>
   </div>
 </div>
