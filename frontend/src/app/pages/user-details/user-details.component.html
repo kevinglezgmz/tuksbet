@@ -6,6 +6,13 @@
   <div class="card">
     <h3>Detalles</h3>
     <div class="details">
+      <img
+        src="{{
+          user.avatar ||
+            'https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640'
+        }}"
+        alt=""
+      />
       <p>Cuenta: {{ user.username }}</p>
       <p>Correo: {{ user.email }}</p>
       <p>Saldo: ${{ user.balance || 0 | number: '1.2-2' }}</p>

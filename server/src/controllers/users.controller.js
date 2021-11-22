@@ -22,7 +22,7 @@ class UsersController {
           res.status(400).send({ msg: 'No users found!' });
         } else {
           const filteredUsersData = results.map((user) => {
-            return { userId: user._id, username: user.username, roles: user.roles, email: user.email };
+            return { userId: user._id, username: user.username, roles: user.roles, email: user.email, avatar: user.avatar };
           });
           res.status(200).send(filteredUsersData);
         }
@@ -49,6 +49,7 @@ class UsersController {
             roles: user.roles,
             email: user.email,
             balance: user.balance.toString(),
+            avatar: user.avatar,
           };
           res.status(200).send(userData);
         } else {
@@ -116,7 +117,6 @@ class UsersController {
       res.status(401).send({ err: 'Not authorized' });
       return;
     }
-
     const { password, username } = req.body;
     const newUserInfo = {};
 
@@ -125,13 +125,17 @@ class UsersController {
       newUserInfo.password = hash;
     } else if (username) {
       newUserInfo.username = username;
+    } else if (req.file) {
+      newUserInfo.avatar = req.file.location;
+    } else if (req.files) {
+      newUserInfo.identification = { front: req.files[0].location, back: req.files[1].location };
     }
 
     const usersDb = new Database('Users');
     usersDb
       .updateOne({ _id: getObjectId(req.params.userId) }, { $set: newUserInfo })
       .then((result) => {
-        const updatedField = password ? 'password' : 'username';
+        const updatedField = password ? 'password' : username ? 'username' : 'avatar';
         if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfully' });
         } else {

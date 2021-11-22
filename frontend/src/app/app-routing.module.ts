@@ -19,6 +19,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { BetDetailsComponent } from './pages/bet-details/bet-details.component';
 import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
 import { NoAuthGuard } from './common/guards/no-auth.guard';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'gamehistory', component: GameHistoryComponent },
   { path: 'gamehistory/:gameRoundId', component: GameRoundDetailsComponent },
   { path: 'bets/:betId', component: BetDetailsComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

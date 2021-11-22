@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../data-types/users';
 import { ParentService } from './parent.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { ParentService } from './parent.service';
 export class UserService extends ParentService {
   usersEndpoint = '/users/';
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, private authService: AuthService) {
     super(httpClient);
   }
 
@@ -29,7 +30,8 @@ export class UserService extends ParentService {
     return this.delete(this.usersEndpoint + userId);
   }
 
-  updateUser(user: User, userId: string): Promise<any> {
-    return this.update(this.usersEndpoint + userId, user);
+  updateUser(user: User | FormData, userId: string): Promise<any> {
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.update(this.usersEndpoint + userId, user, headers);
   }
 }

@@ -1,12 +1,19 @@
 const router = require('express').Router();
 const usersController = require('../controllers/users.controller.js');
 const multer = require('multer');
+const upload = require('../middlewares/file-upload.js');
 const authentication = require('../middlewares/authentication');
 
 router.get('/', usersController.getAllUsers);
 router.get('/:userId', usersController.getUserById);
 router.post('/', multer().none(), usersController.createUser);
-router.patch('/:userId', authentication, multer().none(), usersController.updateUser);
+router.patch(
+  '/:userId',
+  authentication,
+  upload.single('avatar'),
+  upload.array('identification', 2), //TODO: WRAP MIDDLEWARES IN ONE
+  usersController.updateUser
+);
 router.delete('/:userId', authentication, usersController.deleteUser);
 
 module.exports = router;
@@ -40,6 +47,9 @@ module.exports = router;
  *              email:
  *                type: string
  *                example: "example@example.com"
+ *              avatar:
+ *                type: string
+ *                example: "exampleLink.jpg"
  *      400:
  *        description: Bad request
  *        schema:
@@ -101,6 +111,9 @@ module.exports = router;
  *            balance:
  *              type: float
  *              example: 12.34
+ *            avatar:
+ *              type: string
+ *              example: "exampleLink.jpg"
  *      400:
  *        description: Bad request
  *        schema:
@@ -213,9 +226,6 @@ module.exports = router;
  *         description: The user to be registered
  *         schema:
  *           type: object
- *           required:
- *             - username
- *             - password
  *           properties:
  *             username:
  *               type: string
@@ -223,6 +233,10 @@ module.exports = router;
  *             password:
  *               type: string
  *               example: examplePasswordEncrypted123
+ *       - in: formData
+ *         name: avatar
+ *         type: file
+ *         description: The new avatar of the user
  *    responses:
  *      200:
  *        description: Success response. Retrieves status of the registration.
