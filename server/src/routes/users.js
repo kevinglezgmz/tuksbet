@@ -226,9 +226,6 @@ module.exports = router;
  *         description: The user to be registered
  *         schema:
  *           type: object
- *           required:
- *             - username
- *             - password
  *           properties:
  *             username:
  *               type: string
@@ -236,6 +233,10 @@ module.exports = router;
  *             password:
  *               type: string
  *               example: examplePasswordEncrypted123
+ *       - in: formData
+ *         name: avatar
+ *         type: file
+ *         description: The new avatar of the user
  *    responses:
  *      200:
  *        description: Success response. Retrieves status of the registration.
