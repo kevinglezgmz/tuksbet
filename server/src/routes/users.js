@@ -47,6 +47,9 @@ module.exports = router;
  *              email:
  *                type: string
  *                example: "example@example.com"
+ *              avatar:
+ *                type: string
+ *                example: "exampleLink.jpg"
  *      400:
  *        description: Bad request
  *        schema:
@@ -108,6 +111,9 @@ module.exports = router;
  *            balance:
  *              type: float
  *              example: 12.34
+ *            avatar:
+ *              type: string
+ *              example: "exampleLink.jpg"
  *      400:
  *        description: Bad request
  *        schema:

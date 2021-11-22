@@ -135,7 +135,7 @@ class UsersController {
     usersDb
       .updateOne({ _id: getObjectId(req.params.userId) }, { $set: newUserInfo })
       .then((result) => {
-        const updatedField = password ? 'password' : 'username';
+        const updatedField = password ? 'password' : username ? 'username' : 'avatar';
         if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfully' });
         } else {
