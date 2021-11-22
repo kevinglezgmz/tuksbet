@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
     this.userId = userId!;
     this.userService.getUserDetails(this.userId).then((user: User) => {
       this.user = user;
+      console.log(user);
     });
   }
 }

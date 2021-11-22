@@ -28,8 +28,9 @@ export class UpdateAvatarComponent implements OnInit {
       const { userId } = this.authService.getUserDetails();
       this.userId = userId!;
 
-      this.userService.updateUser(imageForm, this.userId).then((res) => {});
-      window.location.reload();
+      this.userService.updateUser(imageForm, this.userId).then((res) => {
+        window.location.reload();
+      });
     }
   }
   ngOnInit(): void {}
