@@ -18,7 +18,8 @@ export class SignupComponent implements OnInit {
     this.form = this.formBuilder.group({
       username: ['', [Validators.required, ]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, 
+                      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
       confirm: ['', [Validators.required, Validators.minLength(8)]],
     },
     {
@@ -30,6 +31,7 @@ export class SignupComponent implements OnInit {
   }
 
   signUp(){
+    console.log(this.form);
     if(this.form.valid){
       let newUser = this.form.value;
       delete newUser.confirm;

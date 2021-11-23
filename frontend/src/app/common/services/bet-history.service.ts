@@ -32,6 +32,7 @@ export class BetHistoryService extends ParentService {
   }
 
   updateBet(bet: Bet, betId: string): Promise<any> {
-    return this.update(this.betsEndpoint + betId, bet);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.update(this.betsEndpoint + betId, bet, headers);
   }
 }

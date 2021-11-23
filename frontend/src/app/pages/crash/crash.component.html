@@ -1,1 +1,17 @@
-<p>crash works!</p>
+<h1 class="roulette-head">
+  {{ crashState === 'RUNNING' ? 'Buena suerte!' : crashState === 'WAITING' ? 'Espera a la siguiente ronda...' : 'Crash!' }}
+</h1>
+<h5>ID de la ronda: {{ currentGameRoundId }}</h5>
+<div class="crash-container" (window:resize)="onResize($event)" #crashCanvasContainer>
+  <canvas #crashCanvas class="crash-canvas" [width]="crashWidth" [height]="crashHeight"></canvas>
+</div>
+<app-bet-amount-selector class="crash-bet-container" (newBetAmount)="setBetAmount($event)"></app-bet-amount-selector>
+<app-crash-betting-slot
+  class="crash-betting-slot"
+  [currentGameRoundId]="currentGameRoundId"
+  [isLoggedIn]="isLoggedIn"
+  [betAmount]="betAmount"
+  [currentBets]="currentRoundBets"
+  [currentMultiplier]="currentMultiplier"
+  [crashState]="crashState"
+></app-crash-betting-slot>
