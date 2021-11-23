@@ -2,6 +2,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Bet } from 'src/app/common/data-types/bet';
+import { CrashStates } from 'src/app/common/data-types/crash-game-types';
 import { AuthService } from 'src/app/common/services/auth.service';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
@@ -16,8 +17,10 @@ export class CrashBettingSlotComponent implements OnInit {
   @Input('isLoggedIn') isLoggedIn: boolean = false;
   @Input('betAmount') betAmount: number = 0;
   @Input('currentBets') currentBets: Bet[] = [];
-
+  @Input('crashState') crashState: CrashStates = CrashStates.WAITING;
+  @Input('currentMultiplier') currentMultiplier: number = 1.0;
   betToCrashAt: string = '1.0';
+  currentBetId: string | undefined;
 
   /** Destroy observables when we leave the page */
   private unsubscribe: Subject<void> = new Subject<void>();
@@ -46,6 +49,11 @@ export class CrashBettingSlotComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.currentBets) {
       this.currentBets = this.currentBets.sort((bet1, bet2) => bet2.betAmount - bet1.betAmount);
+    } else if (changes.crashState) {
+      const newState: CrashStates = changes.crashState.currentValue;
+      if (newState === 'CRASHED' || newState === 'WAITING') {
+        this.currentBetId = undefined;
+      }
     }
   }
 
@@ -58,13 +66,11 @@ export class CrashBettingSlotComponent implements OnInit {
     if (!this.isLoggedIn) {
       return;
     }
-    console.log(this.currentGameRoundId);
-
     const { userId, username } = this.authService.getUserDetails();
     const bet: Bet = {
       userId: userId!,
       gameRoundId: this.currentGameRoundId,
-      betStake: 'crash-' + this.betToCrashAt + 'x',
+      betStake: 'crash-' + this.betToCrashAt + 'x' + '-running',
       betAmount: this.betAmount,
       username: username!,
     };
@@ -72,11 +78,36 @@ export class CrashBettingSlotComponent implements OnInit {
     this.betService
       .createBet(bet)
       .then((res) => {
-        console.log(bet);
-
+        this.currentBetId = res.insertedId;
         this.currentBets.push(bet);
         // If bet was placed successfuly, notify the other users
         this.webSocket.emit('new-crash-bet', bet);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  onClickExitCrash($event: MouseEvent) {
+    if (!this.isLoggedIn) {
+      return;
+    }
+    const { userId, username } = this.authService.getUserDetails();
+    const bet: Bet = {
+      userId: userId!,
+      gameRoundId: this.currentGameRoundId,
+      betStake: 'crash-' + this.currentMultiplier + 'x',
+      betAmount: this.betAmount,
+    };
+
+    this.betService
+      .updateBet(bet, this.currentBetId || '')
+      .then((res) => {
+        console.log(res);
+
+        // this.currentBets.push(bet);
+        // If bet was placed successfuly, notify the other users
+        // this.webSocket.emit('new-crash-bet', bet);
       })
       .catch((err) => {
         console.log(err);

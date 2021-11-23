@@ -35,18 +35,18 @@ export class CrashComponent implements OnInit, AfterViewInit {
   secondsArray: CanvasDrawableNumber[] = [];
   multipliersArray: CanvasDrawableNumber[] = [];
   crashedAt: number = 0;
+  currentMultiplier: number = 0;
 
   /***** Curve variables *****/
-  curveCurrentX: number = this.crashMargin;
-  curveCurrentY: number = this.crashHeight - this.crashMargin;
-  bezierPointDestOffsetX: number = this.crashWidth / 2 - 80;
-  bezierPointDestOffsetY: number = this.crashHeight / 2 - 80;
-  bezierProgressiveOffsetX: number = this.curveCurrentX;
-  bezierProgressiveOffsetY: number = this.curveCurrentY;
-  curveSpeed: number = this.getSpeedForXSecondsAndYDistance(this.crashWidth - this.crashMargin, this.secondsControl);
+  curveCurrentX!: number;
+  curveCurrentY!: number;
+  bezierPointDestOffsetX!: number;
+  bezierPointDestOffsetY!: number;
+  bezierProgressiveOffsetX!: number;
+  bezierProgressiveOffsetY!: number;
+  curveSpeed!: number;
   yPercentageDest: number = 0.8;
-  curveSlopeM: number =
-    (this.yPercentageDest * (this.crashHeight - this.crashMargin)) / (this.crashWidth - this.crashMargin);
+  curveSlopeM!: number;
 
   @ViewChild('crashCanvas') crashCanvas!: ElementRef;
   @ViewChild('crashCanvasContainer') crashCanvasContainer!: ElementRef;
@@ -91,6 +91,10 @@ export class CrashComponent implements OnInit, AfterViewInit {
       .subscribe((isLoggedIn) => {
         this.isLoggedIn = isLoggedIn;
       });
+
+    this.crashWidth = 800;
+    this.crashHeight = 421;
+    this.resetCrashValues();
   }
 
   ngOnInit(): void {
@@ -112,9 +116,11 @@ export class CrashComponent implements OnInit, AfterViewInit {
     this.canvasContext!.lineWidth = 2;
     this.resetCrashValues();
     this.startDrawing();
-    const crashContainer = this.crashCanvasContainer.nativeElement as HTMLDivElement;
-    this.crashWidth = crashContainer.offsetWidth;
-    this.crashHeight = crashContainer.offsetHeight;
+    setTimeout(() => {
+      const crashContainer = this.crashCanvasContainer.nativeElement as HTMLDivElement;
+      this.crashWidth = crashContainer.offsetWidth;
+      this.crashHeight = crashContainer.offsetHeight;
+    });
   }
 
   private updateNumbersArray(secondsSinceStart: number) {
@@ -315,8 +321,15 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.canvasContext!.font =
           '100px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif';
         this.canvasContext!.fillStyle = 'green';
-        const numberToDraw = this.getCurrentMultiplier((Date.now() + this.lagAdjustment - this.nextGameRoundStartAt) / 1000);
-        textToDraw = numberToDraw.toFixed(2) + 'x';
+        if (this.nextGameRoundStartAt === 0) {
+          textToDraw = 'Connecting...';
+        } else {
+          const numberToDraw = this.getCurrentMultiplier(
+            (Date.now() + this.lagAdjustment - this.nextGameRoundStartAt) / 1000
+          );
+          this.currentMultiplier = numberToDraw;
+          textToDraw = this.currentMultiplier.toFixed(2) + 'x';
+        }
         break;
       case CrashStates.WAITING:
         this.canvasContext!.font =

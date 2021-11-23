@@ -3,7 +3,8 @@
     <div class="amount-input">
       <input type="text" [(ngModel)]="betToCrashAt" (blur)="onBlur($event)" />
     </div>
-    <button (click)="onClickBet($event)" class="crash-betting-btn">Apostar ahora</button>
+    <button *ngIf="!currentBetId" (click)="onClickBet($event)" class="crash-betting-btn">Apostar ahora</button>
+    <button *ngIf="currentBetId" (click)="onClickExitCrash($event)" class="crash-betting-btn">Salirse!</button>
   </div>
   <div class="current-bets-container">
     <div class="bet-entry" *ngFor="let bet of currentBets">
