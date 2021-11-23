@@ -91,7 +91,7 @@ function startCrashRound() {
   crashCurrentStatus.crashState = 'WAITING';
   crashCurrentStatus.nextGameRoundStartAt = Date.now() + crashCurrentStatus.roundDelay;
 
-  if (process.env.enviroment === 'dev') {
+  if (process.env.enviroment === 'production') {
     axios.post(process.env.SERVER_URL + 'api/gameRounds', { gameId: crashId }).then((response) => {
       crashCurrentStatus.currentGameRoundId = response.data.insertedId;
       crashWaitingStatusUpdate();
@@ -113,7 +113,7 @@ function startCrashRound() {
   setTimeout(() => {
     crashCurrentStatus.crashState = 'RUNNING';
     crashRunningStatusUpdate();
-    if (process.env.enviroment === 'dev') {
+    if (process.env.enviroment === 'production') {
       axios
         .patch(process.env.SERVER_URL + 'api/gameRounds/' + crashCurrentStatus.currentGameRoundId, {
           acceptingBets: false,
@@ -129,7 +129,7 @@ function startCrashRound() {
       const crashedAtMultiplier = getCurrentMultiplier(roundDurationsSeconds).toFixed(2);
 
       // Before sending the result to the clients we need to update the game round to not accept any more bets and store the result of the round
-      if (process.env.enviroment === 'dev') {
+      if (process.env.enviroment === 'production') {
         axios
           .patch(process.env.SERVER_URL + 'api/gameRounds/' + crashCurrentStatus.currentGameRoundId, {
             acceptingBets: false,
