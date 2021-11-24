@@ -249,9 +249,8 @@ class BetsController {
             return { betStake: 'crash-' + newCrashVal.toFixed(2) + 'x-exited' };
           }
         }
-
-        if (fullBetAndGameRound.gameName === 'Blackjack') {
-          const initialBlackjackBetStake = fullBetAndGameRound.betStake.split('-');
+        if (fullBetAndGameRound.gameName === 'Blackjack' && fullBetAndGameRound.result === null) {
+          return { betStake: req.body.betStake, betPayout: req.body.betPayout, betAmount: req.body.betAmount };
         }
 
         throw 'This bet cannot be updated';

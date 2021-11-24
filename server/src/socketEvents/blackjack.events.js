@@ -13,7 +13,6 @@ let blackjackId;
  * @param { Socket } clientSocket
  */
 
-const blackjackState = {};
 const clientRooms = {};
 
 const CARDTYPES = {
@@ -39,54 +38,71 @@ const CARDNUMBERS = {
     ACE: "ace"
 }
 
-function initBlackjackEventsSocket(ioSocket) {
+function initBlackjackEventsSocket(ioSocket, blackjackGameId) {
     io = ioSocket;
+    blackjackId = blackjackGameId
     io.on('connection', blackjackEvents);
 }
 
 function blackjackEvents(clientSocket) {
-    clientSocket.on('check-if-game', leftBlackjack)
-    clientSocket.on('start-blackjack-game', blackjackInit);
-    clientSocket.on('hit-blackjack', blackjackHit);
-    clientSocket.on('stand-blackjack', blackjackStand);
-    clientSocket.on('double-blackjack', blackjackDouble);
+    clientSocket.on('check-if-game', (userId) => leftBlackjack(userId, clientSocket));
+    clientSocket.on('init-blackjack-gameround', (userId) => initBlackjackGameRound(userId, clientSocket));
+    clientSocket.on('start-blackjack-game', (gameIds) => blackjackStartGame(gameIds, clientSocket));
+
+    clientSocket.on('hit-blackjack', (userId) => blackjackHit(userId, clientSocket));
+    clientSocket.on('stand-blackjack', (userId) => blackjackStand(userId, clientSocket));
+    clientSocket.on('double-blackjack', (userId) => blackjackDouble(userId, clientSocket));
+
+    clientSocket.on('close-blackjack-gameroud', (gameData) => blackjackCloseGameround(gameData, clientSocket));
 }
 
-function leftBlackjack(userId){
+function leftBlackjack(userId, clientSocket){
     if(clientRooms[userId]){
-        io.emit('init-blackjack', clientRooms[userId]);
+        clientSocket.emit('init-blackjack', clientRooms[userId]);
     }
 }
 
-function blackjackInit(userId) {
-    let game = initBlackjackVariables();
-
-    let dealedCards = dealCards(game.player, game.dealer, game.gameDeck);
-    game.player = dealedCards.player;
-    game.dealer = dealedCards.dealer;
-
-    clientRooms[userId] = game;
-    io.emit('init-blackjack', game);
+function initBlackjackGameRound(userId, clientSocket){
+    axios
+    .post(process.env.SERVER_URL + 'api/gameRounds', { gameId: blackjackId })
+    .then((response) => {
+        const gameRoundId = response.data.insertedId;
+        clientSocket.emit('place-blackjack-bet', gameRoundId);
+    });
 }
 
-function blackjackHit(userId) {
+function blackjackStartGame(gameIds, clientSocket) {
+    const game = initBlackjackVariables();
+    
+    const dealedCards = dealCards(game.player, game.dealer, game.gameDeck);
+    game.player = dealedCards.player;
+    game.dealer = dealedCards.dealer;
+    game.betId = gameIds.betId;
+    game.gameRoundId = gameIds.gameRoundId;
+
+    clientRooms[gameIds.userId] = game;
+    clientSocket.emit('blackjack-game-started', game);
+}
+
+function blackjackHit(userId, clientSocket) {
+    if(userId === undefined){
+        return;
+    }
     let currGame = clientRooms[userId];
+
     let card = getRandomCard(currGame.gameDeck);
     card.value = getCardValue(card.num, currGame.player.score);
+
     currGame.player.cards.push(card);
     updateScoreValue(card.value, currGame.player);
 
-    if (currGame.player.score > 21) {
-        getWinner(currGame);
+    if(currGame.player.score >= 21) {
         currGame.gameStarted = false;
     }
-
-    clientRooms[userId] = currGame;
-
-    io.emit('return-hit-blackjack', currGame);
+    clientSocket.emit('return-hit-blackjack', currGame);
 }
 
-function blackjackStand(userId) {
+function blackjackStand(userId, clientSocket) {
     let currGame = clientRooms[userId];
     currGame.dealer.score += currGame.dealer.hiddenScore;
 
@@ -100,13 +116,35 @@ function blackjackStand(userId) {
     }
 
     getWinner(currGame);
-    io.emit('return-stand-blackjack', currGame);
-    delete clientRooms[userId];
+    clientSocket.emit('return-stand-blackjack', currGame);
+    delete clientRooms[currGame.userId];
 }
 
-function blackjackDouble(userId){
-    blackjackHit(userId);
-    blackjackStand(userId);
+function blackjackDouble(userId, clientSocket){
+    let currGame = clientRooms[userId];
+    currGame.isDouble = true;
+    blackjackHit(userId, clientSocket);
+    blackjackStand(userId, clientSocket);
+}
+
+function blackjackCloseGameround(gameData, clientSocket){
+    let currGame = clientRooms[gameData.userId];
+    closeGameround(gameData.gameroundId, currGame, clientSocket);
+    delete clientRooms[gameData.userId];
+}
+
+function closeGameround(gameroundId, currGame, clientSocket){
+    axios
+        .patch(process.env.SERVER_URL + 'api/gamerounds/' + gameroundId, {
+            acceptingBets: false,
+            result: 'blackjack-' + currGame.dealer.score
+        })
+        .then((res) => {
+            clientSocket.emit('blackjack-gameround-closed', currGame);
+        })
+        .catch(({response}) => {
+            console.log(response.data);
+        });
 }
 
 function initBlackjackVariables() {
