@@ -97,7 +97,7 @@ function blackjackHit(userId, clientSocket) {
     updateScoreValue(card.value, currGame.player);
 
     if(currGame.player.score >= 21) {
-        currGame.gameStarted = false;
+        getWinner(currGame);
     }
     clientSocket.emit('return-hit-blackjack', currGame);
 }
