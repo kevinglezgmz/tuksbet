@@ -19,7 +19,7 @@ export class CrashBettingSlotComponent implements OnInit {
   @Input('currentBets') currentBets: Bet[] = [];
   @Input('crashState') crashState: CrashStates = CrashStates.WAITING;
   @Input('currentMultiplier') currentMultiplier: number = 1.0;
-  betToCrashAt: string = '1.0';
+  betToCrashAt: string = '2.0';
   currentBetId: string | undefined;
 
   /** Destroy observables when we leave the page */
@@ -83,9 +83,7 @@ export class CrashBettingSlotComponent implements OnInit {
         // If bet was placed successfuly, notify the other users
         this.webSocket.emit('new-crash-bet', bet);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   onClickExitCrash($event: MouseEvent) {
@@ -103,15 +101,9 @@ export class CrashBettingSlotComponent implements OnInit {
     this.betService
       .updateBet(bet, this.currentBetId || '')
       .then((res) => {
-        console.log(res);
-
-        // this.currentBets.push(bet);
-        // If bet was placed successfuly, notify the other users
-        // this.webSocket.emit('new-crash-bet', bet);
+        // Here we could maybe update the bet visually and notify the other users that a user exited the crash
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   onBlur(event: Event) {

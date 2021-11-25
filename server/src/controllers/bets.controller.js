@@ -250,7 +250,7 @@ class BetsController {
           }
         }
         if (fullBetAndGameRound.gameName === 'Blackjack' && fullBetAndGameRound.result === null) {
-          return { betStake: req.body.betStake, betPayout: req.body.betPayout, betAmount: req.body.betAmount };
+          return { betStake: req.body.betStake, betAmount: req.body.betAmount };
         }
 
         throw 'This bet cannot be updated';
@@ -321,14 +321,14 @@ class BetsController {
           const dealerResult = parseInt(gameRoundData.result.split('-')[1]);
           betsMadeInGameRound.forEach((bet) => {
             const userNumber = parseInt(bet.betStake.split('-')[1]);
-            if (dealerResult > 21) {
+            if (dealerResult > 21 && userNumber <= 21) {
               bet.betPayout = bet.betAmount * 2;
             } else if (userNumber <= 21 && userNumber > dealerResult) {
               bet.betPayout = bet.betAmount * 2;
             } else if (userNumber === dealerResult) {
-              bet.betPayout = betAmount;
+              bet.betPayout = bet.betAmount;
             } else {
-              bet.betPayout = betAmount * -1;
+              bet.betPayout = bet.betAmount * -1;
             }
           });
           break;

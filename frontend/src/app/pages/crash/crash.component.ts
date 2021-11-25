@@ -14,7 +14,7 @@ import { WebSocketService } from 'src/app/common/services/web-socket.service';
 })
 export class CrashComponent implements OnInit, AfterViewInit {
   isLoggedIn: boolean = false;
-  betAmount: number = 0;
+  betAmount: number = 5;
 
   crashWidth: number = 800;
   crashHeight: number = 421;
@@ -79,10 +79,9 @@ export class CrashComponent implements OnInit, AfterViewInit {
       .listen('crash-game-round-crashed-status')
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(({ realCrashedAt, currentGameRoundId }) => {
-        console.log(realCrashedAt);
-
         this.crashedAt = realCrashedAt;
         this.crashState = CrashStates.CRASHED;
+        this.currentGameRoundId = currentGameRoundId;
       });
 
     this.authService
@@ -123,31 +122,6 @@ export class CrashComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private updateNumbersArray(secondsSinceStart: number) {
-    let numberOfElements = 0;
-    if (secondsSinceStart < this.secondsControl) {
-      numberOfElements = this.secondsControl;
-    } else {
-      numberOfElements = Math.floor(secondsSinceStart);
-      // numberOfElements = Math.min(this.secondsArray.length + 1, this.secondsControl);
-    }
-
-    const newArr: CanvasDrawableNumber[] = [];
-    const spaceBetween = (this.crashWidth - this.crashMargin) / numberOfElements;
-    for (let i = 0; i <= numberOfElements; i++) {
-      const speed = this.getSpeedForXSecondsAndYDistance(i * spaceBetween, this.secondsControl);
-      newArr.push({
-        number: i,
-        x: this.crashMargin + i * spaceBetween - (secondsSinceStart - this.secondsControl) * speed,
-        y: this.crashHeight - this.crashMargin + 12,
-        initX: this.crashMargin + i * spaceBetween,
-        initY: this.crashHeight - this.crashMargin,
-        speed: speed,
-      });
-    }
-    this.secondsArray = newArr;
-  }
-
   private startDrawing() {
     if (!this.canvasContext) {
       return;
@@ -163,7 +137,6 @@ export class CrashComponent implements OnInit, AfterViewInit {
     if (this.crashState === CrashStates.RUNNING) {
       const secondsSinceStart = (Date.now() + this.lagAdjustment - this.nextGameRoundStartAt) / 1000;
       this.drawIncrementalCurve(secondsSinceStart);
-      this.drawNumbersAxis(this.secondsArray, 's', secondsSinceStart);
       this.resetCrashValues();
     } else {
       this.resetCrashValues();
@@ -193,11 +166,6 @@ export class CrashComponent implements OnInit, AfterViewInit {
     this.yPercentageDest = 0.8;
     this.curveSlopeM = (this.yPercentageDest * (this.crashHeight - this.crashMargin)) / (this.crashWidth - this.crashMargin);
     this.lastNumberInsertedAt = 0;
-  }
-
-  private crashed(realCrashedValue: number) {
-    this.crashedAt = realCrashedValue;
-    this.crashState = CrashStates.CRASHED;
   }
 
   private drawCrashAxes() {
@@ -283,32 +251,6 @@ export class CrashComponent implements OnInit, AfterViewInit {
       this.curveCurrentY
     );
     this.canvasContext!.stroke();
-  }
-
-  private drawNumbersAxis(numbersToDraw: CanvasDrawableNumber[], symbol: 's' | 'x', secondsSinceStart: number) {
-    this.canvasContext!.textAlign = 'start';
-    numbersToDraw.forEach((number) => {
-      this.canvasContext!.fillText(`${number.number}${symbol}`, number.x, number.y);
-      if (secondsSinceStart >= this.secondsControl) {
-        number.x = number.x - number.speed;
-      }
-    });
-    if (secondsSinceStart - this.secondsControl >= 0 && this.lastNumberInsertedAt === 0) {
-      this.lastNumberInsertedAt = Date.now();
-    }
-
-    if ((Date.now() - this.lastNumberInsertedAt) / 1000 >= 1 && this.lastNumberInsertedAt !== 0) {
-      this.lastNumberInsertedAt = Date.now();
-      const speed = this.getSpeedForXSecondsAndYDistance(this.crashWidth - this.crashMargin, this.secondsControl);
-      this.secondsArray.push({
-        number: this.secondsArray.length,
-        x: this.crashWidth,
-        y: this.crashHeight - this.crashMargin + 12,
-        initX: this.crashWidth,
-        initY: this.crashHeight - this.crashMargin,
-        speed: speed,
-      });
-    }
   }
 
   private drawCrashText() {

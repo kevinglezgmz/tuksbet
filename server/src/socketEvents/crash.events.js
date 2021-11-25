@@ -23,7 +23,7 @@ const crashCurrentStatus = {
 function initCrashEventsSocket(ioSocket, crashGameId) {
   io = ioSocket;
   crashId = crashGameId;
-  startCrashServer();
+  startCrashRound();
   io.on('connection', crashEvents);
 }
 
@@ -69,22 +69,6 @@ function crashCrashedStatusUpdate() {
     realCrashedAt: crashCurrentStatus.gameEndsAt,
     currentGameRoundId: crashCurrentStatus.currentGameRoundId,
   });
-}
-
-// function spinWheel(rollResult) {
-//   io.emit('roulette-game-roll', rollResult);
-// }
-
-function startCrashServer() {
-  if (process.env.enviroment === 'production') {
-    // waitForRoundToStart(startRoundProduction);
-    // setInterval(() => {
-    //   waitForRoundToStart(startRoundProduction);
-    // }, rouletteCurrentStatus.roundDelay + rouletteCurrentStatus.rollAnimationDuration + 1500);
-  } else {
-    // Nothing will be saved to the database
-    startCrashRound();
-  }
 }
 
 function startCrashRound() {
@@ -157,54 +141,6 @@ function getCurrentMultiplier(secondsSinceStart) {
   return Math.E ** (speedFactor / 18);
 }
 
-// function waitForRoundToStart(cbStartRoundForClients) {
-//   // Before doing anything we need to create a new game round in the database
-//   axios
-//     .post(process.env.SERVER_URL + 'api/gameRounds', { gameId: rouletteId })
-//     .then((response) => {
-//       rouletteCurrentStatus.currentGameRoundId = response.data.insertedId;
-//       startClientRound(response.data.insertedId);
-//       const waitingRollInterval = startInternalCountdown();
-//       checkAndUpdateResultsArray();
-//       setTimeout(() => {
-//         clearInterval(waitingRollInterval);
-//         nextRandomResultIndex = rouletteCurrentStatus.nextRollIdx++;
-//         cbStartRoundForClients(rouletteCurrentStatus.rollArray[nextRandomResultIndex]);
-//       }, rouletteCurrentStatus.roundDelay + 100);
-//     })
-//     .catch(({ response }) => {
-//       console.log('Error creating a new game round for roulette', response.data);
-//     });
-// }
-
-// function startRoundProduction(rollResult) {
-//   // Build result string
-//   const resultArr = ['roulette'];
-//   if (rollResult === 0) {
-//     resultArr.push('green');
-//   } else if (rollResult <= 7) {
-//     resultArr.push('red');
-//   } else {
-//     resultArr.push('black');
-//   }
-//   resultArr.push(rollResult.toString());
-//   const result = resultArr.join('-');
-//   // Before sending the result to the clients we need to update the game round to not accept any more bets and store the result of the round
-//   axios
-//     .patch(process.env.SERVER_URL + 'api/gameRounds/' + rouletteCurrentStatus.currentGameRoundId, {
-//       acceptingBets: false,
-//       result,
-//     })
-//     .then((response) => {
-//       // After updating the game round, we can tell the users about the result and update their balances
-
-//       spinWheelForUsersAndResetCurrentStatus(rollResult, updateUserBalances);
-//     })
-//     .catch(({ response }) => {
-//       console.log(response.data);
-//     });
-// }
-
 function checkAndUpdateResultsArray() {
   if (crashCurrentStatus.nextCrashIdx >= crashCurrentStatus.randomNumbersArray.length - 1) {
     if (process.env.enviroment === 'production') {
@@ -223,31 +159,6 @@ function checkAndUpdateResultsArray() {
     crashCurrentStatus.nextCrashIdx = 0;
   }
 }
-
-// function startInternalCountdown() {
-//   // Have a countdown on the server so we can update newly joined clients
-//   const waitingRollInterval = setInterval(() => {
-//     rouletteCurrentStatus.currentTimer -= 205;
-//     if (rouletteCurrentStatus.currentTimer <= 0) {
-//       rouletteCurrentStatus.currentTimer = 0;
-//       clearInterval(waitingRollInterval);
-//     }
-//   }, 200);
-//   return waitingRollInterval;
-// }
-
-// function spinWheelForUsersAndResetCurrentStatus(rollResult, cbUpdateUserBalances) {
-//   spinWheel(rollResult);
-//   if (process.env.enviroment === 'production') {
-//     cbUpdateUserBalances();
-//   }
-//   rouletteCurrentStatus.lastRoll = rollResult;
-//   rouletteCurrentStatus.isRolling = true;
-//   setTimeout(() => {
-//     rouletteCurrentStatus.currentTimer = rouletteCurrentStatus.roundDelay;
-//     rouletteCurrentStatus.isRolling = false;
-//   }, rouletteCurrentStatus.rollAnimationDuration);
-// }
 
 function updateUserBalances() {
   axios

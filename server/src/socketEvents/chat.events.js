@@ -22,7 +22,6 @@ function chatEvents(clientSocket) {
   });
 
   clientSocket.on('deleted-message', (deletedMessage) => {
-    console.log(deletedMessage);
     clientSocket.to(deletedMessage.chatRoomId).emit('deleted-message', deletedMessage);
   });
 

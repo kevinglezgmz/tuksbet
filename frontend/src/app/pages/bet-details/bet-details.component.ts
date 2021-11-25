@@ -22,9 +22,7 @@ export class BetDetailsComponent implements OnInit {
         .then((bet: Bet) => {
           this.bet = bet;
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => {});
     });
   }
 }
