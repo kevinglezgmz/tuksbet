@@ -158,12 +158,12 @@ class BetsController {
     const betsDb = new Database('BetHistory');
     const usersDb = new Database('Users');
     try {
-      await betsDb.insertOne(newBetToInsert);
+      const betInsertStatus = await betsDb.insertOne(newBetToInsert);
 
       /** Bet has been made, we need to update the user's balance*/
       await usersDb.updateOne({ _id: newBetToInsert.userId }, { $inc: { balance: newBetToInsert.betAmount * -1 } });
 
-      res.send({ msg: 'Bet placed successfully' });
+      res.send({ msg: 'Bet placed successfully', ...betInsertStatus });
     } catch (err) {
       /** If an error ocurred inserting the bet or updating the users balance, we need to delete the bet */
       await betsDb.deleteOne(newBetToInsert);
@@ -172,7 +172,10 @@ class BetsController {
   }
 
   static async updateBet(req, res) {
-    /** Only the server running the games can update the bet and payout the bet to the corresponding users */
+    /** Users can only update their betStake for Crash and Blackjack while the game does not have a result yet */
+    /******** Crash only accepts one update because the bet stake is at X.XXx when the bet is created */
+    /******** Blackjack should accept the card increments if the user hits, doubles, etc */
+    /** After the game ends, Socket server should call updateAllBetsInGameRound after the game ends */
     /** @type { BetHistory } */
     const betData = req.body;
     const betFields = ['userId', 'gameRoundId', 'betDate', 'betAmount', 'betPayout', 'betStake'];
@@ -185,13 +188,80 @@ class BetsController {
     });
 
     const betsDb = new Database('BetHistory');
+    // Retrieve the original bet and the gameround details to know if it can be updated
     betsDb
-      .updateOne({ _id: getObjectId(req.params.betId) }, { $set: overrideBetData })
-      .then((result) => {
-        res.send({ msg: 'Successfully modified the bet data' });
+      .findAggregate([
+        { $match: { _id: getObjectId(req.params.betId) } },
+        {
+          $lookup: {
+            from: 'GameRounds',
+            localField: 'gameRoundId',
+            foreignField: '_id',
+            as: 'fromGameRound',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromGameRound', 0] }, '$$ROOT'] } },
+        },
+        {
+          $lookup: {
+            from: 'Games',
+            localField: 'gameId',
+            foreignField: '_id',
+            as: 'fromGame',
+          },
+        },
+        {
+          $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromGame', 0] }, '$$ROOT'] } },
+        },
+        {
+          $project: {
+            _id: 1,
+            username: 1,
+            userId: 1,
+            gameRoundId: 1,
+            gameName: 1,
+            betDate: 1,
+            betAmount: 1,
+            betPayout: 1,
+            betStake: 1,
+            result: 1,
+            acceptingBets: 1,
+          },
+        },
+      ])
+      .next()
+      .then((fullBetAndGameRound) => {
+        if (fullBetAndGameRound.gameName === 'Roulette' || fullBetAndGameRound.result !== null) {
+          throw 'This bet cannot be updated';
+        }
+
+        if (
+          fullBetAndGameRound.gameName === 'Crash' &&
+          overrideBetData.betStake &&
+          fullBetAndGameRound.acceptingBets === false
+        ) {
+          const initialCrashBetStake = fullBetAndGameRound.betStake.split('-');
+          const newCrashBetStake = overrideBetData.betStake.split('-');
+          const initialCrashVal = parseFloat(initialCrashBetStake[1]);
+          const newCrashVal = parseFloat(newCrashBetStake[1]);
+          if (newCrashVal < initialCrashVal && initialCrashBetStake[2] === 'running') {
+            return { betStake: 'crash-' + newCrashVal.toFixed(2) + 'x-exited' };
+          }
+        }
+        if (fullBetAndGameRound.gameName === 'Blackjack' && fullBetAndGameRound.result === null) {
+          return { betStake: req.body.betStake, betAmount: req.body.betAmount };
+        }
+
+        throw 'This bet cannot be updated';
+      })
+      .then((updateBet) => {
+        betsDb.updateOne({ _id: getObjectId(req.params.betId) }, { $set: updateBet }).then((result) => {
+          res.send({ msg: 'Successfully modified the bet data' });
+        });
       })
       .catch((err) => {
-        res.status(500).send({ err: 'Unexpected error, please try again' });
+        res.status(500).send({ err: err ? err : 'Unexpected error, please try again' });
       });
   }
 
@@ -251,14 +321,14 @@ class BetsController {
           const dealerResult = parseInt(gameRoundData.result.split('-')[1]);
           betsMadeInGameRound.forEach((bet) => {
             const userNumber = parseInt(bet.betStake.split('-')[1]);
-            if (dealerResult > 21) {
+            if (dealerResult > 21 && userNumber <= 21) {
               bet.betPayout = bet.betAmount * 2;
             } else if (userNumber <= 21 && userNumber > dealerResult) {
               bet.betPayout = bet.betAmount * 2;
             } else if (userNumber === dealerResult) {
-              bet.betPayout = betAmount;
+              bet.betPayout = bet.betAmount;
             } else {
-              bet.betPayout = betAmount * -1;
+              bet.betPayout = bet.betAmount * -1;
             }
           });
           break;

@@ -1,0 +1,57 @@
+
+#btns-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px 10px 5px;
+    button {
+        width: 40%;
+        margin: 5px;
+        height: 35px;
+    }
+}
+
+#game-container {
+    background-color: lightgray;
+}
+
+#dealer-container, #player-container {
+    justify-content: center;
+    height: 250px;
+
+    >div {
+        justify-content: center;
+    }
+}
+
+#dealer-container {
+    margin-bottom: 0px;
+}
+
+#player-container {
+    margin-top: 0px;
+}
+
+#bet-selector {
+    justify-content: center;
+}
+
+.blackjack-bet-container {
+    display: flex;
+    justify-content: center;
+}
+
+#dealer-cards, #player-cards {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+img{
+    height: 150px;
+    width: 100px;
+    margin: 5px;
+}
+
+h3, h2 {
+    text-align: center;
+}

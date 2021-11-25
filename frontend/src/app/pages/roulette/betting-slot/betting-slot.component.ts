@@ -75,8 +75,6 @@ export class BettingSlotComponent implements OnInit {
         // If bet was placed successfuly, notify the other users
         this.webSocket.emit('new-roulette-' + this.bettingColor + '-bet', bet);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 }

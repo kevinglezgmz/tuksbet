@@ -1,0 +1,20 @@
+.crash-container {
+  width: 100%;
+  height: 45vh;
+}
+
+.crash-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.crash-bet-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.crash-betting-slot {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

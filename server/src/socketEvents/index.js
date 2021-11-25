@@ -4,6 +4,8 @@ const axios = require('axios').default;
 /** Events */
 const initChatEventsSocket = require('./chat.events');
 const initRouletteEventsSocket = require('./roulette.events');
+const initCrashEventsSocket = require('./crash.events');
+const initBlackjackEventsSocket = require('./blackjack.events');
 
 /**
  * @param { Socket } ioSocket
@@ -15,11 +17,13 @@ function setMainSocketInstance(ioSocket) {
       /** @type { {_id: string; gameName: string}[] } Game[] */
       const games = response.data;
       initRouletteEventsSocket(ioSocket, games.find((game) => game.gameName === 'Roulette')._id);
+      initCrashEventsSocket(ioSocket, games.find((game) => game.gameName === 'Crash')._id);
+      initBlackjackEventsSocket(ioSocket, games.find((game) => game.gameName === 'Blackjack')._id);
     })
     .catch((err) => {
       console.log(err);
     });
-  initChatEventsSocket(ioSocket);
+    initChatEventsSocket(ioSocket);
 }
 
 module.exports = setMainSocketInstance;

@@ -7,5 +7,5 @@ export interface Bet {
   betDate?: Date;
   betAmount: number;
   betPayout?: number;
-  betStake: string;
+  betStake?: string;
 }

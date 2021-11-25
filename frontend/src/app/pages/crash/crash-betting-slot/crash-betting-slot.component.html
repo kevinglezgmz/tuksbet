@@ -1,0 +1,17 @@
+<div class="betting-slot-container">
+  <div>
+    <div class="amount-input">
+      <input type="text" [(ngModel)]="betToCrashAt" (blur)="onBlur($event)" />
+    </div>
+    <button *ngIf="!currentBetId" (click)="onClickBet($event)" class="crash-betting-btn">Apostar ahora</button>
+    <button *ngIf="currentBetId" (click)="onClickExitCrash($event)" class="crash-betting-btn">Salirse!</button>
+  </div>
+  <div class="current-bets-container">
+    <div class="bet-entry" *ngFor="let bet of currentBets">
+      <div class="bet-entry-user">{{ bet.username }}</div>
+      <div class="bet-entry-amount">
+        <p>${{ bet.betAmount | number: '1.2-2' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
