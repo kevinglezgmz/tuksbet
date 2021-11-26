@@ -158,9 +158,15 @@ module.exports = router;
  *    summary: POST request for a new bet
  *    description: Makes a server request to post a new bet.
  *    parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: The bearer's token
+ *         schema:
+ *           type: string
+ *           example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTdlZmMxMDFkYzRjMGIwMDVhODMxZDAiLCJ1c2VybmFtZSI6InVzdWFyaW9OdWV2byIsImVtYWlsIjoibmV3TWFpbEBtYWlsLmNvbSIsImlhdCI6MTYzNTcyMDIzM30.sJbwN2PrHKaRRY2_eJNfu0ccjJy1Uw2G-tSfmuNsraM
  *       - in: body
  *         name: bet
- *         description: The bet to be patched
+ *         description: The data to create the bet
  *         schema:
  *           type: object
  *           required:
@@ -173,6 +179,9 @@ module.exports = router;
  *             gameRoundId:
  *               type: string
  *               example: 616b9a868562c95984sdei01
+ *             username:
+ *               type: string
+ *               example: exampleUser
  *             betAmount:
  *               type: float
  *               example: 0.56

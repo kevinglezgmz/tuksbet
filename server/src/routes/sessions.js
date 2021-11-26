@@ -36,14 +36,29 @@ module.exports = router;
  *               type: string
  *               example: examplePasswordEncrypted123
  *    responses:
- *      201:
+ *      200:
  *        description: Success response. Retrieves status of the user.
  *        schema:
  *          type: object
  *          properties:
  *            statusInsert:
- *              type: boolean
- *              example: true
+ *              type: object
+ *              properties:
+ *                acknowledged:
+ *                  type: boolean
+ *                  example: 
+ *                modifiedCount:
+ *                  type: int
+ *                  example: 1
+ *                upsertedId:
+ *                  type: null
+ *                  example: null
+ *                upsertedCount:
+ *                  type: int
+ *                  example: 0
+ *                matchedCount:
+ *                  type: int
+ *                  example: 1
  *            token:
  *              type: string
  *              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTdlZmMxMDFkYzRjMGIwMDVhODMxZDAiLCJ1c2VybmFtZSI6InVzdWFyaW9OdWV2byIsImVtYWlsIjoibmV3TWFpbEBtYWlsLmNvbSIsImlhdCI6MTYzNTcyMDIzM30.sJbwN2PrHKaRRY2_eJNfu0ccjJy1Uw2G-tSfmuNsraM
