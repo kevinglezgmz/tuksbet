@@ -2,6 +2,7 @@
   {{ crashState === 'RUNNING' ? 'Buena suerte!' : crashState === 'WAITING' ? 'Espera a la siguiente ronda...' : 'Crash!' }}
 </h1>
 <h5>ID de la ronda: {{ currentGameRoundId }}</h5>
+<button mat-button (click)="openCrashHistory()">Open dialog</button>
 <div class="crash-container" (window:resize)="onResize($event)" #crashCanvasContainer>
   <canvas #crashCanvas class="crash-canvas" [width]="crashWidth" [height]="crashHeight"></canvas>
 </div>

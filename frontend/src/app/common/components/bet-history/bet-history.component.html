@@ -1,4 +1,4 @@
-<table class="bets-container">
+<!-- <table class="bets-container">
   <thead>
     <tr>
       <th>JUEGO</th>
@@ -27,4 +27,50 @@
       <td>${{ bet.betPayout || 0 | number: '1.2-2' }}</td>
     </tr>
   </tbody>
+</table> -->
+
+<table mat-table [dataSource]="bets" class="mat-elevation-z8 material-table">
+  <ng-container matColumnDef="GameName">
+    <th class="table-header-column" mat-header-cell *matHeaderCellDef>JUEGO</th>
+    <td mat-cell *matCellDef="let bet">
+      <a mat-button routerLink="/{{ bet.gameName | lowercase }}">{{ bet.gameName }}</a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Username">
+    <th class="table-header-column" mat-header-cell *matHeaderCellDef>USUARIO</th>
+    <td mat-cell *matCellDef="let bet">
+      <a mat-button routerLink="/users/{{ bet.userId }}">{{ bet.username }}</a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="BetDate">
+    <th class="table-header-column" mat-header-cell *matHeaderCellDef>FECHA</th>
+    <td mat-cell *matCellDef="let bet">{{ bet.betDate | date: 'short' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="BetId">
+    <th class="table-header-column" mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let bet">
+      <a mat-button routerLink="/bets/{{ bet._id }}">{{ bet._id }}</a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="BetAmount">
+    <th class="table-header-column" mat-header-cell *matHeaderCellDef>APUESTA</th>
+    <td mat-cell *matCellDef="let bet">${{ bet.betAmount | number: '1.2-2' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="BetMultiplier">
+    <th class="table-header-column" mat-header-cell *matHeaderCellDef>MULT</th>
+    <td mat-cell *matCellDef="let bet">{{ (bet.betPayout || 0) / bet.betAmount | number: '1.2-2' }}x</td>
+  </ng-container>
+
+  <ng-container matColumnDef="BetPayout">
+    <th class="table-header-column" mat-header-cell *matHeaderCellDef>GANANCIA</th>
+    <td mat-cell *matCellDef="let bet">${{ bet.betPayout || 0 | number: '1.2-2' }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
 </table>

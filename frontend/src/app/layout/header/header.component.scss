@@ -38,25 +38,24 @@ nav {
   }
 }
 
-.btn {
-  border-radius: 4px;
-  border: none;
-  box-sizing: border-box;
-  width: 70px;
-  color: rgb(134, 24, 24);
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 6px 7px;
-  background: #bbb9b9;
+.example-spacer {
+  flex: 1 1 auto;
 }
 
-a {
-  text-decoration: none;
-  font-weight: bold;
-  color: rgb(129, 0, 0);
+.left-nav-item-container,
+.right-nav-item-container {
+  display: flex;
+  justify-content: center;
+  width: 100px;
+}
 
-  &:visited {
-    color: rgb(134, 24, 24);
-  }
+.right-nav-item-container button {
+  width: 80px;
+}
+
+.header-toolbar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
 }

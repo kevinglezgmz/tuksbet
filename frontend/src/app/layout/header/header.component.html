@@ -1,13 +1,23 @@
-<nav>
-  <span class="nav-item left-nav-section">
-    <a routerLink="/">HOME</a>
-  </span>
+<mat-toolbar class="header-toolbar">
+  <a routerLink="/">
+    <div class="left-nav-item-container">
+      <button mat-mini-fab aria-label="Home button">
+        <mat-icon>home</mat-icon>
+      </button>
+    </div>
+  </a>
+  <span class="example-spacer"></span>
   <span class="nav-item center-nav-section">
     <div>Balance: 0</div>
     <!-- Balance/Wallet component here -->
   </span>
-  <span class="nav-item right-nav-section">
-    <a *ngIf="!isLoggedIn" routerLink="/login"> <button class="btn">Login</button></a>
-    <a *ngIf="isLoggedIn" routerLink="/logout"><button class="btn">Logout</button></a>
+  <span class="example-spacer"></span>
+  <span class="right-nav-item-container">
+    <a *ngIf="!isLoggedIn" routerLink="/login">
+      <button mat-raised-button color="accent">Login</button>
+    </a>
+    <a *ngIf="isLoggedIn" routerLink="/logout">
+      <button mat-raised-button color="warn">Logout</button>
+    </a>
   </span>
-</nav>
+</mat-toolbar>

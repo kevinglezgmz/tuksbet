@@ -3,10 +3,8 @@
 .main-content {
   overflow-y: auto;
   overflow-x: visible;
-  margin-top: $header-height;
   margin-left: 25px;
   margin-right: 25px;
-  height: calc(100vh - #{$header-height});
   display: flex;
   flex-direction: column;
 }

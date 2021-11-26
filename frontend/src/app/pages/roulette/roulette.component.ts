@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 import { Subject } from 'rxjs';
@@ -6,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { Bet } from 'src/app/common/data-types/bet';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { GameHistoryComponent } from 'src/app/common/components/game-history/game-history.component';
 
 @Component({
   selector: 'app-roulette',
@@ -83,7 +85,12 @@ export class RouletteComponent implements OnInit, AfterViewInit {
   /** Destroy observables when we leave the page */
   private unsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(private webSocket: WebSocketService, private betService: BetHistoryService, private authService: AuthService) {
+  constructor(
+    private webSocket: WebSocketService,
+    private betService: BetHistoryService,
+    private authService: AuthService,
+    private dialogService: MatDialog
+  ) {
     this.webSocket.emit('join-roulette-game', undefined);
 
     this.webSocket
@@ -204,5 +211,14 @@ export class RouletteComponent implements OnInit, AfterViewInit {
 
   setBetAmount(event: number) {
     this.betAmount = event;
+  }
+
+  openRouletteHistory() {
+    const dialogRef = this.dialogService.open(GameHistoryComponent, {
+      data: {
+        gameName: 'Roulette',
+      },
+      autoFocus: false,
+    });
   }
 }

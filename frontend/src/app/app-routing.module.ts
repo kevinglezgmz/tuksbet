@@ -12,7 +12,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './common/guards/auth.guard';
-import { GameHistoryComponent } from './pages/game-history/game-history.component';
+import { GameHistoryComponent } from './common/components/game-history/game-history.component';
 import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { SignupComponent } from './pages/signup/signup.component';

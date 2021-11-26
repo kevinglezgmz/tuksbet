@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { GameHistoryComponent } from 'src/app/common/components/game-history/game-history.component';
 import { Bet } from 'src/app/common/data-types/bet';
 import { CanvasDrawableNumber, CrashStates } from 'src/app/common/data-types/crash-game-types';
 import { AuthService } from 'src/app/common/services/auth.service';
@@ -53,7 +55,12 @@ export class CrashComponent implements OnInit, AfterViewInit {
 
   /** Destroy observables when we leave the page */
   private unsubscribe: Subject<void> = new Subject<void>();
-  constructor(private webSocket: WebSocketService, private authService: AuthService, private betService: BetHistoryService) {
+  constructor(
+    private webSocket: WebSocketService,
+    private authService: AuthService,
+    private betService: BetHistoryService,
+    private dialogService: MatDialog
+  ) {
     this.webSocket.emit('join-crash-game', undefined);
 
     this.webSocket
@@ -308,5 +315,14 @@ export class CrashComponent implements OnInit, AfterViewInit {
     const crashContainer = this.crashCanvasContainer.nativeElement as HTMLDivElement;
     this.crashWidth = crashContainer.offsetWidth;
     this.crashHeight = crashContainer.offsetHeight;
+  }
+
+  openCrashHistory() {
+    const dialogRef = this.dialogService.open(GameHistoryComponent, {
+      data: {
+        gameName: 'Crash',
+      },
+      autoFocus: false,
+    });
   }
 }

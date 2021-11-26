@@ -5,4 +5,5 @@ export interface GameRound {
   result?: string;
   roundDate?: Date;
   acceptingBets?: boolean;
+  totalCount?: number;
 }

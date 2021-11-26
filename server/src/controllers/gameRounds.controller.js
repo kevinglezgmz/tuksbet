@@ -7,6 +7,18 @@ const { getObjectId } = require('../utils.js');
 
 class GameRoundsController {
   static getAllGameRounds(req, res) {
+    const pagination = {
+      page: 0,
+      limit: 10,
+      gameName: '',
+    };
+
+    const { page, limit, gameName } = req.query;
+
+    pagination.page = !isNaN(parseInt(page)) ? parseInt(page) : pagination.page;
+    pagination.limit = !isNaN(parseInt(limit)) ? parseInt(limit) : pagination.limit;
+    pagination.gameName = page ? gameName : pagination.gameName;
+
     const gameRoundsDb = new Database('GameRounds');
     gameRoundsDb
       .findAggregate([
@@ -26,7 +38,36 @@ class GameRoundsController {
             fromGame: 0,
           },
         },
+        {
+          $match: { gameName: pagination.gameName },
+        },
+        {
+          $facet: {
+            totalCount: [{ $count: 'value' }],
+            pipelineResults: [
+              {
+                $match: { gameName: pagination.gameName },
+              },
+            ],
+          },
+        },
+        {
+          $unwind: '$pipelineResults',
+        },
+        {
+          $unwind: '$totalCount',
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: ['$pipelineResults', { totalCount: '$totalCount.value' }],
+            },
+          },
+        },
       ])
+      .sort({ _id: -1 })
+      .skip(pagination.limit * pagination.page)
+      .limit(pagination.limit)
       .toArray()
       .then((results) => {
         if (results.length === 0) {
@@ -36,6 +77,7 @@ class GameRoundsController {
         }
       })
       .catch((err) => {
+        console.log(err);
         res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }

@@ -9,6 +9,7 @@ import { BetHistoryService } from '../../services/bet-history.service';
 })
 export class BetHistoryComponent implements OnInit {
   bets: Bet[] = [];
+  columnsToDisplay: string[] = ['GameName', 'Username', 'BetDate', 'BetId', 'BetAmount', 'BetMultiplier', 'BetPayout'];
 
   constructor(private betHistory: BetHistoryService) {}
 
