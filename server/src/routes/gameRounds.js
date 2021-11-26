@@ -143,31 +143,22 @@ module.exports = router;
  *          type: object
  *          required:
  *            - gameId
- *            - result
- *            - roundDate
- *            - acceptingBets
  *          properties:
  *            gameId:
  *              type: string
- *              example: 616b9a868562c959c04a3cd1
- *            result:
- *              type: string
- *              example: abc
- *            roundDate:
- *               type: date
- *               example: Wed Jan 27 2021 10:15:53 GMT+1000 (AEST)
- *            acceptingBets:
- *              type: boolean
- *              example: true
+ *              example: 6188288cc4ce0eee3f274fa1
  *    responses:
  *      201:
  *        description: Success response. Retrieves status of the game round
  *        schema:
  *          type: object
  *          properties:
- *            status:
+ *            aknowledged:
+ *              type: boolean
+ *              example: true
+ *            insertedId: 
  *              type: string
- *              example: Game round added
+ *              example: 61a0590051e858cba342b5b3
  *      400:
  *        description: Bad request
  *        schema:

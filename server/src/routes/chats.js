@@ -89,6 +89,10 @@ module.exports = router;
  *        name: chatRoomId
  *        description: The identifier of the chat room
  *        example: 616b9a868562c959c04a3cd1
+ *      - in: header
+ *        name: Authorization
+ *        description: The bearer's token
+ *        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTdlZmMxMDFkYzRjMGIwMDVhODMxZDAiLCJ1c2VybmFtZSI6InVzdWFyaW9OdWV2byIsImVtYWlsIjoibmV3TWFpbEBtYWlsLmNvbSIsImlhdCI6MTYzNTcyMDIzM30.sJbwN2PrHKaRRY2_eJNfu0ccjJy1Uw2G-tSfmuNsraM
  *      - in: body
  *        name: message
  *        description: The message to be posted in the chat
@@ -176,7 +180,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Message updated
+ *              example: Successfully modified the message data
  *      400:
  *        description: Bad request
  *        schema:
@@ -229,7 +233,7 @@ module.exports = router;
  *          properties:
  *            msg:
  *              type: string
- *              example: Message deleted
+ *              example: Message deleted successfully
  *      400:
  *        description: Bad request
  *        schema:
