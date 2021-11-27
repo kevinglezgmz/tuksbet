@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from 'src/app/common/data-types/users';
 import { UserService } from 'src/app/common/services/user.service';
 import { LoginService } from 'src/app/common/services/login.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/common/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,8 +13,10 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit {
 
   form: FormGroup;
+  hide: boolean = true;
+  signupError: string = '';
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private userService: UserService, private loginService: LoginService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private userService: UserService, private loginService: LoginService, private authService: AuthService) {
     this.form = this.formBuilder.group({
       username: ['', [Validators.required, ]],
       email: ['', [Validators.required, Validators.email]],
@@ -36,17 +38,36 @@ export class SignupComponent implements OnInit {
       let newUser = this.form.value;
       delete newUser.confirm;
 
-      this.userService.createUser(newUser);
+      this.userService.createUser(newUser).then(() => {
+        delete newUser.username;
+  
+        this.loginService.login(newUser).then((userDetails) => {
+          this.authService.saveUserDetails({ token: userDetails.token, userId: userDetails.userId, username: userDetails.username, roles: userDetails.roles });
+          this.router.navigate(['']);
+        });
+      }).catch((err) => {
+        console.log(err.error);
+        if(err.error.err === 'This user already exists'){
+          this.signupError = 'Ese usuario ya existe'
+        } else {
+          this.signupError = 'Ocurrió un error, intenta de nuevo'
+        }
+      });
 
-      delete newUser.username;
-
-      this.loginService.login(newUser);
-      
-      this.router.navigate(['']);
     }
   }
 
   confirmPasswordValidation(form: FormGroup) {
     return form.controls['password'].value === form.controls['confirm'].value ? true : {'mismatch': true};
+  }
+
+  onPasswordInput() {
+    if(this.form.controls['password'].value !== this.form.controls['confirm'].value){
+      this.form.controls['confirm'].setErrors({'passwordMismatch': true});
+    }
+  }
+
+  onInput() {
+    this.signupError = '';
   }
 }
