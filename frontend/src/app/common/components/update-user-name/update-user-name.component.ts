@@ -11,6 +11,8 @@ export class UpdateUserNameComponent implements OnInit {
   @Input() usernameValue: string = '';
   userId: string = '';
   inputUsername: string = '';
+  transactionId: string = '';
+
   constructor(private userService: UserService, private authService: AuthService) {}
 
   updateUsername(event: Event) {

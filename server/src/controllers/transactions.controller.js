@@ -83,7 +83,7 @@ class TransactionsController {
 
     const transactionToInsert = {
       userId: getObjectId(transactionData.userId),
-      amount: transactionData.amount,
+      amount: parseFloat(transactionData.amount),
       isDeposit: transactionData.isDeposit,
       status: 'pending',
       transactionDate: new Date(),

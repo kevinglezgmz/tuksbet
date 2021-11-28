@@ -29,6 +29,11 @@ export class AppComponent {
   title = 'tuksbet-front';
   isChatOpen = true;
 
+  ngOnInit() {
+    // This helps hiding our key from index view
+    document.getElementById('paypalremove')?.remove();
+  }
+  
   constructor(private chatStatusService: ChatStatusService) {
     this.chatStatusService.isChatOpen().subscribe((status: boolean) => {
       this.isChatOpen = status;
