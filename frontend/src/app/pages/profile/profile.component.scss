@@ -1,6 +1,6 @@
 @import '../../../variables';
 
-.user-container {
+/*.user-container {
   width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
@@ -31,4 +31,22 @@
       }
     }
   }
+}*/
+
+.profile-card-container {
+  display: block;
+  margin: auto;
+  max-width: 600px;
+  margin: 2em auto;
+  text-align: center;
+}
+
+img {
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+}
+
+.mat-card {
+  margin: 2.5em 0px;
 }

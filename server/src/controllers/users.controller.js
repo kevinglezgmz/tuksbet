@@ -130,13 +130,14 @@ class UsersController {
     } else if (req.files) {
       newUserInfo.identification = { front: req.files[0].location, back: req.files[1].location };
     }
-
     const usersDb = new Database('Users');
     usersDb
       .updateOne({ _id: getObjectId(req.params.userId) }, { $set: newUserInfo })
       .then((result) => {
         const updatedField = password ? 'password' : username ? 'username' : 'avatar';
-        if (result.acknowledged) {
+        if (result.acknowledged && newUserInfo.avatar) {
+          res.send({ imgLink: newUserInfo.avatar });
+        } else if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfully' });
         } else {
           throw 'Unexpected error, please try again';

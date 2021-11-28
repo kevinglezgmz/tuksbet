@@ -1,3 +1,26 @@
-<input type="file" name="avatar" (change)="fileSelected($event)" />
-<br />
-<button (click)="updateAvatar($event)">Actualizar imagen</button>
+<!-- <input type="file" name="avatar" (change)="fileSelected($event)" />
+<button (click)="updateAvatar($event)">Actualizar imagen</button> -->
+
+<mat-card>
+  <mat-card-title>
+    <h1>Cambiar avatar</h1>
+  </mat-card-title>
+
+  <mat-card-content>
+    <form (submit)="updateAvatar()" [formGroup]="updateAvatarForm">
+      <mat-error *ngIf="updateAvatarError.length > 0">
+        {{ updateAvatarError }}
+      </mat-error>
+
+      <div class="form-field-container">
+        <mat-label>Escoge un archivo</mat-label>
+        <input type="file" formControlName="newAvatar" (change)="fileSelected($event)" (input)="onFileInput()" required />
+        <mat-error *ngIf="updateAvatarForm.get('newAvatar')!.hasError('invalidFileType')">
+          Archivos válidos: .jpg, .jpeg, .png
+        </mat-error>
+      </div>
+
+      <button mat-raised-button color="primary" type="submit">Cambiar avatar</button>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -45,7 +45,6 @@ import { UpdatePasswordComponent } from './common/components/update-password/upd
 import { UpdateAvatarComponent } from './common/components/update-avatar/update-avatar.component';
 import { CrashBettingSlotComponent } from './pages/crash/crash-betting-slot/crash-betting-slot.component';
 import { BetAmountSelectorComponent } from './common/components/bet-amount-selector/bet-amount-selector.component';
-
 @NgModule({
   declarations: [
     AppComponent,
