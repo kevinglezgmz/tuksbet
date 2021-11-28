@@ -27,6 +27,9 @@ export class AppComponent {
   fixedInViewport = true;
 
   public ngOnInit(): void {
+    // This helps hiding our key from index view
+    document.getElementById('paypalremove')?.remove();
+
     const breakpoints = Object.keys(Breakpoints).map((key, index) => Object.values(Breakpoints)[index]);
     this.bpo
       .observe(breakpoints)
