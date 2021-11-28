@@ -73,7 +73,5 @@ export class DepositComponent implements OnInit {
         },
       })
       .render('#paypalButtons');
-
-    // paypal.Buttons({}).render('#paypalButtons');
   }
 }
