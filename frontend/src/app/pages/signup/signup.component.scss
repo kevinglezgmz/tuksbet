@@ -1,4 +1,4 @@
-.signup-form {
+/*.signup-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,4 +17,19 @@
     text-align: left;
     font-size: medium;
     }
+}*/
+
+.mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+  align-items: center;
+}
+
+.mat-form-field {
+  width: 80%;
+}
+
+.form-field {
+  margin: 4px 0px;
 }

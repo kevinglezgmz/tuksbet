@@ -1,4 +1,4 @@
-<form class="login-form" (submit)="handleLoginSubmit($event)">
+<!-- <form class="login-form" (submit)="handleLoginSubmit($event)">
   <h3>Inicia sesión en tu cuenta</h3>
   <h6>¿No tienes cuenta? <a routerLink="/signup">Registrate</a></h6>
   <input [(ngModel)]="email" type="text" name="email" placeholder="Email" />
@@ -8,4 +8,43 @@
 <div class="socials">
   <button (click)="loginWithGoogle()">Google</button>
   <button (click)="loginWithFacebook()">Facebook</button>
-</div>
+</div> -->
+
+<mat-card>
+  <mat-card-content>
+    <form class="login-form" (submit)="handleLoginSubmit($event)">
+      <h1>Inicia sesión en tu cuenta</h1>
+      <h4>¿No tienes cuenta? <a routerLink="/signup">Regístrate</a></h4>
+      
+      <mat-error *ngIf="loginError">
+        Datos inválidos, intenta de nuevo
+    </mat-error>
+
+      <mat-form-field class="form-field" >
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="email" type="text" name="email" placeholder="Email" (input)="onInput()" />
+      </mat-form-field>
+      
+      <mat-form-field class="form-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [(ngModel)]="password" [type]="hide ? 'password' : 'text'" name="password" placeholder="Contraseña" (input)="onInput()" />
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+    </form>
+
+    <div class="socials">
+      <button mat-raised-button (click)="loginWithGoogle()">
+        <mat-icon svgIcon="google"></mat-icon>
+        Inicia sesión con Google
+      </button>
+      <button mat-raised-button (click)="loginWithFacebook()">
+        <mat-icon svgIcon="facebook"></mat-icon>
+        Inicia sesión con Facebook
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

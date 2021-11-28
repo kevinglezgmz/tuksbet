@@ -1,4 +1,4 @@
-<form (submit)="signUp()" [formGroup]="form" class="signup-form">
+<!-- <form (submit)="signUp()" [formGroup]="form" class="signup-form">
     <h1>Regístrate</h1>
     <label for="username">Nombre de usuario</label>
     <input type="text" name="username" placeholder="user123" required formControlName="username">
@@ -9,4 +9,65 @@
     <label for="confirm">Confirmar contraseña</label>
     <input type="password" name="confirm" placeholder="******************" required formControlName="confirm">
     <button type="submit">Crear cuenta</button>
-</form>
+</form> -->
+
+<mat-card>
+    <mat-card-content>
+        <form (submit)="signUp()" [formGroup]="form" class="signup-form">
+            <h1>Regístrate</h1>
+
+            <mat-error *ngIf="signupError.length > 0">
+                {{signupError}}
+            </mat-error>
+
+            <mat-form-field class="form-field" >
+                <mat-label>Nombre de usuario</mat-label>
+                <input matInput type="text" formControlName="username" placeholder="new_user" (input)="onInput()" required />
+                <mat-error *ngIf="form.get('username')!.hasError('required')">
+                    El nombre de usuario es <strong>necesario</strong>
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="form-field" >
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="mail@gmail.com" (input)="onInput()" required />
+                <mat-error *ngIf=" form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')">
+                    Ingresa un email válido
+                </mat-error>
+                <mat-error *ngIf="form.get('email')!.hasError('required')">
+                    El email es <strong>necesario</strong>
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="form-field">
+                <mat-label>Ingresa tu contraseña</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Contraseña" required />
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('password')!.hasError('pattern')">
+                    Mínimo 9 caracteres, mayúscula, minúscula, número y caracter especial
+                </mat-error>
+                <mat-error *ngIf="form.get('password')!.hasError('required')">
+                    La contraseña es <strong>necesaria</strong>
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="form-field">
+                <mat-label>Confirma tu contraseña</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="confirm" placeholder="Contraseña" (input)="onPasswordInput()" required />
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('confirm')!.hasError('required')">
+                    Por favor, confirma la contraseña
+                </mat-error>
+                <mat-error *ngIf="form.get('confirm')!.hasError('passwordMismatch')">
+                    Las contraseñas no coinciden
+                </mat-error>
+            </mat-form-field>
+            
+            <button mat-raised-button color="primary" type="submit">Crear cuenta</button>
+        </form>
+    </mat-card-content>
+</mat-card>
