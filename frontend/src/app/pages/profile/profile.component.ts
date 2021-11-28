@@ -21,4 +21,12 @@ export class ProfileComponent implements OnInit {
       this.user = user;
     });
   }
+
+  avatarChangedHandler(avatarLink: string) {
+    this.user!.avatar = avatarLink;
+  }
+
+  usernameChangedHandler(username: string) {
+    this.user!.username = username;
+  }
 }

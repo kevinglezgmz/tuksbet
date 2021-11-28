@@ -3,3 +3,32 @@ button {
   display: block;
   margin: 0 auto;
 }
+
+.form-field-container {
+  margin: auto;
+  width: 80%;
+
+  label,
+  input {
+    margin: 10px auto;
+    text-align: center;
+    margin: auto;
+    width: 180px;
+  }
+}
+
+.mat-simple-snackbar {
+  justify-content: center !important;
+}
+
+button {
+  margin: 10px auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+.mat-card {
+  margin: 10px 0px;
+}

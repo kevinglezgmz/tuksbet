@@ -1,4 +1,4 @@
-<div *ngIf="user" class="user-container">
+<!-- <div *ngIf="user" class="user-container">
   <div class="card">
     <h3>Cuenta</h3>
     <h1>{{ user.username }}</h1>
@@ -30,4 +30,32 @@
       </div>
     </div>
   </div>
+</div> -->
+<div class="profile-card-container">
+  <mat-card *ngIf="user" class="profile-title">
+    <mat-card-title>
+      <h1>Mi perfil</h1>
+    </mat-card-title>
+
+    <mat-card-content>
+      <img
+        src="{{
+          user.avatar ||
+            'https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640'
+        }}"
+        alt=""
+      />
+      <h1>{{ user.username }}</h1>
+    </mat-card-content>
+    <mat-card-subtitle>
+      <h1>Editar perfil</h1>
+    </mat-card-subtitle>
+  </mat-card>
+  <app-update-user-name
+    usernameValue="{{ user!.username }}"
+    *ngIf="user"
+    (usernameChanged)="usernameChangedHandler($event)"
+  ></app-update-user-name>
+  <app-update-password *ngIf="user"></app-update-password>
+  <app-update-avatar *ngIf="user" (avatarChanged)="avatarChangedHandler($event)"></app-update-avatar>
 </div>
