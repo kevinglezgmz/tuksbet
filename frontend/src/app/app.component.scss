@@ -1,24 +1,52 @@
 @import '../variables';
 
-.main-content {
-  overflow-y: auto;
-  overflow-x: visible;
-  margin-left: 25px;
-  margin-right: 25px;
-  display: flex;
-  flex-direction: column;
-}
+// .main-content {
+//   overflow-y: auto;
+//   overflow-x: visible;
+//   margin-left: 25px;
+//   margin-right: 25px;
+//   display: flex;
+//   flex-direction: column;
+// }
 
 .page-footer {
   margin-top: auto;
 }
 
-.chat-sidebar {
-  min-height: calc(100vh - $header-height);
-  max-height: calc(100vh - $header-height);
+// .chat-sidebar {
+//   min-height: calc(100vh - $header-height);
+//   max-height: calc(100vh - $header-height);
+// }
+
+// .chat-sidebar {
+//   min-height: calc(100vh - $header-height);
+//   max-height: calc(100vh - $header-height);
+// }
+
+.div-scrollable {
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  margin-left: 25px;
+  margin-right: 25px;
+  height: 4000px;
 }
 
-.chat-sidebar {
-  min-height: calc(100vh - $header-height);
-  max-height: calc(100vh - $header-height);
+@media screen and (max-width: 599px) {
+  .main-sidenav-container {
+    width: 100%;
+    height: calc(100vh - 56px);
+    z-index: 100;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .main-sidenav-container {
+    width: 100%;
+    height: calc(100vh - 64px);
+  }
+}
+
+.sidenav-container {
+  width: $sidebar-width;
 }

@@ -1,23 +1,26 @@
 <mat-toolbar class="header-toolbar">
-  <a routerLink="/">
-    <div class="left-nav-item-container">
-      <button mat-mini-fab aria-label="Home button">
+  <span class="left-nav-item-container">
+    <a routerLink="/">
+      <button mat-mini-fab aria-label="Home button" color="primary">
         <mat-icon>home</mat-icon>
       </button>
-    </div>
-  </a>
+    </a>
+  </span>
   <span class="example-spacer"></span>
-  <span class="nav-item center-nav-section">
+  <span class="center-nav-item-container">
     <div>Balance: 0</div>
     <!-- Balance/Wallet component here -->
   </span>
   <span class="example-spacer"></span>
   <span class="right-nav-item-container">
     <a *ngIf="!isLoggedIn" routerLink="/login">
-      <button mat-raised-button color="accent">Login</button>
+      <button mat-raised-button color="primary">Login</button>
+    </a>
+    <a *ngIf="isLoggedIn" routerLink="/profile" class="profile-btn">
+      <button mat-raised-button color="primary">Mi Perfil</button>
     </a>
     <a *ngIf="isLoggedIn" routerLink="/logout">
-      <button mat-raised-button color="warn">Logout</button>
+      <button mat-raised-button color="accent">Logout</button>
     </a>
   </span>
 </mat-toolbar>

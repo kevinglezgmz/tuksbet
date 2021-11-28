@@ -2,8 +2,7 @@ $tablet-width: 768px;
 $laptop-width: 992px;
 $desktop-width: 1200px;
 
-$header-height: 55px;
-$chat-sidebar-width: 375px;
+$sidebar-width: 375px;
 
 @mixin tablet {
   @media screen and (min-width: $tablet-width) {
@@ -25,7 +24,8 @@ $chat-sidebar-width: 375px;
 
 @mixin scrollbar {
   &::-webkit-scrollbar {
-    width: 20px;
+    width: 4px;
+    padding: 0;
   }
 
   &::-webkit-scrollbar-track {
@@ -34,12 +34,13 @@ $chat-sidebar-width: 375px;
 
   &::-webkit-scrollbar-thumb {
     background-color: #d6dee1;
-    border-radius: 10px;
-    border: 6px solid transparent;
+    border-radius: 2px;
+    border: 1px solid #d6dee1;
     background-clip: content-box;
   }
 
   &::-webkit-scrollbar-thumb:hover {
     background-color: #a8bbbf;
+    border: 1px solid #a8bbbf;
   }
 }

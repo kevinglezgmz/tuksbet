@@ -1,0 +1,9 @@
+<mat-tab-group animationDuration="400ms" (selectedTabChange)="onChatChange($event)" class="sidenav-chat-tabs-container">
+  <ng-container *ngFor="let chatRoom of availableRooms">
+    <mat-tab label="{{ chatRoom.chatRoomName }}">
+      <div class="sidenav-chat-container">
+        <app-chat-sidenav-tab [selectedRoom]="selectedRoom" [currentRoom]="chatRoom._id"></app-chat-sidenav-tab>
+      </div>
+    </mat-tab>
+  </ng-container>
+</mat-tab-group>

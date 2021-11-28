@@ -1,61 +1,49 @@
 @import '../../../variables';
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgb(95, 95, 95);
-  height: $header-height;
-  box-shadow: 0 3px 3px -3px rgb(44, 44, 44);
-  z-index: 99;
-
-  .nav-item {
-    width: calc(100% / 3);
-    > button {
-      margin: 0 auto;
-      display: block;
-    }
-  }
-
-  .left-nav-section {
-    text-align: left;
-    margin-left: 10px;
-  }
-
-  .center-nav-section {
-    text-align: center;
-    color: rgb(134, 24, 24);
-    font-weight: bold;
-  }
-
-  .right-nav-section {
-    text-align: right;
-    margin-right: 10px;
-  }
-}
-
 .example-spacer {
   flex: 1 1 auto;
 }
 
 .left-nav-item-container,
-.right-nav-item-container {
+.right-nav-item-container,
+.center-nav-item-container {
   display: flex;
+  width: 25%;
+}
+
+.left-nav-item-container {
+  justify-content: start;
+}
+
+.center-nav-item-container {
   justify-content: center;
-  width: 100px;
+}
+
+.right-nav-item-container {
+  justify-content: end;
+}
+
+.profile-btn {
+  margin-right: 0.75em;
 }
 
 .right-nav-item-container button {
   width: 80px;
 }
 
-.header-toolbar {
-  position: sticky;
-  position: -webkit-sticky; /* For macOS/iOS Safari */
-  top: 0; /* Sets the sticky toolbar to be on top */
-  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+mat-toolbar {
+  position: relative;
+  z-index: 0;
+}
+
+@media screen and (min-width: 960px) {
+  mat-toolbar {
+    z-index: 50;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  mat-toolbar {
+    z-index: 0;
+  }
 }

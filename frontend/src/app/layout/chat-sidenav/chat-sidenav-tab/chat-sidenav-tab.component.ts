@@ -1,38 +1,24 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ChatMessage } from 'src/app/common/data-types/chat-message';
 import { AuthService } from 'src/app/common/services/auth.service';
 import { ChatHistoryService } from 'src/app/common/services/chat-history.service';
 import { ChatStatusService } from 'src/app/common/services/chat-status.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogContentComponent } from 'src/app/common/components/confirm-dialog-content/confirm-dialog-content.component';
 
 @Component({
-  selector: 'app-chat-sidebar',
-  animations: [
-    trigger('chatToggle', [
-      state(
-        'opened',
-        style({
-          transform: 'translate3d(0px, 0px, 0px)',
-        })
-      ),
-      state(
-        'closed',
-        style({
-          transform: 'translate3d(-375px, 0px, 0px)',
-        })
-      ),
-      transition('opened => closed', [animate('0.3s')]),
-      transition('closed => opened', [animate('0.3s')]),
-    ]),
-  ],
-  templateUrl: './chat-sidebar.component.html',
-  styleUrls: ['./chat-sidebar.component.scss'],
+  selector: 'app-chat-sidenav-tab',
+  templateUrl: './chat-sidenav-tab.component.html',
+  styleUrls: ['./chat-sidenav-tab.component.scss'],
 })
-export class ChatSidebarComponent implements OnInit {
+export class ChatSidenavTab implements OnInit {
   chatMessages: ChatMessage[] = [];
   currentMessage: string = '';
-  currentRoom: string = '6189a967db3a4a2f9cc7d31e';
+  @Input('currentRoom') currentRoom: string = '6189a967db3a4a2f9cc7d31e';
+  @Input('selectedRoom') selectedRoom: string = '6189a967db3a4a2f9cc7d31e';
+  @ViewChild('scrollableChatContainer')
+  scrollableChatContainer!: ElementRef;
 
   isChatOpen: boolean = true;
   isLoggedIn: boolean = false;
@@ -45,7 +31,8 @@ export class ChatSidebarComponent implements OnInit {
     private webSocket: WebSocketService,
     private chatHistory: ChatHistoryService,
     private authService: AuthService,
-    private chatStatusService: ChatStatusService
+    private chatStatusService: ChatStatusService,
+    public dialog: MatDialog
   ) {
     this.chatStatusService.isChatOpen().subscribe((status) => {
       this.isChatOpen = status;
@@ -60,14 +47,19 @@ export class ChatSidebarComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  private getAllMessages() {
     this.chatHistory.getAllMessagesInRoom(this.currentRoom).then((messages: ChatMessage[]) => {
       this.chatMessages = messages.slice(0, 50);
+      setTimeout(() => {
+        const scrollableChatContainer = this.scrollableChatContainer.nativeElement as HTMLDivElement;
+        scrollableChatContainer.scrollTop = scrollableChatContainer.scrollHeight;
+      });
     });
+  }
 
+  ngOnInit(): void {
+    this.getAllMessages();
     this.webSocket.listen('connect').subscribe((data) => {});
-
-    this.webSocket.emit('join-room', this.currentRoom);
 
     this.webSocket.listen('new-message').subscribe((newMessage: ChatMessage) => {
       this.addNewMessage(newMessage);
@@ -78,11 +70,19 @@ export class ChatSidebarComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.selectedRoom && changes.selectedRoom.currentValue === this.currentRoom) {
+      this.webSocket.emit('join-room', this.currentRoom);
+      this.getAllMessages();
+    } else if (changes.selectedRoom && changes.selectedRoom.previousValue === this.currentRoom) {
+      this.webSocket.emit('leave-room', changes.selectedRoom.currentValue);
+    }
+  }
+
   sendMessage(event: Event) {
     if (!this.currentMessage || !this.userId || !this.currentRoom) {
       return;
     }
-    /** For now, only roulette will be available as a room */
     const newMessage: ChatMessage = {
       message: this.currentMessage,
       userId: this.userId,
@@ -129,7 +129,7 @@ export class ChatSidebarComponent implements OnInit {
     );
   }
 
-  deleteMessage(event: MouseEvent, msgId: string) {
+  deleteMessage(msgId: string) {
     this.chatHistory
       .deleteMessageInRoom(this.currentRoom, msgId)
       .then((msg) => {
@@ -139,5 +139,21 @@ export class ChatSidebarComponent implements OnInit {
       .catch((err) => {
         console.log('Hubo un problema en la eliminación del mensaje');
       });
+  }
+
+  openDeleteConfirmDialog(msgId: string) {
+    const dialogRef = this.dialog.open(ConfirmDialogContentComponent, {
+      data: {
+        title: '¿Borrar elemento?',
+        body: '¿Está seguro que desea eliminar el elemento? Esta acción no puede deshacerse.',
+      },
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteMessage(msgId);
+      }
+    });
   }
 }

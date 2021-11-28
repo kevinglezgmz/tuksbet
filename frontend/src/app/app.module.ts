@@ -20,7 +20,7 @@ import { CrashComponent } from './pages/crash/crash.component';
 import { BlackjackComponent } from './pages/blackjack/blackjack.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { ChatSidebarComponent } from './layout/chat-sidebar/chat-sidebar.component';
+import { ChatSidenavTab } from './layout/chat-sidenav/chat-sidenav-tab/chat-sidenav-tab.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
 import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
@@ -45,6 +45,8 @@ import { UpdatePasswordComponent } from './common/components/update-password/upd
 import { UpdateAvatarComponent } from './common/components/update-avatar/update-avatar.component';
 import { CrashBettingSlotComponent } from './pages/crash/crash-betting-slot/crash-betting-slot.component';
 import { BetAmountSelectorComponent } from './common/components/bet-amount-selector/bet-amount-selector.component';
+import { ChatSidenavTabGroupComponent } from './layout/chat-sidenav/chat-sidenav-tab-group/chat-sidenav-tab-group.component';
+import { ConfirmDialogContentComponent } from './common/components/confirm-dialog-content/confirm-dialog-content.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,7 @@ import { BetAmountSelectorComponent } from './common/components/bet-amount-selec
     BlackjackComponent,
     NotFoundComponent,
     FooterComponent,
-    ChatSidebarComponent,
+    ChatSidenavTab,
     DepositComponent,
     WithdrawComponent,
     TransactionsComponent,
@@ -80,6 +82,8 @@ import { BetAmountSelectorComponent } from './common/components/bet-amount-selec
     UpdatePasswordComponent,
     UpdateAvatarComponent,
     CrashBettingSlotComponent,
+    ChatSidenavTabGroupComponent,
+    ConfirmDialogContentComponent,
   ],
   imports: [
     BrowserModule,

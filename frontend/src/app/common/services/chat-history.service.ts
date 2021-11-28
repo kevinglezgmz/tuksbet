@@ -27,7 +27,7 @@ export class ChatHistoryService extends ParentService {
     return this.delete(this.chatHistoryEndpoint + chatRoomId + '/messages/' + messageId);
   }
 
-  updateTransaction(chatRoomId: string, messageId: string, message: ChatMessage): Promise<any> {
+  updateMessageInRoom(chatRoomId: string, messageId: string, message: ChatMessage): Promise<any> {
     return this.update(this.chatHistoryEndpoint + chatRoomId + '/messages/' + messageId, message);
   }
 }
