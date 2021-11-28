@@ -24,7 +24,8 @@ export class TransactionService extends ParentService {
   }
 
   createTransaction(transaction: Transaction): Promise<any> {
-    return this.create(this.transactionsEndpoint, transaction);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.create(this.transactionsEndpoint, transaction, headers);
   }
 
   deleteTransaction(transactionId: string): Promise<any> {
