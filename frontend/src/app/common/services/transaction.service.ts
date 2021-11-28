@@ -15,7 +15,8 @@ export class TransactionService extends ParentService {
   }
 
   getAllTransactions(): Promise<any> {
-    return this.get(this.transactionsEndpoint);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.get(this.transactionsEndpoint, headers);
   }
 
   getTransactionDetails(transactionId: string): Promise<any> {

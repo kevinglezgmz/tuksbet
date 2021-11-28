@@ -150,6 +150,7 @@ body {
 
   .mat-list {
     width: 100%;
+    word-wrap: break-word;
   }
 }
 
@@ -163,4 +164,8 @@ body {
   width: 100%;
   padding: 3px !important;
   margin: 3px !important;
+}
+
+* {
+  @include scrollbar;
 }

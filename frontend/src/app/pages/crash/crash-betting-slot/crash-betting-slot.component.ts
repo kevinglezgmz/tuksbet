@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Bet } from 'src/app/common/data-types/bet';
 import { CrashStates } from 'src/app/common/data-types/crash-game-types';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { BalanceService } from 'src/app/common/services/balance.service';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 
@@ -28,7 +29,8 @@ export class CrashBettingSlotComponent implements OnInit {
   constructor(
     private betService: BetHistoryService,
     private webSocket: WebSocketService,
-    private authService: AuthService
+    private authService: AuthService,
+    private balanceService: BalanceService
   ) {}
 
   ngOnInit(): void {
@@ -82,6 +84,7 @@ export class CrashBettingSlotComponent implements OnInit {
         this.currentBets.push(bet);
         // If bet was placed successfuly, notify the other users
         this.webSocket.emit('new-crash-bet', bet);
+        this.balanceService.updateUserBalance();
       })
       .catch((err) => {});
   }

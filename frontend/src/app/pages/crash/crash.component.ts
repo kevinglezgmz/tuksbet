@@ -6,6 +6,7 @@ import { GameHistoryComponent } from 'src/app/common/components/game-history/gam
 import { Bet } from 'src/app/common/data-types/bet';
 import { CanvasDrawableNumber, CrashStates } from 'src/app/common/data-types/crash-game-types';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { BalanceService } from 'src/app/common/services/balance.service';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 
@@ -59,7 +60,8 @@ export class CrashComponent implements OnInit, AfterViewInit {
     private webSocket: WebSocketService,
     private authService: AuthService,
     private betService: BetHistoryService,
-    private dialogService: MatDialog
+    private dialogService: MatDialog,
+    private balanceService: BalanceService
   ) {
     this.webSocket.emit('join-crash-game', undefined);
 
@@ -89,6 +91,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.crashedAt = realCrashedAt;
         this.crashState = CrashStates.CRASHED;
         this.currentGameRoundId = currentGameRoundId;
+        this.balanceService.updateUserBalance();
       });
 
     this.authService

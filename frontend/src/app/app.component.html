@@ -21,9 +21,13 @@
     <app-chat-sidenav-tab-group></app-chat-sidenav-tab-group>
   </mat-sidenav>
 
-  <button mat-icon-button (click)="opened = !opened">
-    <mat-icon>chat_bubble_outline</mat-icon>
-  </button>
-  <div class="div-scrollable"><router-outlet></router-outlet></div>
-  <app-footer class="page-footer"></app-footer>
+  <div class="main-content">
+    <button mat-icon-button (click)="opened = !opened">
+      <mat-icon>chat_bubble_outline</mat-icon>
+    </button>
+    <div class="div-scrollable"><router-outlet></router-outlet></div>
+    <div class="page-footer">
+      <app-footer></app-footer>
+    </div>
+  </div>
 </mat-sidenav-container>

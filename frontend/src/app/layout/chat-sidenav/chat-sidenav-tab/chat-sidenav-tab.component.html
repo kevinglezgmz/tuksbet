@@ -9,7 +9,7 @@
             class="delete-msg-button"
             (click)="openDeleteConfirmDialog(message._id!)"
           >
-            <mat-icon>delete_outline</mat-icon>
+            <mat-icon color="warn">delete_outline</mat-icon>
           </button>
           <span>
             <a mat-button routerLink="/users/{{ message.userId }}"> {{ message.username }}: </a>

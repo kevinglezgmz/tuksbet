@@ -140,8 +140,7 @@ function closeGameround(gameroundId, userId, currGame, clientSocket) {
     })
     .then((res) => {
       delete clientRooms[userId];
-      clientSocket.emit('blackjack-gameround-closed', currGame);
-      updateUserBalances(gameroundId);
+      updateUserBalances(gameroundId, clientSocket, currGame);
     })
     .catch(({ response }) => {
       console.log(response.data);
@@ -256,11 +255,14 @@ function updateDealerCards(game) {
   game.dealer.cards.push(game.dealer.hiddenCard);
 }
 
-function updateUserBalances(gameRoundId) {
+function updateUserBalances(gameRoundId, clientSocket, currGame) {
   axios
     .patch(process.env.SERVER_URL + 'api/bets/', { gameRoundId })
-    .then((response) => {})
+    .then((response) => {
+      clientSocket.emit('blackjack-gameround-closed', currGame);
+    })
     .catch(({ response }) => {
+      clientSocket.emit('blackjack-gameround-closed', currGame);
       if (response.data.err !== 'No bets were made in this game round') {
       }
     });

@@ -8,7 +8,16 @@ import { TransactionService } from 'src/app/common/services/transaction.service'
   styleUrls: ['./transactions.component.scss'],
 })
 export class TransactionsComponent implements OnInit {
+  currentPage: string = 'transactions';
   transactions: Transaction[] = [];
+  columnsToDisplay: string[] = [
+    'TransactionId',
+    'Username',
+    'TransactionDate',
+    'TransactionAmount',
+    'IsDeposit',
+    'TransactionStatus',
+  ];
   constructor(private transactionService: TransactionService) {}
 
   ngOnInit(): void {

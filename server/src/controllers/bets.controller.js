@@ -246,17 +246,27 @@ class BetsController {
           const initialCrashVal = parseFloat(initialCrashBetStake[1]);
           const newCrashVal = parseFloat(newCrashBetStake[1]);
           if (newCrashVal < initialCrashVal && initialCrashBetStake[2] === 'running') {
-            return { betStake: 'crash-' + newCrashVal.toFixed(2) + 'x-exited' };
+            return { updateBet: { betStake: 'crash-' + newCrashVal.toFixed(2) + 'x-exited' }, fullBetAndGameRound };
           }
         }
         if (fullBetAndGameRound.gameName === 'Blackjack' && fullBetAndGameRound.result === null) {
-          return { betStake: req.body.betStake, betAmount: req.body.betAmount };
+          return {
+            updateBet: {
+              betStake: req.body.betStake,
+              betAmount: req.body.betAmount,
+            },
+            fullBetAndGameRound,
+          };
         }
 
         throw 'This bet cannot be updated';
       })
-      .then((updateBet) => {
+      .then(({ updateBet, fullBetAndGameRound }) => {
         betsDb.updateOne({ _id: getObjectId(req.params.betId) }, { $set: updateBet }).then((result) => {
+          if (fullBetAndGameRound && fullBetAndGameRound.gameName === 'Blackjack' && updateBet.betStake.endsWith('double')) {
+            const usersDb = new Database('Users');
+            usersDb.updateOne({ _id: fullBetAndGameRound.userId }, { $inc: { balance: (updateBet.betAmount / 2) * -1 } });
+          }
           res.send({ msg: 'Successfully modified the bet data' });
         });
       })

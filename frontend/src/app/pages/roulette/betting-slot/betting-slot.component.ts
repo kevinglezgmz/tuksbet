@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Bet } from 'src/app/common/data-types/bet';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { BalanceService } from 'src/app/common/services/balance.service';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 
@@ -24,7 +25,8 @@ export class BettingSlotComponent implements OnInit {
   constructor(
     private betService: BetHistoryService,
     private webSocket: WebSocketService,
-    private authService: AuthService
+    private authService: AuthService,
+    private balanceService: BalanceService
   ) {}
 
   ngOnInit(): void {
@@ -72,8 +74,9 @@ export class BettingSlotComponent implements OnInit {
       .createBet(bet)
       .then((res) => {
         this.currentBets.push(bet);
-        // If bet was placed successfuly, notify the other users
+        // If bet was placed successfuly, notify the other users and update balance
         this.webSocket.emit('new-roulette-' + this.bettingColor + '-bet', bet);
+        this.balanceService.updateUserBalance();
       })
       .catch((err) => {});
   }

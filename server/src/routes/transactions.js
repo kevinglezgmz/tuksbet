@@ -2,7 +2,7 @@ const router = require('express').Router();
 const TransactionsController = require('../controllers/transactions.controller.js');
 const authentication = require('../middlewares/authentication.js');
 
-router.get('/', TransactionsController.getAllTransactions);
+router.get('/', authentication, TransactionsController.getAllTransactions);
 router.get('/:transactionId', authentication, TransactionsController.getTransactionById);
 router.post('/', authentication, TransactionsController.createTransaction);
 router.patch('/:transactionId', TransactionsController.updateTransaction);

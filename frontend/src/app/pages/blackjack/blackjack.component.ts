@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Bet } from 'src/app/common/data-types/bet';
 import { BlackjackGame } from 'src/app/common/data-types/blackjack-game';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { BalanceService } from 'src/app/common/services/balance.service';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 
@@ -36,7 +37,12 @@ export class BlackjackComponent implements OnInit {
 
   /** Destroy observables when we leave the page */
   private unsubscribe: Subject<void> = new Subject<void>();
-  constructor(private webSocket: WebSocketService, private betService: BetHistoryService, private authService: AuthService) {
+  constructor(
+    private webSocket: WebSocketService,
+    private betService: BetHistoryService,
+    private authService: AuthService,
+    private balanceService: BalanceService
+  ) {
     const { userId, username } = this.authService.getUserDetails();
     this.webSocket.emit('check-if-game', userId);
 
@@ -76,6 +82,7 @@ export class BlackjackComponent implements OnInit {
             this.bet = bet;
             this.game.betId = res.insertedId;
             this.game.gameRoundId = gameRoundId;
+            this.balanceService.updateUserBalance();
             this.startBlackjackGame();
           })
           .catch((err) => {});
@@ -140,6 +147,7 @@ export class BlackjackComponent implements OnInit {
           gameRoundId: this.currentGameRoundId,
         };
         this.game = game;
+        this.balanceService.updateUserBalance();
       });
   }
 

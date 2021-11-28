@@ -1,1 +1,5 @@
-<p>withdraw works!</p>
+<mat-button-toggle-group [(ngModel)]="currentPage" name="favoriteColor" aria-label="Sección de cartera">
+  <mat-button-toggle routerLink="/deposit" value="deposit">Depositar</mat-button-toggle>
+  <mat-button-toggle routerLink="/withdraw" value="withdraw">Retirar</mat-button-toggle>
+  <mat-button-toggle routerLink="/transactions" value="transactions">Transacciones</mat-button-toggle>
+</mat-button-toggle-group>

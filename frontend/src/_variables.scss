@@ -25,6 +25,7 @@ $sidebar-width: 375px;
 @mixin scrollbar {
   &::-webkit-scrollbar {
     width: 4px;
+    height: 4px;
     padding: 0;
   }
 
@@ -33,9 +34,9 @@ $sidebar-width: 375px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #d6dee1;
+    background-color: #898c8d;
     border-radius: 2px;
-    border: 1px solid #d6dee1;
+    border: 1px solid #898c8d;
     background-clip: content-box;
   }
 

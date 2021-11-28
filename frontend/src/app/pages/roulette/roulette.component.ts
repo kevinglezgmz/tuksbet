@@ -8,6 +8,7 @@ import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { Bet } from 'src/app/common/data-types/bet';
 import { AuthService } from 'src/app/common/services/auth.service';
 import { GameHistoryComponent } from 'src/app/common/components/game-history/game-history.component';
+import { BalanceService } from 'src/app/common/services/balance.service';
 
 @Component({
   selector: 'app-roulette',
@@ -89,7 +90,8 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     private webSocket: WebSocketService,
     private betService: BetHistoryService,
     private authService: AuthService,
-    private dialogService: MatDialog
+    private dialogService: MatDialog,
+    private balanceService: BalanceService
   ) {
     this.webSocket.emit('join-roulette-game', undefined);
 
@@ -106,6 +108,7 @@ export class RouletteComponent implements OnInit, AfterViewInit {
       .subscribe(({ timerCountown, currentGameRoundId }) => {
         this.startCounter(timerCountown);
         this.currentGameRoundId = currentGameRoundId;
+        this.balanceService.updateUserBalance();
       });
 
     this.webSocket

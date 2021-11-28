@@ -47,6 +47,7 @@ import { CrashBettingSlotComponent } from './pages/crash/crash-betting-slot/cras
 import { BetAmountSelectorComponent } from './common/components/bet-amount-selector/bet-amount-selector.component';
 import { ChatSidenavTabGroupComponent } from './layout/chat-sidenav/chat-sidenav-tab-group/chat-sidenav-tab-group.component';
 import { ConfirmDialogContentComponent } from './common/components/confirm-dialog-content/confirm-dialog-content.component';
+import { WalletComponentComponent } from './layout/wallet-component/wallet-component.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { ConfirmDialogContentComponent } from './common/components/confirm-dialo
     CrashBettingSlotComponent,
     ChatSidenavTabGroupComponent,
     ConfirmDialogContentComponent,
+    WalletComponentComponent,
   ],
   imports: [
     BrowserModule,

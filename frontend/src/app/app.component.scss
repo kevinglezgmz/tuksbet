@@ -1,13 +1,12 @@
 @import '../variables';
 
-// .main-content {
-//   overflow-y: auto;
-//   overflow-x: visible;
-//   margin-left: 25px;
-//   margin-right: 25px;
-//   display: flex;
-//   flex-direction: column;
-// }
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 100%;
+  box-sizing: border-box;
+}
 
 .page-footer {
   margin-top: auto;
@@ -29,7 +28,6 @@
   // align-items: center;
   margin-left: 25px;
   margin-right: 25px;
-  height: 4000px;
 }
 
 @media screen and (max-width: 599px) {

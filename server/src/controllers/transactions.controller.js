@@ -26,6 +26,7 @@ class TransactionsController {
         {
           $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromUser', 0] }, '$$ROOT'] } },
         },
+        { $match: { userId: getObjectId(req.userId) } },
         {
           $project: {
             _id: 1,

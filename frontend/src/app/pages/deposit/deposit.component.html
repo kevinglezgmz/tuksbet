@@ -1,6 +1,49 @@
-<h1>Add funds</h1>
+<mat-button-toggle-group [(ngModel)]="currentPage" name="favoriteColor" aria-label="Sección de cartera">
+  <mat-button-toggle routerLink="/deposit" value="deposit">Depositar</mat-button-toggle>
+  <mat-button-toggle routerLink="/withdraw" value="withdraw">Retirar</mat-button-toggle>
+  <mat-button-toggle routerLink="/transactions" value="transactions">Transacciones</mat-button-toggle>
+</mat-button-toggle-group>
+<mat-card>
+  <mat-card-content>
+    <h1>Deposita fondos en tu cuenta con Paypal</h1>
+    <div class="content-container">
+      <form>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Monto</mat-label>
+          <span matPrefix>$USD &nbsp; &nbsp;</span>
+          <input
+            type="text"
+            name="depositAmountPaypal"
+            [(ngModel)]="inputDepositPaypal"
+            matInput
+            placeholder="Cantidad a depositar"
+            (blur)="onBlurPaypal($event)"
+          />
+        </mat-form-field>
+      </form>
+      <div id="paypalButtons"></div>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-<label for="deposit">USD </label>
-<input id="deposit" type="number" min="1" step=".01" placeholder="1.00" [(ngModel)]="inputDeposit" />
-
-<div id="paypalButtons"></div>
+<mat-card>
+  <mat-card-content>
+    <h1>Deposita fondos en tu cuenta con Criptomonedas</h1>
+    <div class="content-container">
+      <form>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Monto</mat-label>
+          <span matPrefix>$USD &nbsp; &nbsp;</span>
+          <input
+            type="text"
+            name="depositAmountCripto"
+            [(ngModel)]="inputDepositCripto"
+            matInput
+            placeholder="Cantidad a depositar"
+            (blur)="onBlurCripto($event)"
+          />
+        </mat-form-field>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -3,13 +3,12 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
-  styleUrls: ['./withdraw.component.scss']
+  styleUrls: ['./withdraw.component.scss'],
 })
 export class WithdrawComponent implements OnInit {
+  currentPage: string = 'withdraw';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
