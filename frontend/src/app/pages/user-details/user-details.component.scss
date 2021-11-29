@@ -1,4 +1,4 @@
-@import '../../../variables';
+/*@import '../../../variables';
 
 .user-container {
   width: 100%;
@@ -21,4 +21,26 @@
       }
     }
   }
+}*/
+
+img {
+  height: 15em;
+  width: 15em;
+  border-radius: 50%;
+}
+
+p {
+  font-size: large;
+}
+
+.mat-card {
+  margin: 2.5em 0px;
+}
+
+.user-details-card-container {
+  display: block;
+  margin: auto;
+  max-width: 600px;
+  margin: 2em auto;
+  text-align: center;
 }
