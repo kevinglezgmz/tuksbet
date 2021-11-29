@@ -33,7 +33,12 @@ export class UpdateAvatarComponent implements OnInit {
   fileSelected(event: Event) {
     const avatar = (event.target as HTMLInputElement).files![0];
 
-    if (avatar.type === 'image/jpeg' || avatar.type === 'image/jpg' || avatar.type === 'image/png') {
+    if (
+      avatar.type === 'image/jpeg' ||
+      avatar.type === 'image/jpg' ||
+      avatar.type === 'image/png' ||
+      avatar.type === 'image/gif'
+    ) {
       this.updateAvatarForm.get('newAvatar')!.setValue(avatar, { emitModelToViewChange: false });
     } else {
       this.updateAvatarForm.controls['newAvatar'].setErrors({ invalidFileType: true });

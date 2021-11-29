@@ -25,6 +25,6 @@ export class BalanceService {
   updateUserBalance(): void {
     this.userService
       .getUserDetails(this.authService.getUserDetails().userId!)
-      .then((userData: User) => this.currentBalance.next(userData.balance || 0));
+      .then((userData: User) => this.currentBalance.next(Number(userData.balance) || 0));
   }
 }

@@ -16,7 +16,7 @@
         <mat-label>Escoge un archivo</mat-label>
         <input type="file" formControlName="newAvatar" (change)="fileSelected($event)" (input)="onFileInput()" required />
         <mat-error *ngIf="updateAvatarForm.get('newAvatar')!.hasError('invalidFileType')">
-          Archivos válidos: .jpg, .jpeg, .png
+          Archivos válidos: .jpg, .jpeg, .png, .gif
         </mat-error>
       </div>
 

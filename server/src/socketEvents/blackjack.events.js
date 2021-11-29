@@ -6,11 +6,6 @@ let io;
 /** @type { string } */
 let blackjackId;
 
-/**
- * @param { Socket } ioSocket
- * @param { Socket } clientSocket
- */
-
 const clientRooms = {};
 
 const CARDTYPES = {
@@ -36,9 +31,15 @@ const CARDNUMBERS = {
   ACE: 'ace',
 };
 
-function initBlackjackEventsSocket(ioSocket, blackjackGameId) {
+/**
+ * @param { Socket } ioSocket
+ * @param { Socket } clientSocket
+ * @param { function } getNextRandomNumber
+ */
+function initBlackjackEventsSocket(ioSocket, blackjackGameId, getNextRandomNumber) {
   io = ioSocket;
   blackjackId = blackjackGameId;
+  nextRandomNumber = getNextRandomNumber;
   io.on('connection', blackjackEvents);
 }
 
@@ -181,7 +182,7 @@ function initDeck() {
 
 function shuffleDeck(gameDeck) {
   for (let i = gameDeck.length - 1; i > 0; i--) {
-    let randomIndex = Math.floor(Math.random() * i);
+    let randomIndex = nextRandomNumber() % gameDeck.length;
     let temp = gameDeck[i];
     gameDeck[i] = gameDeck[randomIndex];
     gameDeck[randomIndex] = temp;
@@ -208,7 +209,7 @@ function createCard(num, type) {
 }
 
 function getRandomCard(gameDeck) {
-  let randomCardIndex = Math.floor(Math.random() * 52); // THIS WILL CHANGE FOR A FUNCTION THAT RETURNS RANDOM NUMBERS
+  let randomCardIndex = nextRandomNumber() % gameDeck.length;
   let card = gameDeck[randomCardIndex];
   return card;
 }

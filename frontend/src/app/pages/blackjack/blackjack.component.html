@@ -1,23 +1,33 @@
 <div id="game-container">
-    <div id="dealer-container">
-        <h3 *ngIf="game.gameStarted || game.userPlaying">{{game.dealer!.score}}</h3>
-        <div id="dealer-cards" class="col-4">
-            <img *ngFor="let card of this.game.dealer!.cards" src="../../../assets/imgs/blackjack/{{ card.num }}_of_{{ card.type }}.png">
-        </div>
+  <div id="dealer-container">
+    <h3 *ngIf="game.gameStarted || game.userPlaying">{{ game.dealer!.score }}</h3>
+    <div id="dealer-cards" class="col-4">
+      <img
+        *ngFor="let card of this.game.dealer!.cards"
+        src="../../../assets/imgs/blackjack/{{ card.num }}_of_{{ card.type }}.png"
+      />
     </div>
-    <h2 *ngIf="game.winner ? game.winner : undefined">{{game.winner}}</h2>
-    <div id="player-container">
-        <h3 *ngIf="game.gameStarted || game.userPlaying">{{game.player!.score}}</h3>
-        <div id="player-cards" class="col-4">
-            <img *ngFor="let card of this.game.player!.cards" src="../../../assets/imgs/blackjack/{{ card.num }}_of_{{ card.type }}.png">
-        </div>
+  </div>
+  <h2 *ngIf="game.winner ? game.winner : undefined">{{ game.winner }}</h2>
+  <div id="player-container">
+    <h3 *ngIf="game.gameStarted || game.userPlaying">{{ game.player!.score }}</h3>
+    <div id="player-cards" class="col-4">
+      <img
+        *ngFor="let card of this.game.player!.cards"
+        src="../../../assets/imgs/blackjack/{{ card.num }}_of_{{ card.type }}.png"
+      />
     </div>
+  </div>
 </div>
 <app-bet-amount-selector class="blackjack-bet-container" (newBetAmount)="setBetAmount($event)"></app-bet-amount-selector>
 
 <div id="btns-container" class="col-2">
-    <button id="hit-btn" [disabled]="!game.gameStarted" (click)="blackjackHit()">Hit</button>
-    <button id="stand-btn" [disabled]="!game.gameStarted" (click)="blackjackStand()">Stand</button>
-    <button id="double-btn" [disabled]="!game.gameStarted" (click)="blackjackDouble()">Double</button>
-    <button id="bet-btn" [disabled]="game.gameStarted" (click)="blackjackInit()">Bet</button>
+  <button mat-raised-button color="primary" id="hit-btn" [disabled]="!game.gameStarted" (click)="blackjackHit()">Hit</button>
+  <button mat-raised-button color="primary" id="stand-btn" [disabled]="!game.gameStarted" (click)="blackjackStand()">
+    Stand
+  </button>
+  <button mat-raised-button color="primary" id="double-btn" [disabled]="!game.gameStarted" (click)="blackjackDouble()">
+    Double
+  </button>
+  <button mat-raised-button color="primary" id="bet-btn" [disabled]="game.gameStarted" (click)="blackjackInit()">Bet</button>
 </div>

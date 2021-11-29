@@ -1,7 +1,18 @@
 <div class="betting-slot-container">
   <div>
     <div class="amount-input">
-      <input type="text" [(ngModel)]="betToCrashAt" (blur)="onBlur($event)" />
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Monto</mat-label>
+        <span matPrefix>$USD &nbsp; &nbsp;</span>
+        <input
+          type="text"
+          name="betAmount"
+          [(ngModel)]="betToCrashAt"
+          matInput
+          placeholder="Has una apuesta..."
+          (blur)="onBlur($event)"
+        />
+      </mat-form-field>
     </div>
     <button *ngIf="!currentBetId" (click)="onClickBet($event)" class="crash-betting-btn">Apostar ahora</button>
     <button *ngIf="currentBetId" (click)="onClickExitCrash($event)" class="crash-betting-btn">Salirse!</button>

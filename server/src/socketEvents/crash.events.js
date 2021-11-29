@@ -5,10 +5,10 @@ const axios = require('axios').default;
 let io;
 /** @type { string } */
 let crashId;
+/** @type { function } */
+let nextRandomNumber;
 
 const crashCurrentStatus = {
-  randomNumbersArray: [],
-  nextCrashIdx: 0,
   roundDelay: 15000, // 15 seconds between rounds
   nextGameRoundStartAt: undefined,
   crashState: 'WATING',
@@ -19,10 +19,12 @@ const crashCurrentStatus = {
 /**
  * @param { Socket } ioSocket
  * @param { Socket } clientSocket
+ * @param { function } getNextRandomNumber
  */
-function initCrashEventsSocket(ioSocket, crashGameId) {
+function initCrashEventsSocket(ioSocket, crashGameId, getNextRandomNumber) {
   io = ioSocket;
   crashId = crashGameId;
+  nextRandomNumber = getNextRandomNumber;
   startCrashRound();
   io.on('connection', crashEvents);
 }
@@ -76,21 +78,22 @@ function startCrashRound() {
   crashCurrentStatus.nextGameRoundStartAt = Date.now() + crashCurrentStatus.roundDelay;
 
   if (process.env.enviroment === 'production') {
-    axios.post(process.env.SERVER_URL + 'api/gameRounds', { gameId: crashId }).then((response) => {
-      crashCurrentStatus.currentGameRoundId = response.data.insertedId;
-      crashWaitingStatusUpdate();
-    });
+    axios
+      .post(process.env.SERVER_URL + 'api/gameRounds', { gameId: crashId })
+      .then((response) => {
+        crashCurrentStatus.currentGameRoundId = response.data.insertedId;
+        crashWaitingStatusUpdate();
+      })
+      .catch((err) => {
+        console.log('CRASH', err);
+      });
   } else {
     crashCurrentStatus.currentGameRoundId = 'DEV';
   }
 
-  checkAndUpdateResultsArray();
-
   // Resultado de la ronda
   crashCurrentStatus.gameEndsAt =
-    crashCurrentStatus.nextGameRoundStartAt +
-    crashCurrentStatus.roundDelay +
-    crashCurrentStatus.randomNumbersArray[crashCurrentStatus.nextCrashIdx++] * 1000;
+    crashCurrentStatus.nextGameRoundStartAt + crashCurrentStatus.roundDelay + ((nextRandomNumber() % 60) + 1) * 1000;
 
   // Generar ID de ronda
   crashWaitingStatusUpdate();
@@ -139,25 +142,6 @@ function startCrashRound() {
 function getCurrentMultiplier(secondsSinceStart) {
   const speedFactor = secondsSinceStart;
   return Math.E ** (speedFactor / 18);
-}
-
-function checkAndUpdateResultsArray() {
-  if (crashCurrentStatus.nextCrashIdx >= crashCurrentStatus.randomNumbersArray.length - 1) {
-    if (process.env.enviroment === 'production') {
-      axios
-        .get('https://www.random.org/integers/?num=200&min=0&max=60&col=1&base=10&format=plain&rnd=new', {
-          headers: {
-            'User-Agent': process.env.request_email || 'tuksbet@gmail.com',
-          },
-        })
-        .then((res) => {
-          crashCurrentStatus.randomNumbersArray = res.data.split('\n').map((num) => parseInt(num));
-        });
-    } else {
-      crashCurrentStatus.randomNumbersArray = Array.from({ length: 100 }, () => Math.floor(Math.random() * 25));
-    }
-    crashCurrentStatus.nextCrashIdx = 0;
-  }
 }
 
 function updateUserBalances() {
