@@ -1,10 +1,7 @@
-h1 {
+h1,
+mat-card-title,
+mat-card-actions {
   text-align: center;
-}
-
-.content-container {
-  margin: auto;
-  width: fit-content;
 }
 
 form,
@@ -12,8 +9,41 @@ form,
   width: 100%;
 }
 
-.mat-card {
+.mat-card-paypal {
   max-width: 800px;
   margin: 2em auto;
   text-align: center;
+}
+
+.mat-card-cripto {
+  width: 300px;
+  margin: 0.5em;
+}
+
+.example-header-image {
+  background-size: cover;
+}
+
+.content-container-paypal {
+  margin: auto;
+  width: fit-content;
+}
+
+.content-container-cripto {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.mat-card-coins-container {
+  max-width: 800px;
+  margin: 2em auto;
+}
+
+.nomics-link {
+  margin-top: 1em;
+  white-space: unset;
+  line-height: normal;
+  font-size: small;
 }

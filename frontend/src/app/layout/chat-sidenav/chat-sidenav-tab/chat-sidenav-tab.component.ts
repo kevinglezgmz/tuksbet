@@ -146,6 +146,7 @@ export class ChatSidenavTab implements OnInit {
       data: {
         title: '¿Borrar elemento?',
         body: '¿Está seguro que desea eliminar el elemento? Esta acción no puede deshacerse.',
+        isDelete: true,
       },
       autoFocus: false,
     });

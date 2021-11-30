@@ -154,6 +154,18 @@ body {
   }
 }
 
+.current-bets-container {
+  .bet-entry {
+    height: auto !important;
+    width: 100%;
+    > div {
+      padding: 0 0.5em 0 0 !important;
+      height: auto !important;
+      width: 100%;
+    }
+  }
+}
+
 .mat-tab-body-wrapper {
   height: 100%;
 }

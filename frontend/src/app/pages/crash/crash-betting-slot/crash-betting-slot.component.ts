@@ -23,6 +23,14 @@ export class CrashBettingSlotComponent implements OnInit {
   betToCrashAt: string = '2.0';
   currentBetId: string | undefined;
 
+  testBets = [
+    { betAmount: 100, username: 'Hola', userId: 'd', gameRoundId: 'DEV' },
+    { betAmount: 100, username: 'Hola', userId: 'd', gameRoundId: 'DEV' },
+    { betAmount: 100, username: 'Hola', userId: 'd', gameRoundId: 'DEV' },
+    { betAmount: 100, username: 'Hola', userId: 'd', gameRoundId: 'DEV' },
+    { betAmount: 100, username: 'Hola', userId: 'd', gameRoundId: 'DEV' },
+  ];
+
   /** Destroy observables when we leave the page */
   private unsubscribe: Subject<void> = new Subject<void>();
 

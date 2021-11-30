@@ -124,6 +124,7 @@ function startRoundProduction(rollResult) {
       // After updating the game round, we can tell the users about the result and update their balances
 
       spinWheelForUsersAndResetCurrentStatus(rollResult, updateUserBalances);
+      io.emit('update-balance');
     })
     .catch(({ response }) => {
       console.log(response.data);

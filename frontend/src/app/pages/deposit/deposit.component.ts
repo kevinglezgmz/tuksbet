@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { CriptoCoin } from 'src/app/common/data-types/cripto-coin';
 import { AuthService } from 'src/app/common/services/auth.service';
 import { BalanceService } from 'src/app/common/services/balance.service';
+import { CriptoService } from 'src/app/common/services/cripto.service';
 import { TransactionService } from 'src/app/common/services/transaction.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogContentComponent } from 'src/app/common/components/confirm-dialog-content/confirm-dialog-content.component';
 
 declare var paypal: any;
 
@@ -18,11 +22,24 @@ export class DepositComponent implements OnInit {
 
   currentPage: string = 'deposit';
 
+  criptoPrices: CriptoCoin[] = [];
+
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
-    private balanceService: BalanceService
-  ) {}
+    private balanceService: BalanceService,
+    private criptoService: CriptoService,
+    private dialog: MatDialog
+  ) {
+    this.criptoService
+      .getCoinPrices('BTC,ETH,LTC,ADA')
+      .then((coins: CriptoCoin[] | undefined) => {
+        this.criptoPrices = coins || [];
+      })
+      .catch((err) => {
+        this.criptoPrices = [];
+      });
+  }
 
   ngOnInit(): void {
     paypal
@@ -109,5 +126,16 @@ export class DepositComponent implements OnInit {
     } else {
       this.inputDepositCripto = Number(depositInputCripto.value).toFixed(2);
     }
+  }
+
+  openConfirmDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialogContentComponent, {
+      data: {
+        title: 'Método no disponible.',
+        body: 'El depósito con criptomonedas estará disponible pronto.',
+        isDelete: false,
+      },
+      autoFocus: false,
+    });
   }
 }

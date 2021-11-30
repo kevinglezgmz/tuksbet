@@ -2,27 +2,44 @@
   <div>
     <div class="amount-input">
       <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Monto</mat-label>
-        <span matPrefix>$USD &nbsp; &nbsp;</span>
+        <mat-label>Multiplicador</mat-label>
+        <span matPrefix>MULT &nbsp; &nbsp;</span>
         <input
           type="text"
           name="betAmount"
           [(ngModel)]="betToCrashAt"
           matInput
-          placeholder="Has una apuesta..."
+          placeholder="Multiplicador..."
           (blur)="onBlur($event)"
         />
+        <span matSuffix>x &nbsp; &nbsp;</span>
       </mat-form-field>
     </div>
-    <button *ngIf="!currentBetId" (click)="onClickBet($event)" class="crash-betting-btn">Apostar ahora</button>
-    <button *ngIf="currentBetId" (click)="onClickExitCrash($event)" class="crash-betting-btn">Salirse!</button>
+    <button mat-raised-button color="primary" *ngIf="!currentBetId" (click)="onClickBet($event)" class="crash-betting-btn">
+      Apostar ahora
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="currentBetId"
+      (click)="onClickExitCrash($event)"
+      class="crash-betting-btn"
+    >
+      Salirse!
+    </button>
   </div>
-  <div class="current-bets-container">
-    <div class="bet-entry" *ngFor="let bet of currentBets">
-      <div class="bet-entry-user">{{ bet.username }}</div>
-      <div class="bet-entry-amount">
-        <p>${{ bet.betAmount | number: '1.2-2' }}</p>
-      </div>
-    </div>
-  </div>
+</div>
+<div class="current-bets-container mat-elevation-z8">
+  <mat-list>
+    <ng-container *ngFor="let bet of testBets">
+      <mat-list-item class="bet-entry">
+        <span>
+          <a mat-button routerLink="/users/{{ bet.userId }}"> {{ bet.username }}aaaa </a>
+        </span>
+        <span class="example-spacer"></span>
+        <span class="bet-amount-span"> ${{ bet.betAmount | number: '1.2-2' }}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-list>
 </div>

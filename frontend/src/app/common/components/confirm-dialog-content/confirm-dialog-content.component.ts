@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export interface ConfirmDialogContentConfig {
   title: string;
   body: string;
+  isDelete: boolean;
 }
 
 @Component({

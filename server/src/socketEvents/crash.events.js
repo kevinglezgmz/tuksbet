@@ -71,6 +71,8 @@ function crashCrashedStatusUpdate() {
     realCrashedAt: crashCurrentStatus.gameEndsAt,
     currentGameRoundId: crashCurrentStatus.currentGameRoundId,
   });
+
+  io.emit('update-balance');
 }
 
 function startCrashRound() {
