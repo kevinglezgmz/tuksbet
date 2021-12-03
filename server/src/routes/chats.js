@@ -173,7 +173,7 @@ module.exports = router;
  *              type: string
  *              example: Oh no!
  *    responses:
- *      201:
+ *      200:
  *        description: Success response. Retrieves status of the message
  *        schema:
  *          type: object
@@ -188,7 +188,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Could not update the message
+ *              example: Could not find the specified message
  *      401:
  *        description: Unauthorized
  *        schema:
@@ -241,7 +241,7 @@ module.exports = router;
  *          properties:
  *            err:
  *              type: string
- *              example: Could not delete the message
+ *              example: Could not find the specified message
  *      401:
  *        description: Unauthorized
  *        schema:

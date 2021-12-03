@@ -33,11 +33,6 @@ class UsersController {
   }
 
   static getUserById(req, res) {
-    //if (req.userId !== req.params.userId) {
-    //  res.status(401).send({ err: 'Not authorized' });
-    //  return;
-    // }
-
     const usersDb = new Database('Users');
     usersDb
       .findOne({ _id: getObjectId(req.params.userId) }, {})
