@@ -9,11 +9,14 @@ import { UserService } from 'src/app/common/services/user.service';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
+  columnsToDisplay: string[] = ['Username', 'Email'];
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.getAllUsers().then((users: User[]) => {
       this.users = users.reverse();
+      console.log(this.users);
     });
   }
 }
