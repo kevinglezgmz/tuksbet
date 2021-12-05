@@ -2,7 +2,7 @@
   <mat-card-content>
     <form class="login-form" (submit)="handleLoginSubmit($event)">
       <h1>Inicia sesión en tu cuenta</h1>
-      <h4>¿No tienes cuenta? <a routerLink="/signup">Regístrate</a></h4>
+      <h4>¿No tienes cuenta? <a mat-button routerLink="/signup">Regístrate</a></h4>
 
       <mat-error *ngIf="loginError"> Datos inválidos, intenta de nuevo </mat-error>
 

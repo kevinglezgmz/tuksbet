@@ -1,3 +1,4 @@
+import { IsDarkThemeService } from './common/services/is-dark-theme.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -13,11 +14,20 @@ import { MatDrawerMode } from '@angular/material/sidenav';
 })
 export class AppComponent {
   title = 'tuksbet-front';
-  isChatOpen = false;
+  isChatOpen: boolean = false;
+  isDarkTheme: boolean = false;
 
-  constructor(private chatStatusService: ChatStatusService, private bpo: BreakpointObserver) {
+  constructor(
+    private chatStatusService: ChatStatusService,
+    private themeStatus: IsDarkThemeService,
+    private bpo: BreakpointObserver
+  ) {
     this.chatStatusService.isChatOpen().subscribe((status: boolean) => {
       this.isChatOpen = status;
+    });
+
+    this.themeStatus.isCurrentThemeDark().subscribe((isDark) => {
+      this.isDarkTheme = isDark;
     });
   }
 
@@ -37,6 +47,8 @@ export class AppComponent {
         this.determineSidenavMode();
         this.determineLayoutGap();
       });
+
+    this.isDarkTheme = localStorage.getItem('theme') === 'Dark' ? true : false;
   }
 
   private determineSidenavMode(): void {

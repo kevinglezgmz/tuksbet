@@ -1,4 +1,4 @@
-<mat-toolbar class="header-toolbar">
+<mat-toolbar class="header-toolbar mat-app-background" [ngClass]="{ 'dark-theme-mode': isDarkTheme }">
   <span class="left-nav-item-container">
     <a routerLink="/">
       <button mat-mini-fab aria-label="Home button" color="primary">
@@ -8,6 +8,17 @@
     &nbsp;&nbsp;
     <button mat-raised-button routerLink="/">TUKSBET</button>
   </span>
+  <span class="mode-slider" style="display: 'flex'">
+    <mat-icon class="day-icon">light_mode</mat-icon>
+    <mat-slide-toggle [(ngModel)]="isDarkTheme" (change)="updateCurrentTheme()">
+      <mat-icon>mode_night</mat-icon>
+    </mat-slide-toggle></span
+  >
+  <button mat-mini-fab aria-label="Mode button" (click)="setMode()">
+    <div *ngIf="isDarkTheme; then thenBlock; else elseBlock"></div>
+    <ng-template #thenBlock><mat-icon>mode_night</mat-icon></ng-template>
+    <ng-template #elseBlock><mat-icon>light_mode</mat-icon></ng-template>
+  </button>
   <span class="example-spacer"></span>
   <span class="center-nav-item-container">
     <app-wallet-component></app-wallet-component>
