@@ -178,6 +178,10 @@ body {
   margin: 3px !important;
 }
 
+.mat-column-Actions {
+  min-width: 100px;
+}
+
 * {
   @include scrollbar;
 }

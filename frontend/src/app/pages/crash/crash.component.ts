@@ -72,6 +72,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.crashState = CrashStates.WAITING;
         this.nextGameRoundStartAt = nextGameRoundStartAt;
         this.currentGameRoundId = currentGameRoundId;
+        this.updateCurrentBets();
       });
 
     this.webSocket
@@ -82,6 +83,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.nextGameRoundStartAt = nextGameRoundStartAt;
         this.currentGameRoundId = currentGameRoundId;
         this.lagAdjustment = serverCurrentTime - Date.now();
+        this.updateCurrentBets();
       });
 
     this.webSocket
@@ -91,7 +93,14 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.crashedAt = realCrashedAt;
         this.crashState = CrashStates.CRASHED;
         this.currentGameRoundId = currentGameRoundId;
-        this.balanceService.updateUserBalance();
+        this.currentRoundBets = [];
+      });
+
+    this.webSocket
+      .listen('new-crash-bet')
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((bet: Bet) => {
+        this.currentRoundBets.push(bet);
       });
 
     this.authService
@@ -106,12 +115,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
     this.resetCrashValues();
   }
 
-  ngOnInit(): void {
-    // this should be temporary, we need an endpoint to filter bets by gameroundid (query parameter)
-    this.betService.getAllBets().then((bets: Bet[]) => {
-      this.currentRoundBets = bets.filter((bet) => bet.gameRoundId === this.currentGameRoundId);
-    });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribe.next();
@@ -130,6 +134,15 @@ export class CrashComponent implements OnInit, AfterViewInit {
       this.crashWidth = crashContainer.offsetWidth;
       this.crashHeight = crashContainer.offsetHeight;
     });
+  }
+
+  private updateCurrentBets() {
+    this.betService
+      .getAllBets(this.currentGameRoundId, 0, 0)
+      .then((bets: Bet[]) => {
+        this.currentRoundBets = bets;
+      })
+      .catch(() => {});
   }
 
   private startDrawing() {

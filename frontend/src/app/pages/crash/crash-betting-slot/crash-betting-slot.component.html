@@ -15,13 +15,32 @@
         <span matSuffix>x &nbsp; &nbsp;</span>
       </mat-form-field>
     </div>
-    <button mat-raised-button color="primary" *ngIf="!currentBetId" (click)="onClickBet($event)" class="crash-betting-btn">
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="(!currentBet || !currentBet._id) && crashState === 'WAITING'"
+      (click)="onClickBet($event)"
+      class="crash-betting-btn"
+    >
       Apostar ahora
     </button>
     <button
       mat-raised-button
       color="primary"
-      *ngIf="currentBetId"
+      *ngIf="
+        (currentBet && crashState === 'WAITING') ||
+        (currentBet && currentBet.betStake!.endsWith('exited')) ||
+        (!currentBet && crashState === 'RUNNING')
+      "
+      class="crash-betting-btn"
+      [disabled]="true"
+    >
+      Espera...
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="currentBet && crashState !== 'WAITING' && !currentBet.betStake!.endsWith('exited')"
       (click)="onClickExitCrash($event)"
       class="crash-betting-btn"
     >
@@ -29,12 +48,12 @@
     </button>
   </div>
 </div>
-<div class="current-bets-container mat-elevation-z8">
+<div *ngIf="currentBetsInternal.length > 0" class="current-bets-container mat-elevation-z8">
   <mat-list>
-    <ng-container *ngFor="let bet of testBets">
+    <ng-container *ngFor="let bet of currentBetsInternal">
       <mat-list-item class="bet-entry">
         <span>
-          <a mat-button routerLink="/users/{{ bet.userId }}"> {{ bet.username }}aaaa </a>
+          <a mat-button routerLink="/users/{{ bet.userId }}"> {{ bet.username }} </a>
         </span>
         <span class="example-spacer"></span>
         <span class="bet-amount-span"> ${{ bet.betAmount | number: '1.2-2' }}</span>

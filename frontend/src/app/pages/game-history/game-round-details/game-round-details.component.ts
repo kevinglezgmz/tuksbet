@@ -17,7 +17,7 @@ export class GameRoundDetailsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private gameRoundService: GameRoundsService,
-    private betHistory: BetHistoryService
+    private betService: BetHistoryService
   ) {}
 
   ngOnInit(): void {
@@ -26,8 +26,8 @@ export class GameRoundDetailsComponent implements OnInit {
       this.gameRoundService.getGameRoundDetails(this.gameRoundId).then((gameRound: GameRound) => {
         this.gameRound = gameRound;
       });
-      this.betHistory.getAllBets().then((bets: Bet[]) => {
-        this.bets = bets.filter((bet) => bet.gameRoundId === this.gameRoundId).reverse();
+      this.betService.getAllBets(this.gameRoundId, 0, 0).then((bets: Bet[]) => {
+        this.bets = bets;
       });
     });
   }

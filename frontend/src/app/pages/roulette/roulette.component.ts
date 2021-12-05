@@ -65,7 +65,7 @@ export class RouletteComponent implements OnInit, AfterViewInit {
   winningRoll: number | undefined = undefined;
   lastRoll: number = 0;
   counter: number = 0;
-  currentGameRoundId: string = '';
+  currentGameRoundId: string = 'DEV';
   currentRoundBets: Bet[] = [];
 
   /** Parent property to know the bet amount typed */
@@ -123,12 +123,7 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
-    // this should be temporary, we need an endpoint to filter bets by gameroundid (query parameter)
-    this.betService.getAllBets().then((bets: Bet[]) => {
-      this.currentRoundBets = bets.filter((bet) => bet.gameRoundId === this.currentGameRoundId);
-    });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribe.next();
@@ -196,6 +191,12 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     currentGameRoundId: string;
   }) {
     this.currentGameRoundId = currentGameRoundId;
+    this.betService
+      .getAllBets(this.currentGameRoundId, 0, 0)
+      .then((bets: Bet[]) => {
+        this.currentRoundBets = bets;
+      })
+      .catch(() => {});
     this.startCounter(currentTimer);
     // Game is in sync and currently rolling, no need to do anything
     if (this.activateRoll) {

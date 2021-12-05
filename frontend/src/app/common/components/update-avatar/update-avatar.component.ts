@@ -58,7 +58,7 @@ export class UpdateAvatarComponent implements OnInit {
     this.userService
       .updateUser(imageForm, userId!)
       .then((res) => {
-        this.openSnackBar('Avatar actualizado correctamente', 'OK');
+        this.openSnackBar('Avatar actualizado correctamente', 'Aceptar');
         this.avatarChanged.emit(res.imgLink);
       })
       .catch((err) => {

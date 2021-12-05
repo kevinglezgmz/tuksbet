@@ -77,7 +77,6 @@ class GameRoundsController {
         }
       })
       .catch((err) => {
-        console.log(err);
         res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }

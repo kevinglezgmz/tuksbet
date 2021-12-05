@@ -71,8 +71,6 @@ function crashCrashedStatusUpdate() {
     realCrashedAt: crashCurrentStatus.gameEndsAt,
     currentGameRoundId: crashCurrentStatus.currentGameRoundId,
   });
-
-  io.emit('update-balance');
 }
 
 function startCrashRound() {
@@ -95,10 +93,12 @@ function startCrashRound() {
 
   // Resultado de la ronda
   crashCurrentStatus.gameEndsAt =
-    crashCurrentStatus.nextGameRoundStartAt + crashCurrentStatus.roundDelay + ((nextRandomNumber() % 60) + 1) * 1000;
+    crashCurrentStatus.nextGameRoundStartAt + crashCurrentStatus.roundDelay + ((nextRandomNumber() % 10) + 1) * 1000;
 
   // Generar ID de ronda
-  crashWaitingStatusUpdate();
+  if (process.env.enviroment === 'dev') {
+    crashWaitingStatusUpdate();
+  }
   setTimeout(() => {
     crashCurrentStatus.crashState = 'RUNNING';
     crashRunningStatusUpdate();
@@ -149,7 +149,9 @@ function getCurrentMultiplier(secondsSinceStart) {
 function updateUserBalances() {
   axios
     .patch(process.env.SERVER_URL + 'api/bets/', { gameRoundId: crashCurrentStatus.currentGameRoundId })
-    .then((response) => {})
+    .then((response) => {
+      io.emit('update-balance');
+    })
     .catch(({ response }) => {
       if (response.data.err !== 'No bets were made in this game round') {
         console.log(response.data);

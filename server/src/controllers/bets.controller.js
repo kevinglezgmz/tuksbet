@@ -29,6 +29,22 @@ async function retrieveUserAndGameRound(betData) {
 
 class BetsController {
   static getAllBets(req, res) {
+    const pagination = {
+      page: 0,
+      limit: 10,
+      gameRoundId: '',
+    };
+
+    const { page, limit, gameRoundId } = req.query;
+
+    pagination.page = !isNaN(parseInt(page)) ? parseInt(page) : pagination.page;
+    pagination.limit = !isNaN(parseInt(limit)) ? parseInt(limit) : pagination.limit;
+    pagination.gameRoundId = gameRoundId ? gameRoundId : pagination.gameRoundId;
+
+    const isGameRoundIdPresent = pagination.gameRoundId
+      ? { $match: { gameRoundId: getObjectId(pagination.gameRoundId) } }
+      : { $match: { gameRoundId: { $exists: true } } };
+
     const betsDb = new Database('BetHistory');
     betsDb
       .findAggregate([
@@ -78,7 +94,30 @@ class BetsController {
             betStake: 1,
           },
         },
+        isGameRoundIdPresent,
+        {
+          $facet: {
+            totalCount: [{ $count: 'value' }],
+            pipelineResults: [isGameRoundIdPresent],
+          },
+        },
+        {
+          $unwind: '$pipelineResults',
+        },
+        {
+          $unwind: '$totalCount',
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: ['$pipelineResults', { totalCount: '$totalCount.value' }],
+            },
+          },
+        },
       ])
+      .sort({ _id: -1 })
+      .skip(pagination.limit * pagination.page)
+      .limit(pagination.limit ? pagination.limit : Infinity)
       .toArray()
       .then((results) => {
         if (results.length === 0) {
@@ -88,6 +127,7 @@ class BetsController {
         }
       })
       .catch((err) => {
+        console.log('err!', err);
         res.status(500).send({ err: 'Unexpected error ocurred, please try again' });
       });
   }

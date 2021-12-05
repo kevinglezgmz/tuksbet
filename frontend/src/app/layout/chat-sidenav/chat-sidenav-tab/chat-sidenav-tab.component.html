@@ -6,7 +6,7 @@
           <button
             *ngIf="roles.includes('Moderator')"
             mat-icon-button
-            class="delete-msg-button"
+            class="action-button"
             (click)="openDeleteConfirmDialog(message._id!)"
           >
             <mat-icon color="warn">delete_outline</mat-icon>

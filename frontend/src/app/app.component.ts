@@ -13,7 +13,7 @@ import { MatDrawerMode } from '@angular/material/sidenav';
 })
 export class AppComponent {
   title = 'tuksbet-front';
-  isChatOpen = true;
+  isChatOpen = false;
 
   constructor(private chatStatusService: ChatStatusService, private bpo: BreakpointObserver) {
     this.chatStatusService.isChatOpen().subscribe((status: boolean) => {
@@ -22,7 +22,6 @@ export class AppComponent {
   }
 
   mode: MatDrawerMode = 'side';
-  opened = true;
   layoutGap = '64';
   fixedInViewport = true;
 
@@ -35,8 +34,6 @@ export class AppComponent {
       .observe(breakpoints)
       .pipe(map((bst) => bst.matches))
       .subscribe((matched) => {
-        console.log('matched');
-
         this.determineSidenavMode();
         this.determineLayoutGap();
       });
@@ -69,5 +66,13 @@ export class AppComponent {
 
   public isSmallDevice(): boolean {
     return this.bpo.isMatched(Breakpoints.Small);
+  }
+
+  public chatToggle() {
+    if (this.isChatOpen) {
+      this.chatStatusService.chatClose();
+    } else {
+      this.chatStatusService.chatOpen();
+    }
   }
 }
