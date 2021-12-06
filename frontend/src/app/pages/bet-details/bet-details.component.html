@@ -1,28 +1,13 @@
-<!--<div *ngIf="bet" class="bet-details-container">
-  <h1>Información de apuesta: {{ betId }}</h1>
-  <div class="main-info">
-    <p>Id del juego: {{ bet!.gameRoundId }}</p>
-    <p>Fecha: {{ bet!.betDate | date: 'short' }}</p>
-    <p>Apuesta: {{ bet!.betStake }}</p>
-    <p>Monto de la apuesta: ${{ bet!.betAmount }}</p>
-    <p>Ganancia: {{ bet!.betPayout }}</p>
-  </div>
-</div>-->
-
-<div *ngIf="bet" class="bet-details-container">
-  <mat-card>
-    <mat-card-title>
-      <h1>Apuesta: {{ betId }}</h1>
-    </mat-card-title>
-    <mat-card-subtitle>
-      <h1>Información de la apuesta</h1>
-    </mat-card-subtitle>
-    <mat-card-content>
-      <p><strong>Juego: </strong>{{ bet!.gameRoundId }}</p>
-      <p><strong>Fecha: </strong>{{ bet!.betDate | date: 'short' }}</p>
-      <p><strong>Apuesta: </strong>{{ bet!.betStake }}</p>
-      <p><strong>Monto de la apuesta: </strong>${{ bet!.betAmount }}</p>
-      <p><strong>Ganancia: </strong>${{ bet!.betPayout }}</p>
-    </mat-card-content>
-  </mat-card>
-</div>
+<mat-card class="bet-card-container">
+  <mat-card-title>
+    <h1>Información de apuesta: {{ betId }}</h1>
+  </mat-card-title>
+  <mat-card-content *ngIf="bet">
+    <p><strong>Juego: </strong>{{ bet!.gameRoundId }}</p>
+    <p><strong>Fecha: </strong>{{ bet!.betDate | date: 'short' }}</p>
+    <p><strong>Apuesta: </strong>{{ bet!.betStake }}</p>
+    <p><strong>Monto de la apuesta: </strong>${{ bet!.betAmount }}</p>
+    <p><strong>Ganancia: </strong>${{ bet!.betPayout }}</p>
+  </mat-card-content>
+  <mat-card-content *ngIf="!bet"> <mat-spinner></mat-spinner> </mat-card-content>
+</mat-card>

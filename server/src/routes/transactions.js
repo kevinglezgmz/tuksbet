@@ -6,7 +6,7 @@ router.get('/', authentication, TransactionsController.getAllTransactions);
 router.get('/:transactionId', authentication, TransactionsController.getTransactionById);
 router.post('/', authentication, TransactionsController.createTransaction);
 router.patch('/:transactionId', TransactionsController.updateTransaction);
-router.delete('/:transactionId', TransactionsController.deleteTransaction);
+router.delete('/:transactionId', authentication, TransactionsController.deleteTransaction);
 
 module.exports = router;
 

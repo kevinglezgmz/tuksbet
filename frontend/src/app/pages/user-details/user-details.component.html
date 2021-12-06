@@ -1,48 +1,46 @@
-<!--<div *ngIf="user" class="user-container">
-  <div class="card">
-    <h3>Cuenta</h3>
-    <h1>Nombre de usuario: {{ user.username }}</h1>
-  </div>
-  <div class="card">
-    <h3>Detalles</h3>
-    <div class="details">
-      <img
-        src="{{
-          user.avatar ||
-            'https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640'
-        }}"
-        alt=""
-      />
-      <p>Cuenta: {{ user.username }}</p>
-      <p>Correo: {{ user.email }}</p>
-      <p>Saldo: ${{ user.balance || 0 | number: '1.2-2' }}</p>
-    </div>
-  </div>
-</div>-->
-
-<div *ngIf="user" class="user-details-card-container">
+<div class="user-details-card-container">
   <mat-card>
-    <mat-card-title>
-      <h1>Cuenta</h1>
-    </mat-card-title>
-    <mat-card-content>
-      <img
-        src="{{
-          user!.avatar ||
-            'https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640'
-        }}"
-        alt=""
-      />
-      <h1>{{ user!.username }}</h1>
-    </mat-card-content>
-    <mat-card-subtitle>
-      <h1>Información de usuario</h1>
-    </mat-card-subtitle>
-    <mat-card-content>
-      <h1>Correo</h1>
-      <p>{{ user!.email }}</p>
-      <h1>Saldo</h1>
-      <p>${{ user!.balance || 0 | number: '1.2-2' }}</p>
-    </mat-card-content>
+    <ng-container *ngIf="user">
+      <mat-card-title>
+        <h1>Cuenta</h1>
+      </mat-card-title>
+      <mat-card-content>
+        <img
+          src="{{
+            user.avatar ||
+              'https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640'
+          }}"
+          alt=""
+        />
+        <h1>{{ user.username }}</h1>
+      </mat-card-content>
+      <mat-card-subtitle>
+        <h1>Información de usuario</h1>
+      </mat-card-subtitle>
+      <mat-card-content>
+        <h1>Correo</h1>
+        <p>{{ user.email }}</p>
+        <h1>Saldo</h1>
+        <p>${{ user.balance || 0 | number: '1.2-2' }}</p>
+      </mat-card-content>
+    </ng-container>
+    <ng-container *ngIf="!user">
+      <mat-card-title>
+        <h1>Cuenta</h1>
+      </mat-card-title>
+      <mat-card-content>
+        <mat-spinner></mat-spinner>
+        <h1>Nombre de usuario</h1>
+      </mat-card-content>
+      <mat-card-subtitle>
+        <h1>Información de usuario</h1>
+      </mat-card-subtitle>
+      <mat-card-content>
+        <h1>Correo</h1>
+        <p>cargando...</p>
+        <h1>Saldo</h1>
+        <p>cargando...</p>
+      </mat-card-content>
+    </ng-container>
   </mat-card>
 </div>

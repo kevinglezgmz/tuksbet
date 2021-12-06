@@ -182,6 +182,10 @@ body {
   min-width: 100px;
 }
 
+mat-spinner {
+  margin: auto;
+}
+
 * {
   @include scrollbar;
 }

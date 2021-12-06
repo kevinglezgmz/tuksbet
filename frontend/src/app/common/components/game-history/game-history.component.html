@@ -5,14 +5,14 @@
   <div class="mat-elevation-z8 mat-table-dialog">
     <table mat-table [dataSource]="gameRounds" class="material-table">
       <ng-container matColumnDef="GameRoundId">
-        <th class="table-header-column" mat-header-cell *matHeaderCellDef>GAMEROUND ID</th>
+        <th class="table-header-column" mat-header-cell *matHeaderCellDef>ID DE RONDA</th>
         <td mat-cell *matCellDef="let gameRound">
           <a mat-dialog-close mat-button routerLink="/gamehistory/{{ gameRound._id }}">{{ gameRound._id }}</a>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="GameRoundResult">
-        <th class="table-header-column" mat-header-cell *matHeaderCellDef>RESULT</th>
+        <th class="table-header-column" mat-header-cell *matHeaderCellDef>RESULTADO</th>
         <td mat-cell *matCellDef="let gameRound">
           {{ gameRound.result || 'No result yet' }}
         </td>

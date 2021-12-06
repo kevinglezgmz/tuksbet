@@ -1,29 +1,44 @@
-<div class="game-round-details-container">
-  <h1>Información del juego: {{ gameRoundId }}</h1>
-  <div class="main-info">
-    <p>Nombre del juego: {{ gameRound ? gameRound.gameName : 'Not available' }}</p>
-    <p>Resultado: {{ gameRound ? gameRound.result : 'Not available' }}</p>
-    <p>Fecha: {{ gameRound ? gameRound.roundDate : 'Not available' }}</p>
-  </div>
+<div class="gameround-card-container">
+  <mat-card>
+    <mat-card-title>
+      <h1>Información del juego: {{ gameRoundId }}</h1>
+    </mat-card-title>
+    <mat-card-content *ngIf="gameRound">
+      <p><strong>Nombre del juego:</strong> {{ gameRound.gameName }}</p>
+      <p><strong>Resultado:</strong> {{ gameRound.result }}</p>
+      <p><strong>Fecha:</strong> {{ gameRound.roundDate }}</p>
+    </mat-card-content>
+    <mat-card-content *ngIf="!gameRound">
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</div>
 
-  <table class="bets-container">
-    <thead>
-      <tr>
-        <th>USUARIO</th>
-        <th>APUESTA</th>
-        <th>MULT</th>
-        <th>GANANCIA</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let bet of bets">
-        <td>
-          <a routerLink="/users/{{ bet.userId }}">{{ bet.username }}</a>
-        </td>
-        <td>${{ bet.betAmount | number: '1.2-2' }}</td>
-        <td>{{ (bet.betPayout || 0) / bet.betAmount | number: '1.2-2' }}x</td>
-        <td>${{ bet.betPayout || 0 | number: '1.2-2' }}</td>
-      </tr>
-    </tbody>
+<div class="mat-elevation-z8 mat-table-dialog">
+  <table mat-table [dataSource]="bets" class="mat-elevation-z8 material-table">
+    <ng-container matColumnDef="Username">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>USUARIO</th>
+      <td mat-cell *matCellDef="let bet">
+        <a mat-button routerLink="/users/{{ bet.userId }}">{{ bet.username }}</a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="BetStake">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>APUESTA</th>
+      <td mat-cell *matCellDef="let bet">${{ bet.betAmount | number: '1.2-2' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Multiplier">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>MULTIPLICADOR</th>
+      <td mat-cell *matCellDef="let bet">{{ (bet.betPayout || 0) / bet.betAmount | number: '1.2-2' }}x</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Profit">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>GANANCIA</th>
+      <td mat-cell *matCellDef="let bet">${{ bet.betPayout | number: '1.2-2' }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
   </table>
 </div>

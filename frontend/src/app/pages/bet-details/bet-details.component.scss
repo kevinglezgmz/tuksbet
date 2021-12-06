@@ -1,9 +1,8 @@
-.bet-details-container {
+.bet-card-container {
+  display: block;
+  margin: auto;
+  max-width: 600px;
   text-align: center;
-  margin: auto 8em;
-  .mat-card {
-    .mat-card-title {
-      margin: 0em 0em 1em 0em;
-    }
-  }
+  box-sizing: border-box;
+  word-wrap: break-word;
 }

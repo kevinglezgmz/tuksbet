@@ -27,6 +27,11 @@
   margin-right: 0.75em;
 }
 
+.logo-btn,
+.profile-btn {
+  display: none;
+}
+
 .right-nav-item-container button {
   width: 80px;
 }
@@ -45,5 +50,12 @@ mat-toolbar {
 @media screen and (max-width: 599px) {
   mat-toolbar {
     z-index: 0;
+  }
+}
+
+@include tablet {
+  .profile-btn,
+  .logo-btn {
+    display: inline;
   }
 }

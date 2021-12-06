@@ -53,7 +53,7 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
-  deleteBet(transactionId: string): void {
+  deleteTransaction(transactionId: string): void {
     this.transactionService
       .deleteTransaction(transactionId)
       .then((msg) => {
@@ -64,15 +64,16 @@ export class TransactionsComponent implements OnInit {
           });
       })
       .catch((err) => {
-        console.log('Hubo un problema en la eliminación de la apuesta');
+        console.log('Hubo un problema en la eliminación de la transacción');
       });
   }
 
-  openDeleteConfirmDialog(betId: string) {
+  openDeleteConfirmDialog(transactionId: string) {
     const dialogRef = this.dialog.open(ConfirmDialogContentComponent, {
       data: {
-        title: '¿Borrar apuesta?',
-        body: '¿Está seguro que desea eliminar la apuesta con id ' + betId + '? Esta acción no puede deshacerse.',
+        title: '¿Borrar transacción?',
+        body:
+          '¿Está seguro que desea eliminar la transacción con id ' + transactionId + '? Esta acción no puede deshacerse.',
         isDelete: true,
       },
       autoFocus: false,
@@ -80,7 +81,7 @@ export class TransactionsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.deleteBet(betId);
+        this.deleteTransaction(transactionId);
       }
     });
   }

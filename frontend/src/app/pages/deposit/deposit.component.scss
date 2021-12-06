@@ -13,6 +13,11 @@ form,
   max-width: 800px;
   margin: 2em auto;
   text-align: center;
+
+  .paypal-input {
+    max-width: 350px;
+    width: 100%;
+  }
 }
 
 .mat-card-cripto {
@@ -26,7 +31,8 @@ form,
 
 .content-container-paypal {
   margin: auto;
-  width: fit-content;
+  // width: fit-content;
+  max-width: 350px;
 }
 
 .content-container-cripto {

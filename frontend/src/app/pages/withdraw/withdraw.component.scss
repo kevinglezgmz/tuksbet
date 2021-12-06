@@ -1,0 +1,47 @@
+h1,
+mat-card-title,
+mat-card-actions {
+  text-align: center;
+}
+
+form,
+#paypalButtons {
+  width: 100%;
+}
+
+.mat-card-cripto {
+  max-width: 800px;
+  margin: 2em auto;
+  text-align: center;
+
+  .cripto-input,
+  .withdraw-btn {
+    max-width: 350px;
+    width: 100%;
+  }
+
+  .withdraw-btn {
+    height: 45px;
+  }
+}
+
+.example-header-image {
+  background-size: cover;
+}
+
+.content-container-paypal {
+  margin: auto;
+  width: fit-content;
+}
+
+.content-container-cripto {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.mat-card-coins-container {
+  max-width: 800px;
+  margin: 2em auto;
+}

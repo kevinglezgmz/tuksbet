@@ -339,6 +339,8 @@ export class CrashComponent implements OnInit, AfterViewInit {
         gameName: 'Crash',
       },
       autoFocus: false,
+      width: '95%',
+      maxWidth: '1200px',
     });
   }
 }

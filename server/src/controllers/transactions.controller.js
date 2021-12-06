@@ -18,7 +18,7 @@ class TransactionsController {
       userId: '',
     };
 
-    const { page, limit, gameName } = req.query;
+    const { page, limit } = req.query;
 
     pagination.page = !isNaN(parseInt(page)) ? parseInt(page) : pagination.page;
     pagination.limit = !isNaN(parseInt(limit)) ? parseInt(limit) : pagination.limit;

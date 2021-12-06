@@ -76,10 +76,15 @@ export class DepositComponent implements OnInit {
             amount: Number(this.inputDepositPaypal),
             isDeposit: true,
           };
-          this.transactionService.createTransaction(newTransaction).then((m) => {
-            // Keep transaction id to use in onApprove
-            this.transactionId = m._id;
-          });
+          this.transactionService
+            .createTransaction(newTransaction)
+            .then((m) => {
+              // Keep transaction id to use in onApprove
+              this.transactionId = m._id;
+            })
+            .catch((err) => {
+              console.log('Error creating transaction');
+            });
         },
         onApprove: () => {
           // Runs when transaction is approved in PayPal

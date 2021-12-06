@@ -1,114 +1,66 @@
 @import '../../../../variables';
 
-// .bets-container {
-//   width: 100%;
-//   height: 480px;
-//   border-spacing: 0;
-//   border-collapse: collapse;
-//   table-layout: fixed;
-//   background-color: rgb(241, 240, 240);
+.mat-button {
+  text-overflow: ellipsis;
+  width: 100%;
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
-//   tbody {
-//     overflow: hidden;
-//     border-color: inherit;
-//     tr {
-//       &:nth-of-type(2n) {
-//         background-color: rgb(187, 183, 183);
-//       }
+.mat-column-GameName,
+.mat-column-BetDate,
+.mat-column-BetId,
+.mat-column-BetAmount,
+.mat-column-BetMultiplier {
+  display: none;
+}
 
-//       td {
-//         text-align: center;
-//         overflow: hidden;
-//         font-size: 15px;
-//         font-weight: 500;
-//         white-space: nowrap;
-//         text-overflow: ellipsis;
+.mat-header-cell,
+.mat-cell {
+  text-overflow: ellipsis;
+  white-space: unset;
+  flex: 0 0 calc(100% / 3);
+  width: calc(100% / 3);
+}
 
-//         &:first-of-type {
-//           border-bottom-left-radius: 7px;
-//           border-top-left-radius: 7px;
-//         }
+@include tablet {
+  .mat-column-BetMultiplier,
+  .mat-column-GameName {
+    display: table-cell;
+  }
 
-//         &:last-of-type {
-//           border-bottom-right-radius: 7px;
-//           border-top-right-radius: 7px;
-//         }
-//       }
-//     }
-//   }
+  .mat-header-cell,
+  .mat-cell {
+    flex: 0 0 calc(100% / 5);
+    width: calc(100% / 5);
+  }
+}
 
-//   thead {
-//     background-color: rgb(136, 136, 136);
-//     display: table-header-group;
-//     border-color: inherit;
-//     vertical-align: middle;
-//     height: 40px;
-//     tr th {
-//       &:first-of-type {
-//         border-bottom-left-radius: 7px;
-//         border-top-left-radius: 7px;
-//       }
+@include laptop {
+  .mat-column-BetAmount,
+  .mat-column-BetDate {
+    display: table-cell;
+  }
 
-//       &:last-of-type {
-//         border-bottom-right-radius: 7px;
-//         border-top-right-radius: 7px;
-//       }
-//     }
-//   }
+  .mat-button {
+    max-width: unset;
+  }
 
-//   tr {
-//     td:nth-of-type(n),
-//     th:nth-of-type(n) {
-//       padding: 0 18px;
-//       display: none;
-//     }
+  .mat-header-cell,
+  .mat-cell {
+    flex: 0 0 calc(100% / 7);
+    width: calc(100% / 7);
+  }
+}
+@include desktop {
+  .mat-column-BetId {
+    display: table-cell;
+  }
 
-//     td:first-of-type,
-//     th:first-of-type {
-//       display: table-cell;
-//     }
-
-//     td:last-of-type,
-//     th:last-of-type {
-//       display: table-cell;
-//     }
-//   }
-
-//   @include tablet() {
-//     tr {
-//       td:nth-of-type(2),
-//       th:nth-of-type(2) {
-//         display: table-cell;
-//       }
-//     }
-//   }
-
-//   @include laptop() {
-//     tr {
-//       td:nth-of-type(4),
-//       th:nth-of-type(4) {
-//         display: table-cell;
-//       }
-//     }
-//   }
-
-//   @include desktop() {
-//     tr {
-//       td:nth-of-type(3),
-//       th:nth-of-type(3),
-//       td:nth-of-type(5),
-//       th:nth-of-type(5) {
-//         display: table-cell;
-//       }
-//     }
-//   }
-
-//   a {
-//     text-decoration: none;
-//     color: rgb(27, 27, 102);
-
-//     &:visited {
-//       color: rgb(27, 27, 102);
-//     }
-//   }
-// }
+  .mat-header-cell,
+  .mat-cell {
+    flex: 0 0 calc(100% / 8);
+    width: calc(100% / 8);
+  }
+}

@@ -8,18 +8,18 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class UserService extends ParentService {
-  usersEndpoint = '/users/';
+  usersEndpoint = '/users';
 
   constructor(httpClient: HttpClient, private authService: AuthService) {
     super(httpClient);
   }
 
-  getAllUsers(): Promise<any> {
-    return this.get(this.usersEndpoint);
+  getAllUsers(currentPage: number, recordsPerPage: number): Promise<any> {
+    return this.get(this.usersEndpoint + '?page=' + currentPage + '&limit=' + recordsPerPage);
   }
 
   getUserDetails(userId: string): Promise<any> {
-    return this.get(this.usersEndpoint + userId);
+    return this.get(this.usersEndpoint + '/' + userId);
   }
 
   createUser(user: User): Promise<any> {
@@ -27,11 +27,12 @@ export class UserService extends ParentService {
   }
 
   deleteUser(userId: string): Promise<any> {
-    return this.delete(this.usersEndpoint + userId);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.delete(this.usersEndpoint + '/' + userId, headers);
   }
 
   updateUser(user: User | FormData, userId: string): Promise<any> {
     const headers: HttpHeaders = this.authService.getAuthHeader();
-    return this.update(this.usersEndpoint + userId, user, headers);
+    return this.update(this.usersEndpoint + '/' + userId, user, headers);
   }
 }

@@ -223,6 +223,8 @@ export class RouletteComponent implements OnInit, AfterViewInit {
         gameName: 'Roulette',
       },
       autoFocus: false,
+      width: '95%',
+      maxWidth: '1200px',
     });
   }
 }

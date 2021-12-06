@@ -30,7 +30,8 @@ export class TransactionService extends ParentService {
   }
 
   deleteTransaction(transactionId: string): Promise<any> {
-    return this.delete(this.transactionsEndpoint + '/' + transactionId);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.delete(this.transactionsEndpoint + '/' + transactionId, headers);
   }
 
   updateTransaction(transaction: Transaction, transactionId: string): Promise<any> {

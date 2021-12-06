@@ -6,4 +6,5 @@ export interface User {
   password?: string;
   balance?: number;
   avatar?: string;
+  totalCount?: number;
 }

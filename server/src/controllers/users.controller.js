@@ -13,18 +13,62 @@ function validateUserData(userData) {
 
 class UsersController {
   static getAllUsers(req, res) {
+    const pagination = {
+      page: 0,
+      limit: 10,
+    };
+
+    const { page, limit } = req.query;
+
+    pagination.page = !isNaN(parseInt(page)) ? parseInt(page) : pagination.page;
+    pagination.limit = !isNaN(parseInt(limit)) ? parseInt(limit) : pagination.limit;
+
     const usersDb = new Database('Users');
     usersDb
-      .find({}, {})
+      .findAggregate([
+        {
+          $facet: {
+            totalCount: [{ $count: 'value' }],
+            pipelineResults: [
+              {
+                $match: { _id: { $exists: true } },
+              },
+            ],
+          },
+        },
+        {
+          $unwind: '$pipelineResults',
+        },
+        {
+          $unwind: '$totalCount',
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: ['$pipelineResults', { totalCount: '$totalCount.value' }],
+            },
+          },
+        },
+        {
+          $project: {
+            userId: '$_id',
+            username: 1,
+            email: 1,
+            avatar: 1,
+            balance: 1,
+            totalCount: 1,
+          },
+        },
+      ])
+      .sort({ _id: -1 })
+      .skip(pagination.limit * pagination.page)
+      .limit(pagination.limit)
       .toArray()
       .then((results) => {
         if (results.length === 0) {
           res.status(400).send({ msg: 'No users found!' });
         } else {
-          const filteredUsersData = results.map((user) => {
-            return { userId: user._id, username: user.username, roles: user.roles, email: user.email, avatar: user.avatar };
-          });
-          res.status(200).send(filteredUsersData);
+          res.send(results);
         }
       })
       .catch((err) => {
@@ -87,11 +131,6 @@ class UsersController {
   }
 
   static deleteUser(req, res) {
-    if (req.userId !== req.params.userId) {
-      res.status(401).send({ err: 'Not authorized' });
-      return;
-    }
-
     const usersDb = new Database('Users');
     usersDb
       .deleteOne({ _id: getObjectId(req.params.userId) })

@@ -1,14 +1,51 @@
-.mat-column-GameRoundResult,
+@import '../../../../variables';
+
 .mat-column-GameRoundDate,
 .mat-column-GameRoundAcceptingBets,
-.mat-column-GameRoundResult {
-  width: 25%;
-}
-
-.mat-table-dialog {
-  width: 70vw;
+.mat-column-GameRoundId {
+  display: none;
 }
 
 h2 {
   text-align: center;
+}
+
+.mat-header-cell,
+.mat-cell {
+  text-overflow: ellipsis;
+  white-space: unset;
+  flex: 0 0 calc(100% / 2);
+  width: calc(100% / 2);
+}
+
+@include tablet {
+  .mat-column-GameRoundAcceptingBets,
+  .mat-column-GameRoundDate {
+    display: table-cell;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    text-overflow: ellipsis;
+    white-space: unset;
+    flex: 0 0 calc(100% / 4);
+    width: calc(100% / 4);
+  }
+}
+
+@include laptop {
+  .mat-column-GameRoundId {
+    display: table-cell;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    flex: 0 0 calc(100% / 5);
+    width: calc(100% / 5);
+  }
+}
+
+mat-dialog-content {
+  padding-top: 5px;
+  padding-bottom: 15px;
 }
