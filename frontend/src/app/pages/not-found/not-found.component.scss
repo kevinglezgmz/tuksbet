@@ -1,0 +1,18 @@
+h1,
+h2 {
+  text-align: center;
+  margin: 0.5em 0em;
+}
+
+h1 {
+  font-size: 15em;
+}
+
+h2 {
+  font-size: 3em;
+}
+
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+}
