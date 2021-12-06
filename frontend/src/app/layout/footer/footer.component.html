@@ -6,7 +6,7 @@
     <div class="row media">
       <ul>
         <li *ngFor="let game of games" class="game">
-          <a routerLink="/{{ game.gameName!.toLowerCase() }}">{{ game.gameName }}</a>
+          <a mat-button routerLink="/{{ game.gameName!.toLowerCase() }}">{{ game.gameName }}</a>
         </li>
       </ul>
     </div>

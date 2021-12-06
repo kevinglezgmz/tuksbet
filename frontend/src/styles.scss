@@ -28,7 +28,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $tuksbet-front-primary: mat.define-palette(mat.$indigo-palette);
-$tuksbet-front-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$tuksbet-front-accent: mat.define-palette(mat.$blue-gray-palette, 900, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $tuksbet-front-warn: mat.define-palette(mat.$red-palette);
@@ -45,6 +45,22 @@ $tuksbet-front-theme: mat.define-light-theme(
   )
 );
 
+//For dark theme
+$dark-primary: mat.define-palette(mat.$indigo-palette);
+$dark-accent: mat.define-palette(mat.$blue-gray-palette);
+$tuksbet-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $dark-primary,
+      accent: $dark-accent,
+      warn: $tuksbet-front-warn,
+    ),
+  )
+);
+
+.dark-theme-mode {
+  @include mat.all-component-themes($tuksbet-dark-theme);
+}
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
