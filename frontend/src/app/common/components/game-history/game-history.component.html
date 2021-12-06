@@ -1,0 +1,68 @@
+<span>
+  <h2 mat-dialog-title>Historial de rondas de {{ data.gameName }}</h2>
+</span>
+<mat-dialog-content class="mat-typography">
+  <div class="mat-elevation-z8 mat-table-dialog">
+    <table mat-table [dataSource]="gameRounds" class="material-table">
+      <ng-container matColumnDef="GameRoundId">
+        <th class="table-header-column" mat-header-cell *matHeaderCellDef>ID DE RONDA</th>
+        <td mat-cell *matCellDef="let gameRound">
+          <a mat-dialog-close mat-button routerLink="/gamehistory/{{ gameRound._id }}">{{ gameRound._id }}</a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="GameRoundResult">
+        <th class="table-header-column" mat-header-cell *matHeaderCellDef>RESULTADO</th>
+        <td mat-cell *matCellDef="let gameRound">
+          {{ gameRound.result || 'No result yet' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="GameRoundDate">
+        <th class="table-header-column" mat-header-cell *matHeaderCellDef>FECHA</th>
+        <td mat-cell *matCellDef="let gameRound">{{ gameRound.roundDate | date: 'short' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="GameRoundAcceptingBets">
+        <th class="table-header-column" mat-header-cell *matHeaderCellDef>RONDA ABIERTA</th>
+        <td mat-cell *matCellDef="let gameRound">
+          {{ gameRound.acceptingBets ? 'SI' : 'NO' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Actions">
+        <th class="table-header-column" mat-header-cell *matHeaderCellDef>ACCIONES</th>
+        <td mat-cell *matCellDef="let gameRound">
+          <button
+            *ngIf="roles.includes('Admin')"
+            mat-icon-button
+            class="action-button"
+            (click)="openDeleteConfirmDialog(gameRound._id)"
+          >
+            <mat-icon color="warn">delete_outline</mat-icon>
+          </button>
+          <button
+            routerLink="/gamehistory/{{ gameRound._id }}"
+            mat-icon-button
+            class="action-button"
+            [mat-dialog-close]="true"
+          >
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [pageSize]="recordsPerPage"
+      [length]="gameRounds.length > 0 ? gameRounds[0].totalCount : 0"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</mat-dialog-content>

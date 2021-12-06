@@ -1,13 +1,19 @@
-<div class="transaction-details-container" *ngIf="transaction">
-    <h1>Información de transacción: {{ transactionId }}</h1>
-    <div class="main-info">
-      <p>Fecha: {{ transaction!.transactionDate | date: 'short'}}</p>
-      <p>Cantidad: ${{ transaction!.amount }}</p>
-      <p>Estatus: {{ transaction!.status }}</p>
-      <p>Depósito: {{ transaction!.isDeposit ?  'Sí' : 'No'}}</p>
-    </div>
-</div>
-
-<div *ngIf="transaction === undefined">
-    <h1>Información de transacción no encontrada</h1>
+<div class="transaction-card-container">
+  <mat-card>
+    <mat-card-title>
+      <h1>Información de transacción: {{ transactionId }}</h1>
+    </mat-card-title>
+    <mat-card-content *ngIf="transaction">
+      <p><strong>Tipo:</strong> {{ transaction.isDeposit ? 'Depósito' : 'Retiro' }}</p>
+      <p><strong>Cantidad:</strong> ${{ transaction.amount }}</p>
+      <p>
+        <strong>Estado:</strong>
+        {{
+          transaction.status === 'cancelled' ? 'Cancelado' : transaction.status === 'pending' ? 'Pendiente' : 'Completado'
+        }}
+      </p>
+      <p><strong>Fecha:</strong> {{ transaction.transactionDate | date: 'short' }}</p>
+    </mat-card-content>
+    <mat-card-content *ngIf="!transaction"> <mat-spinner></mat-spinner> </mat-card-content>
+  </mat-card>
 </div>

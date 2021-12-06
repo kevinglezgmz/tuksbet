@@ -31,44 +31,56 @@
   border: none;
 }
 
-.current-bets-container {
-  background-color: rgb(241, 240, 240);
-  overflow: auto;
-  .bet-entry {
-    margin: 0 0.75em;
-    padding: 0.1em 0.5em;
+// .current-bets-container {
+//   background-color: rgb(241, 240, 240);
+//   overflow: auto;
+//   .bet-entry {
+//     margin: 0 0.75em;
+//     padding: 0.1em 0.5em;
 
-    &:first-of-type {
-      padding-top: 0.5em;
-    }
+//     &:first-of-type {
+//       padding-top: 0.5em;
+//     }
 
-    &:last-of-type {
-      margin-bottom: 0.5em;
-    }
+//     &:last-of-type {
+//       margin-bottom: 0.5em;
+//     }
 
-    &:nth-of-type(2n) {
-      background-color: rgb(187, 183, 183);
-      border-radius: 7px;
-    }
+//     &:nth-of-type(2n) {
+//       background-color: rgb(187, 183, 183);
+//       border-radius: 7px;
+//     }
 
-    .bet-entry-user {
-      width: 70%;
-      display: inline-block;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    .bet-entry-amount {
-      width: 30%;
-      display: inline-block;
-      text-overflow: ellipsis;
-      overflow: hidden;
+//     .bet-entry-user {
+//       width: 70%;
+//       display: inline-block;
+//       text-overflow: ellipsis;
+//       overflow: hidden;
+//     }
+//     .bet-entry-amount {
+//       width: 30%;
+//       display: inline-block;
+//       text-overflow: ellipsis;
+//       overflow: hidden;
 
-      p {
-        margin: 0;
-        text-align: end;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-    }
-  }
+//       p {
+//         margin: 0;
+//         text-align: end;
+//         text-overflow: ellipsis;
+//         overflow: hidden;
+//       }
+//     }
+//   }
+// }
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.bet-amount-span {
+  word-wrap: break-word;
+}
+
+mat-list {
+  padding-top: 0;
 }

@@ -12,7 +12,6 @@ import { UsersComponent } from './pages/users/users.component';
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './common/guards/auth.guard';
-import { GameHistoryComponent } from './pages/game-history/game-history.component';
 import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { SignupComponent } from './pages/signup/signup.component';
@@ -35,7 +34,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent, canActivate: [NoAuthGuard] },
-  { path: 'gamehistory', component: GameHistoryComponent },
   { path: 'gamehistory/:gameRoundId', component: GameRoundDetailsComponent },
   { path: 'bets/:betId', component: BetDetailsComponent },
   { path: 'profile', component: ProfileComponent },

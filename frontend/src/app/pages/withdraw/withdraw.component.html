@@ -1,1 +1,39 @@
-<p>withdraw works!</p>
+<mat-button-toggle-group [(ngModel)]="currentPage" name="favoriteColor" aria-label="Sección de cartera">
+  <mat-button-toggle routerLink="/deposit" value="deposit">Depositar</mat-button-toggle>
+  <mat-button-toggle routerLink="/withdraw" value="withdraw">Retirar</mat-button-toggle>
+  <mat-button-toggle routerLink="/transactions" value="transactions">Transacciones</mat-button-toggle>
+</mat-button-toggle-group>
+<mat-card class="mat-card-cripto">
+  <mat-card-content>
+    <h1>Retira fondos en BTC</h1>
+    <div class="content-container-cripto">
+      <form>
+        <mat-form-field class="cripto-input" appearance="fill">
+          <mat-label>BTC Address</mat-label>
+          <span matPrefix>BTC &nbsp; &nbsp;</span>
+          <input
+            type="text"
+            name="inputWithdrawAddress"
+            [(ngModel)]="inputWithdrawAddress"
+            matInput
+            placeholder="Dirección de retiro"
+          />
+        </mat-form-field>
+        <br />
+        <mat-form-field class="cripto-input" appearance="fill">
+          <mat-label>Monto</mat-label>
+          <span matPrefix>$USD &nbsp; &nbsp;</span>
+          <input
+            type="text"
+            name="inputWithdrawCripto"
+            [(ngModel)]="inputWithdrawCripto"
+            matInput
+            placeholder="Cantidad a retirar"
+            (blur)="onBlurCripto($event)"
+          />
+        </mat-form-field>
+      </form>
+      <button mat-raised-button color="primary" class="withdraw-btn" (click)="withdraw()">Retirar fondos</button>
+    </div>
+  </mat-card-content>
+</mat-card>

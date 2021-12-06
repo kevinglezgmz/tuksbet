@@ -1,8 +1,41 @@
-<app-header></app-header>
-<div [@chatToggle]="isChatOpen ? 'opened' : 'closed'" class="main-content">
-  <router-outlet class="page-div"></router-outlet>
-  <app-footer class="page-footer"></app-footer>
-</div>
-<div class="chat-sidebar">
-  <app-chat-sidebar></app-chat-sidebar>
-</div>
+<span class="mat-app-background" [ngClass]="{ 'dark-theme-mode': isDarkTheme }">
+  <app-header></app-header>
+  <!-- <div [@chatToggle]="isChatOpen ? 'opened' : 'closed'" class="main-content"></div>
+  <div class="chat-sidebar">
+    <app-chat-sidebar></app-chat-sidebar>
+  </div> -->
+
+  <!-- <mat-sidenav-container class="main-sidenav-container" (backdropClick)="opened = !opened">
+    <mat-sidenav [mode]="mode" [opened]="opened" [fixedInViewport]="true" [fixedTopGap]="layoutGap">
+      <app-chat-sidebar></app-chat-sidebar>
+    </mat-sidenav>
+  
+    <button mat-icon-button (click)="opened = !opened">
+      <mat-icon>chat_bubble_outline</mat-icon>
+    </button>
+    <div class="div-scrollable"><router-outlet></router-outlet></div>
+    <app-footer class="page-footer"></app-footer>
+  </mat-sidenav-container> -->
+
+  <mat-sidenav-container class="main-sidenav-container" (backdropClick)="chatToggle()">
+    <mat-sidenav
+      class="sidenav-container"
+      [mode]="mode"
+      [opened]="isChatOpen"
+      [fixedInViewport]="true"
+      [fixedTopGap]="layoutGap"
+    >
+      <app-chat-sidenav-tab-group></app-chat-sidenav-tab-group>
+    </mat-sidenav>
+
+    <div class="main-content">
+      <button mat-icon-button (click)="chatToggle()">
+        <mat-icon>chat_bubble_outline</mat-icon>
+      </button>
+      <div class="div-scrollable"><router-outlet></router-outlet></div>
+      <div class="page-footer">
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </mat-sidenav-container>
+</span>

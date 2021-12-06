@@ -3,27 +3,31 @@
   flex-direction: column;
   align-items: center;
   * {
-    margin: 0 0 1em 0;
-  }
-
-  a {
-    text-decoration: none;
-    font-weight: bold;
-    color: rgb(129, 0, 0);
-
-    &:visited {
-      color: rgb(134, 24, 24);
-    }
+    margin: 0 0 0.5em 0;
   }
 }
 
 .socials {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin: 0 auto;
 
   button {
-    margin: 0 0.25em;
-    width: 80px;
+    margin: 0.5em 0.25em;
+    width: 250px;
+    height: 50px;
   }
+}
+
+.mat-card {
+  max-width: 600px;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.mat-form-field {
+  display: block;
+  width: 80%;
 }

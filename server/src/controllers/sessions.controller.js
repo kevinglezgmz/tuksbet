@@ -103,20 +103,19 @@ class SessionsController {
   static async loginSocialUser(req, res) {
     const socialUserDetails = req.body.socialUser;
     const usersDb = new Database('Users');
-    const user = await usersDb.findOne({ email: socialUserDetails.email.toLowerCase() }, {});
+    let user = await usersDb.findOne({ email: socialUserDetails.email.toLowerCase() }, {});
     if (!user) {
       // User is not registered, register the user and log it in
       const isUserInserted = await registerUserFromSocial(socialUserDetails);
-      user._id = isUserInserted.insertedId;
-      user.username = socialUserDetails.name;
+      user = { _id: isUserInserted.insertedId, username: socialUserDetails.name };
       // Generate a new token for the user to authenticate with the server
-      const sessionStatusAndToken = await createOrUpdateUserToken(getObjectId(isUserInserted.insertedId));
-      res.send({
-        ...sessionStatusAndToken,
-        userId: isUserInserted.insertedId,
-        username: socialUserDetails.name,
-        roles: socialUserDetails.roles,
-      });
+      // const sessionStatusAndToken = await createOrUpdateUserToken(getObjectId(isUserInserted.insertedId));
+      // res.send({
+      //   ...sessionStatusAndToken,
+      //   userId: isUserInserted.insertedId,
+      //   username: socialUserDetails.name,
+      //   roles: socialUserDetails.roles,
+      // });
     }
 
     try {

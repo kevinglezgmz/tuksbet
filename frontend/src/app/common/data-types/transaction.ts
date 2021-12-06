@@ -6,4 +6,5 @@ export interface Transaction {
   isDeposit?: boolean;
   status?: string;
   transactionDate?: Date;
+  totalCount?: number;
 }

@@ -1,10 +1,14 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { GameHistoryComponent } from 'src/app/common/components/game-history/game-history.component';
 import { Bet } from 'src/app/common/data-types/bet';
 import { CanvasDrawableNumber, CrashStates } from 'src/app/common/data-types/crash-game-types';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { BalanceService } from 'src/app/common/services/balance.service';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
+import { IsDarkThemeService } from 'src/app/common/services/is-dark-theme.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 
 @Component({
@@ -13,6 +17,8 @@ import { WebSocketService } from 'src/app/common/services/web-socket.service';
   styleUrls: ['./crash.component.scss'],
 })
 export class CrashComponent implements OnInit, AfterViewInit {
+  isDarkModeActive: boolean = true;
+
   isLoggedIn: boolean = false;
   betAmount: number = 5;
 
@@ -53,7 +59,13 @@ export class CrashComponent implements OnInit, AfterViewInit {
 
   /** Destroy observables when we leave the page */
   private unsubscribe: Subject<void> = new Subject<void>();
-  constructor(private webSocket: WebSocketService, private authService: AuthService, private betService: BetHistoryService) {
+  constructor(
+    private webSocket: WebSocketService,
+    private authService: AuthService,
+    private betService: BetHistoryService,
+    private dialogService: MatDialog,
+    private isDarkThemeService: IsDarkThemeService
+  ) {
     this.webSocket.emit('join-crash-game', undefined);
 
     this.webSocket
@@ -63,6 +75,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.crashState = CrashStates.WAITING;
         this.nextGameRoundStartAt = nextGameRoundStartAt;
         this.currentGameRoundId = currentGameRoundId;
+        this.updateCurrentBets();
       });
 
     this.webSocket
@@ -73,6 +86,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.nextGameRoundStartAt = nextGameRoundStartAt;
         this.currentGameRoundId = currentGameRoundId;
         this.lagAdjustment = serverCurrentTime - Date.now();
+        this.updateCurrentBets();
       });
 
     this.webSocket
@@ -82,6 +96,14 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.crashedAt = realCrashedAt;
         this.crashState = CrashStates.CRASHED;
         this.currentGameRoundId = currentGameRoundId;
+        this.currentRoundBets = [];
+      });
+
+    this.webSocket
+      .listen('new-crash-bet')
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((bet: Bet) => {
+        this.currentRoundBets.push(bet);
       });
 
     this.authService
@@ -91,17 +113,16 @@ export class CrashComponent implements OnInit, AfterViewInit {
         this.isLoggedIn = isLoggedIn;
       });
 
+    this.isDarkThemeService.isCurrentThemeDark().subscribe((isDarkMode) => {
+      this.isDarkModeActive = isDarkMode;
+    });
+
     this.crashWidth = 800;
     this.crashHeight = 421;
     this.resetCrashValues();
   }
 
-  ngOnInit(): void {
-    // this should be temporary, we need an endpoint to filter bets by gameroundid (query parameter)
-    this.betService.getAllBets().then((bets: Bet[]) => {
-      this.currentRoundBets = bets.filter((bet) => bet.gameRoundId === this.currentGameRoundId);
-    });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribe.next();
@@ -120,6 +141,15 @@ export class CrashComponent implements OnInit, AfterViewInit {
       this.crashWidth = crashContainer.offsetWidth;
       this.crashHeight = crashContainer.offsetHeight;
     });
+  }
+
+  private updateCurrentBets() {
+    this.betService
+      .getAllBets(this.currentGameRoundId, 0, 0)
+      .then((bets: Bet[]) => {
+        this.currentRoundBets = bets;
+      })
+      .catch(() => {});
   }
 
   private startDrawing() {
@@ -183,7 +213,8 @@ export class CrashComponent implements OnInit, AfterViewInit {
 
   private setInitialFontValues() {
     this.canvasContext!.font = 'bold 12px Arial';
-    this.canvasContext!.fillStyle = 'black';
+    this.canvasContext!.fillStyle = this.isDarkModeActive ? 'white' : 'black';
+    this.canvasContext!.strokeStyle = this.isDarkModeActive ? 'white' : 'black';
   }
 
   private getSpeedForXSecondsAndYDistance(distance: number, seconds: number) {
@@ -262,7 +293,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
       case CrashStates.RUNNING:
         this.canvasContext!.font =
           '100px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif';
-        this.canvasContext!.fillStyle = 'green';
+        this.canvasContext!.fillStyle = this.isDarkModeActive ? '#0ee07b' : 'green';
         if (this.nextGameRoundStartAt === 0) {
           textToDraw = 'Connecting...';
         } else {
@@ -276,7 +307,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
       case CrashStates.WAITING:
         this.canvasContext!.font =
           '35px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif';
-        this.canvasContext!.fillStyle = 'black';
+        this.canvasContext!.fillStyle = this.isDarkModeActive ? 'white' : 'black';
         const counter = (this.nextGameRoundStartAt - Date.now() + this.lagAdjustment) / 1000;
         textToDraw = 'La siguiente ronda comenzará en: ' + (counter >= 0 ? counter : 0).toFixed(2);
         break;
@@ -308,5 +339,16 @@ export class CrashComponent implements OnInit, AfterViewInit {
     const crashContainer = this.crashCanvasContainer.nativeElement as HTMLDivElement;
     this.crashWidth = crashContainer.offsetWidth;
     this.crashHeight = crashContainer.offsetHeight;
+  }
+
+  openCrashHistory() {
+    const dialogRef = this.dialogService.open(GameHistoryComponent, {
+      data: {
+        gameName: 'Crash',
+      },
+      autoFocus: false,
+      width: '95%',
+      maxWidth: '1200px',
+    });
   }
 }

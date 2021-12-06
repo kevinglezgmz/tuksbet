@@ -12,6 +12,18 @@ function validateTransactionData(transactionData) {
 
 class TransactionsController {
   static getAllTransactions(req, res) {
+    const pagination = {
+      page: 0,
+      limit: 10,
+      userId: '',
+    };
+
+    const { page, limit } = req.query;
+
+    pagination.page = !isNaN(parseInt(page)) ? parseInt(page) : pagination.page;
+    pagination.limit = !isNaN(parseInt(limit)) ? parseInt(limit) : pagination.limit;
+    pagination.userId = req.userId;
+
     const transactionsDb = new Database('Transactions');
     transactionsDb
       .findAggregate([
@@ -26,6 +38,30 @@ class TransactionsController {
         {
           $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$fromUser', 0] }, '$$ROOT'] } },
         },
+        { $match: { userId: getObjectId(pagination.userId) } },
+        {
+          $facet: {
+            totalCount: [{ $count: 'value' }],
+            pipelineResults: [
+              {
+                $match: { gameName: pagination.gameName },
+              },
+            ],
+          },
+        },
+        {
+          $unwind: '$pipelineResults',
+        },
+        {
+          $unwind: '$totalCount',
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: ['$pipelineResults', { totalCount: '$totalCount.value' }],
+            },
+          },
+        },
         {
           $project: {
             _id: 1,
@@ -35,9 +71,13 @@ class TransactionsController {
             isDeposit: 1,
             status: 1,
             transactionDate: 1,
+            totalCount: 1,
           },
         },
       ])
+      .sort({ _id: -1 })
+      .skip(pagination.limit * pagination.page)
+      .limit(pagination.limit)
       .toArray()
       .then((results) => {
         if (results.length === 0) {

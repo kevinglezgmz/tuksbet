@@ -1,13 +1,54 @@
-<nav>
-  <span class="nav-item left-nav-section">
-    <a routerLink="/">HOME</a>
+<mat-toolbar class="header-toolbar mat-app-background" [ngClass]="{ 'dark-theme-mode': isDarkTheme }">
+  <span class="left-nav-item-container">
+    <button mat-mini-fab routerLink="/" class="tuksbet-logo" aria-label="Home button" color="primary">
+      <mat-icon
+        svgIcon="tuksbet"
+        style="filter: invert(99%) sepia(3%) saturate(13%) hue-rotate(172deg) brightness(104%) contrast(100%)"
+      ></mat-icon>
+    </button>
+    <span class="trademark">
+      &nbsp;&nbsp;
+      <strong>TUKSBET&nbsp;&trade;</strong>
+      &nbsp;&nbsp;&nbsp;
+    </span>
+    <span class="theme-slider">
+      <mat-icon class="day-icon">light_mode</mat-icon>
+      <mat-slide-toggle [(ngModel)]="isDarkTheme" (change)="updateCurrentTheme()">
+        <mat-icon>mode_night</mat-icon>
+      </mat-slide-toggle>
+    </span>
+    <button mat-mini-fab class="theme-button" aria-label="Mode button" (click)="setMode()">
+      <div *ngIf="isDarkTheme; then thenBlock; else elseBlock"></div>
+      <ng-template #thenBlock><mat-icon>mode_night</mat-icon></ng-template>
+      <ng-template #elseBlock><mat-icon>light_mode</mat-icon></ng-template>
+    </button>
   </span>
-  <span class="nav-item center-nav-section">
-    <div>Balance: 0</div>
-    <!-- Balance/Wallet component here -->
+
+  <span class="example-spacer"></span>
+  <span class="center-nav-item-container">
+    <app-wallet-component></app-wallet-component>
   </span>
-  <span class="nav-item right-nav-section">
-    <a *ngIf="!isLoggedIn" routerLink="/login"> <button class="btn">Login</button></a>
-    <a *ngIf="isLoggedIn" routerLink="/logout"><button class="btn">Logout</button></a>
+  <span class="example-spacer"></span>
+  <span class="right-nav-item-container">
+    <a *ngIf="!isLoggedIn" routerLink="/login">
+      <button mat-raised-button color="primary">Login</button>
+    </a>
+    <ng-container *ngIf="isLoggedIn">
+      <button mat-raised-button routerLink="/profile" color="primary" class="large-btn">
+        <mat-icon>account_circle</mat-icon>&nbsp;&nbsp;Mi Perfil
+      </button>
+      <button mat-mini-fab routerLink="/profile" aria-label="Home button" class="mobile-btn" color="primary">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      &nbsp;&nbsp;
+    </ng-container>
+    <ng-container *ngIf="isLoggedIn">
+      <button routerLink="/logout" mat-raised-button color="accent" class="large-btn">
+        <mat-icon>logout</mat-icon>&nbsp;&nbsp;Logout
+      </button>
+      <button routerLink="/logout" mat-mini-fab aria-label="Logout button" class="mobile-btn" color="accent">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </ng-container>
   </span>
-</nav>
+</mat-toolbar>

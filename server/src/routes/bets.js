@@ -179,9 +179,6 @@ module.exports = router;
  *             gameRoundId:
  *               type: string
  *               example: 616b9a868562c95984sdei01
- *             username:
- *               type: string
- *               example: exampleUser
  *             betAmount:
  *               type: float
  *               example: 0.56
@@ -258,6 +255,12 @@ module.exports = router;
  *             betStake:
  *               type: string
  *               example: "roulette"
+ *             betPayout:
+ *               type: float
+ *               example: 0.56
+ *             betDate:
+ *               type: date
+ *               example: 2021-11-07T19:28:03.824Z
  *    responses:
  *      200:
  *        description: Success response. Retrieves status of the bet

@@ -1,9 +1,36 @@
-<input
-  type="text"
-  name="newUsername"
-  placeholder="{{ usernameValue }}"
-  [(ngModel)]="inputUsername"
-  (keydown.enter)="updateUsername($event)"
-/>
-<br />
-<button (click)="updateUsername($event)">Actualizar</button>
+<mat-card>
+  <mat-card-title class="content">
+    <h1>Cambiar nombre de usuario</h1>
+  </mat-card-title>
+
+  <mat-card-content class="content">
+    <form (submit)="updateUsername()" [formGroup]="updateUsernameForm">
+      <mat-error *ngIf="updateUsernameError.length > 0">
+        {{ updateUsernameError }}
+      </mat-error>
+
+      <div class="form-field-container">
+        <mat-form-field>
+          <mat-label>Nombre de usuario</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="newUsername"
+            placeholder="{{ usernameValue }}"
+            (input)="onNewUsernameInput()"
+            (change)="onInput()"
+            accept=".jpg, .jpeg, .png"
+            required
+          />
+          <mat-error *ngIf="updateUsernameForm.get('newUsername')!.hasError('required')">
+            {{ updateUsernameError }}
+          </mat-error>
+          <mat-error *ngIf="updateUsernameForm.get('newUsername')!.hasError('sameUsername')">
+            Ingresa un nombre de usuario diferente
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button color="primary" type="submit">Cambiar nombre de usuario</button>
+    </form>
+  </mat-card-content>
+</mat-card>

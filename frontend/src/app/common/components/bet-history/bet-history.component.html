@@ -1,30 +1,73 @@
-<table class="bets-container">
-  <thead>
-    <tr>
-      <th>JUEGO</th>
-      <th>USUARIO</th>
-      <th>FECHA</th>
-      <th>ID</th>
-      <th>APUESTA</th>
-      <th>MULT</th>
-      <th>GANANCIA</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let bet of bets">
-      <td>
-        <a routerLink="/{{ bet.gameName | lowercase }}">{{ bet.gameName }}</a>
+<div class="mat-elevation-z8 mat-table-dialog">
+  <table mat-table [dataSource]="bets" class="mat-elevation-z8 material-table">
+    <ng-container matColumnDef="GameName">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>JUEGO</th>
+      <td mat-cell *matCellDef="let bet">
+        <a mat-button routerLink="/{{ bet.gameName | lowercase }}">{{ bet.gameName }}</a>
       </td>
-      <td>
-        <a routerLink="/users/{{ bet.userId }}">{{ bet.username }}</a>
+    </ng-container>
+
+    <ng-container matColumnDef="Username">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>USUARIO</th>
+      <td mat-cell *matCellDef="let bet">
+        <a mat-button routerLink="/users/{{ bet.userId }}">{{ bet.username }}</a>
       </td>
-      <td>{{ bet.betDate | date: 'short' }}</td>
-      <td>
-        <a routerLink="/bets/{{ bet._id }}">{{ bet._id }}</a>
+    </ng-container>
+
+    <ng-container matColumnDef="BetDate">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>FECHA</th>
+      <td mat-cell *matCellDef="let bet">{{ bet.betDate | date: 'short' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="BetId">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let bet">
+        <a mat-button routerLink="/bets/{{ bet._id }}">{{ bet._id }}</a>
       </td>
-      <td>${{ bet.betAmount | number: '1.2-2' }}</td>
-      <td>{{ (bet.betPayout || 0) / bet.betAmount | number: '1.2-2' }}x</td>
-      <td>${{ bet.betPayout || 0 | number: '1.2-2' }}</td>
-    </tr>
-  </tbody>
-</table>
+    </ng-container>
+
+    <ng-container matColumnDef="BetAmount">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>APUESTA</th>
+      <td mat-cell *matCellDef="let bet">${{ bet.betAmount | number: '1.2-2' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="BetMultiplier">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>MULT</th>
+      <td mat-cell *matCellDef="let bet">{{ (bet.betPayout || 0) / bet.betAmount | number: '1.2-2' }}x</td>
+    </ng-container>
+
+    <ng-container matColumnDef="BetPayout">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>GANANCIA</th>
+      <td mat-cell *matCellDef="let bet">${{ bet.betPayout || 0 | number: '1.2-2' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Actions">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>ACCIONES</th>
+      <td mat-cell *matCellDef="let bet">
+        <button
+          *ngIf="roles.includes('Admin')"
+          mat-icon-button
+          class="action-button"
+          (click)="openDeleteConfirmDialog(bet._id!)"
+        >
+          <mat-icon color="warn">delete_outline</mat-icon>
+        </button>
+        <button routerLink="/bets/{{ bet._id }}" mat-icon-button class="action-button">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="recordsPerPage"
+    [length]="bets.length > 0 ? bets[0].totalCount : 0"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+</div>

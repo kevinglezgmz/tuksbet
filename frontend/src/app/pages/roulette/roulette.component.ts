@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 import { Subject } from 'rxjs';
@@ -6,6 +7,8 @@ import { takeUntil } from 'rxjs/operators';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { Bet } from 'src/app/common/data-types/bet';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { GameHistoryComponent } from 'src/app/common/components/game-history/game-history.component';
+import { BalanceService } from 'src/app/common/services/balance.service';
 
 @Component({
   selector: 'app-roulette',
@@ -62,7 +65,7 @@ export class RouletteComponent implements OnInit, AfterViewInit {
   winningRoll: number | undefined = undefined;
   lastRoll: number = 0;
   counter: number = 0;
-  currentGameRoundId: string = '';
+  currentGameRoundId: string = 'DEV';
   currentRoundBets: Bet[] = [];
 
   /** Parent property to know the bet amount typed */
@@ -83,7 +86,13 @@ export class RouletteComponent implements OnInit, AfterViewInit {
   /** Destroy observables when we leave the page */
   private unsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(private webSocket: WebSocketService, private betService: BetHistoryService, private authService: AuthService) {
+  constructor(
+    private webSocket: WebSocketService,
+    private betService: BetHistoryService,
+    private authService: AuthService,
+    private dialogService: MatDialog,
+    private balanceService: BalanceService
+  ) {
     this.webSocket.emit('join-roulette-game', undefined);
 
     this.webSocket
@@ -99,6 +108,7 @@ export class RouletteComponent implements OnInit, AfterViewInit {
       .subscribe(({ timerCountown, currentGameRoundId }) => {
         this.startCounter(timerCountown);
         this.currentGameRoundId = currentGameRoundId;
+        this.balanceService.updateUserBalance();
       });
 
     this.webSocket
@@ -113,12 +123,7 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
-    // this should be temporary, we need an endpoint to filter bets by gameroundid (query parameter)
-    this.betService.getAllBets().then((bets: Bet[]) => {
-      this.currentRoundBets = bets.filter((bet) => bet.gameRoundId === this.currentGameRoundId);
-    });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribe.next();
@@ -186,6 +191,12 @@ export class RouletteComponent implements OnInit, AfterViewInit {
     currentGameRoundId: string;
   }) {
     this.currentGameRoundId = currentGameRoundId;
+    this.betService
+      .getAllBets(this.currentGameRoundId, 0, 0)
+      .then((bets: Bet[]) => {
+        this.currentRoundBets = bets;
+      })
+      .catch(() => {});
     this.startCounter(currentTimer);
     // Game is in sync and currently rolling, no need to do anything
     if (this.activateRoll) {
@@ -204,5 +215,16 @@ export class RouletteComponent implements OnInit, AfterViewInit {
 
   setBetAmount(event: number) {
     this.betAmount = event;
+  }
+
+  openRouletteHistory() {
+    const dialogRef = this.dialogService.open(GameHistoryComponent, {
+      data: {
+        gameName: 'Roulette',
+      },
+      autoFocus: false,
+      width: '95%',
+      maxWidth: '1200px',
+    });
   }
 }

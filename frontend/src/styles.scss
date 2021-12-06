@@ -1,3 +1,71 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// $indigo-palette: ( <<<<<<<<<< cutom theme
+//   50: #e8eaf6,
+//   100: #c5cae9,
+//   200: #9fa8da,
+//   300: #7986cb,
+//   // ... continues to 900
+//   contrast:
+//     (
+//       50: rgba(black, 0.87),
+//       100: rgba(black, 0.87),
+//       200: rgba(black, 0.87),
+//       300: white,
+//       // ... continues to 900
+//     ),
+// );
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$tuksbet-front-primary: mat.define-palette(mat.$indigo-palette);
+$tuksbet-front-accent: mat.define-palette(mat.$blue-gray-palette, 900, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$tuksbet-front-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$tuksbet-front-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $tuksbet-front-primary,
+      accent: $tuksbet-front-accent,
+      warn: $tuksbet-front-warn,
+    ),
+  )
+);
+
+//For dark theme
+$dark-primary: mat.define-palette(mat.$indigo-palette);
+$dark-accent: mat.define-palette(mat.$blue-gray-palette);
+$tuksbet-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $dark-primary,
+      accent: $dark-accent,
+      warn: $tuksbet-front-warn,
+    ),
+  )
+);
+
+.dark-theme-mode {
+  @include mat.all-component-themes($tuksbet-dark-theme);
+}
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($tuksbet-front-theme);
+
 /* You can add global styles to this file, and also import other style files */
 @import './variables';
 
@@ -61,12 +129,79 @@
   }
 }
 
-* {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-    'Helvetica Neue', sans-serif;
+html,
+body {
+  height: 100%;
 }
-
 body {
   margin: 0;
-  padding: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.material-table {
+  width: 100%;
+  text-align: center;
+  & .table-header-column {
+    text-align: center;
+  }
+}
+
+.sidenav-container {
+  width: $sidebar-width;
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .chat-list-entry > div {
+    display: block !important;
+    height: auto !important;
+    margin: 0.75em 0;
+  }
+
+  .chat-list-entry {
+    display: block !important;
+    height: auto !important;
+    width: 100%;
+  }
+
+  .mat-list {
+    width: 100%;
+    word-wrap: break-word;
+  }
+}
+
+.current-bets-container {
+  .bet-entry {
+    height: auto !important;
+    width: 100%;
+    > div {
+      padding: 0 0.5em 0 0 !important;
+      height: auto !important;
+      width: 100%;
+    }
+  }
+}
+
+.mat-tab-body-wrapper {
+  height: 100%;
+}
+
+.mat-tab-label,
+.mat-tab-label-active {
+  min-width: 0 !important;
+  width: 100%;
+  padding: 3px !important;
+  margin: 3px !important;
+}
+
+.mat-column-Actions {
+  min-width: 100px;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+* {
+  @include scrollbar;
 }

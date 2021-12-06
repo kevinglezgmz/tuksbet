@@ -7,18 +7,18 @@ import { ParentService } from './parent.service';
   providedIn: 'root',
 })
 export class GameRoundsService extends ParentService {
-  gameRoundsEndpoint = '/gameRounds/';
+  gameRoundsEndpoint = '/gameRounds';
 
   constructor(httpClient: HttpClient) {
     super(httpClient);
   }
 
-  getAllGameRounds(): Promise<any> {
-    return this.get(this.gameRoundsEndpoint);
+  getAllGameRounds(gameName: string, page: number, limit: number): Promise<any> {
+    return this.get(this.gameRoundsEndpoint + '?gameName=' + gameName + '&page=' + page + '&limit=' + limit);
   }
 
   getGameRoundDetails(gameRoundId: string): Promise<any> {
-    return this.get(this.gameRoundsEndpoint + gameRoundId);
+    return this.get(this.gameRoundsEndpoint + '/' + gameRoundId);
   }
 
   createGameRound(gameRound: GameRound): Promise<any> {
@@ -26,10 +26,10 @@ export class GameRoundsService extends ParentService {
   }
 
   deleteGameRound(gameRoundId: string): Promise<any> {
-    return this.delete(this.gameRoundsEndpoint + gameRoundId);
+    return this.delete(this.gameRoundsEndpoint + '/' + gameRoundId);
   }
 
   updateGameRound(gameRound: GameRound, gameRoundId: string): Promise<any> {
-    return this.update(this.gameRoundsEndpoint + gameRoundId, gameRound);
+    return this.update(this.gameRoundsEndpoint + '/' + gameRoundId, gameRound);
   }
 }

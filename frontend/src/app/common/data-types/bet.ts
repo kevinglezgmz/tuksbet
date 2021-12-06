@@ -8,4 +8,5 @@ export interface Bet {
   betAmount: number;
   betPayout?: number;
   betStake?: string;
+  totalCount?: number;
 }

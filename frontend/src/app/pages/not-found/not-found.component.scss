@@ -1,0 +1,34 @@
+@import '../../../variables';
+
+h1,
+h2 {
+  text-align: center;
+  margin: 0.5em 0em;
+}
+
+h1 {
+  font-size: 10em;
+  margin-top: 100px;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+@include tablet {
+  h1 {
+    font-size: 12em;
+  }
+  h2 {
+    font-size: 2em;
+  }
+}
+
+@include laptop {
+  h1 {
+    font-size: 13em;
+  }
+  h2 {
+    font-size: 2.5em;
+  }
+}

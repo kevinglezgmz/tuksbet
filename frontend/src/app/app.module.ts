@@ -9,6 +9,8 @@ import {
   SocialAuthServiceConfig,
 } from 'angularx-social-login';
 
+import { MaterialModule } from './common/modules/material/material.module';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -18,7 +20,7 @@ import { CrashComponent } from './pages/crash/crash.component';
 import { BlackjackComponent } from './pages/blackjack/blackjack.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { ChatSidebarComponent } from './layout/chat-sidebar/chat-sidebar.component';
+import { ChatSidenavTab } from './layout/chat-sidenav/chat-sidenav-tab/chat-sidenav-tab.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
 import { WithdrawComponent } from './pages/withdraw/withdraw.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
@@ -28,10 +30,7 @@ import { UserDetailsComponent } from './pages/user-details/user-details.componen
 import { UsersComponent } from './pages/users/users.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ShowIfLoggedDirective } from './common/directives/show-if-logged.directive';
-import { GameHistoryComponent } from './pages/game-history/game-history.component';
-import { RouletteHistoryComponent } from './pages/game-history/roulette-history/roulette-history.component';
-import { CrashHistoryComponent } from './pages/game-history/crash-history/crash-history.component';
-import { BlackjackHistoryComponent } from './pages/game-history/blackjack-history/blackjack-history.component';
+import { GameHistoryComponent } from './common/components/game-history/game-history.component';
 import { GameRoundDetailsComponent } from './pages/game-history/game-round-details/game-round-details.component';
 import { GameShowcaseComponent } from './pages/dashboard/game-showcase/game-showcase.component';
 import { SignupComponent } from './pages/signup/signup.component';
@@ -46,6 +45,9 @@ import { UpdatePasswordComponent } from './common/components/update-password/upd
 import { UpdateAvatarComponent } from './common/components/update-avatar/update-avatar.component';
 import { CrashBettingSlotComponent } from './pages/crash/crash-betting-slot/crash-betting-slot.component';
 import { BetAmountSelectorComponent } from './common/components/bet-amount-selector/bet-amount-selector.component';
+import { ChatSidenavTabGroupComponent } from './layout/chat-sidenav/chat-sidenav-tab-group/chat-sidenav-tab-group.component';
+import { ConfirmDialogContentComponent } from './common/components/confirm-dialog-content/confirm-dialog-content.component';
+import { WalletComponentComponent } from './layout/wallet-component/wallet-component.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,7 @@ import { BetAmountSelectorComponent } from './common/components/bet-amount-selec
     BlackjackComponent,
     NotFoundComponent,
     FooterComponent,
-    ChatSidebarComponent,
+    ChatSidenavTab,
     DepositComponent,
     WithdrawComponent,
     TransactionsComponent,
@@ -67,9 +69,6 @@ import { BetAmountSelectorComponent } from './common/components/bet-amount-selec
     LoginComponent,
     ShowIfLoggedDirective,
     GameHistoryComponent,
-    RouletteHistoryComponent,
-    CrashHistoryComponent,
-    BlackjackHistoryComponent,
     GameRoundDetailsComponent,
     GameShowcaseComponent,
     LogoutComponent,
@@ -84,6 +83,9 @@ import { BetAmountSelectorComponent } from './common/components/bet-amount-selec
     UpdatePasswordComponent,
     UpdateAvatarComponent,
     CrashBettingSlotComponent,
+    ChatSidenavTabGroupComponent,
+    ConfirmDialogContentComponent,
+    WalletComponentComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,6 +95,7 @@ import { BetAmountSelectorComponent } from './common/components/bet-amount-selec
     BrowserAnimationsModule,
     SocialLoginModule,
     ReactiveFormsModule,
+    MaterialModule,
   ],
   providers: [
     {

@@ -1,30 +1,84 @@
-<table class="transactions-container">
-  <thead>
-    <tr>
-      <th>TRANSACCIÓN</th>
-      <th>USUARIO</th>
-      <th>FECHA</th>
-      <th>MONTO</th>
-      <th>TIPO</th>
-      <th>ESTADO</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let transaction of transactions">
-      <td>
-        <a routerLink="/transactions/{{ transaction._id }}">{{ transaction._id }}</a>
+<mat-button-toggle-group [(ngModel)]="currentPage" name="favoriteColor" aria-label="Sección de cartera">
+  <mat-button-toggle routerLink="/deposit" value="deposit">Depositar</mat-button-toggle>
+  <mat-button-toggle routerLink="/withdraw" value="withdraw">Retirar</mat-button-toggle>
+  <mat-button-toggle routerLink="/transactions" value="transactions">Transacciones</mat-button-toggle>
+</mat-button-toggle-group>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="transactions" class="material-table">
+    <ng-container matColumnDef="TransactionId">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let transaction">
+        <a mat-button routerLink="/transactions/{{ transaction._id }}">{{ transaction._id }}</a>
       </td>
-      <td>
-        <a routerLink="/users/{{ transaction.userId }}">{{ transaction.username }}</a>
+    </ng-container>
+
+    <ng-container matColumnDef="Username">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>USUARIO</th>
+      <td mat-cell *matCellDef="let transaction">
+        <a mat-button routerLink="/users/{{ transaction.userId }}">{{ transaction.username }}</a>
       </td>
-      <td>{{ transaction.transactionDate | date: 'short' }}</td>
-      <td>${{ transaction.amount | number: '1.2-2' }}</td>
-      <td>{{ transaction.isDeposit ? 'Depósito' : 'Retiro' }}</td>
-      <td>
-        {{
-          transaction.status === 'completed' ? 'Completado' : transaction.status === 'pending' ? 'Pendiente' : 'Cancelado'
-        }}
+    </ng-container>
+
+    <ng-container matColumnDef="TransactionDate">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>FECHA</th>
+      <td mat-cell *matCellDef="let transaction">{{ transaction.transactionDate | date: 'short' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="TransactionAmount">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>MONTO</th>
+      <td mat-cell *matCellDef="let transaction">
+        <span> ${{ transaction.amount | number: '1.2-2' }} </span>
       </td>
-    </tr>
-  </tbody>
-</table>
+    </ng-container>
+
+    <ng-container matColumnDef="IsDeposit">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>TIPO</th>
+      <td mat-cell *matCellDef="let transaction">
+        <span>
+          {{ transaction.isDeposit ? 'Depósito' : 'Retiro' }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="TransactionStatus">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>ESTADO</th>
+      <td mat-cell *matCellDef="let transaction">
+        <span>
+          {{
+            transaction.status === 'completed' ? 'Completado' : transaction.status === 'pending' ? 'Pendiente' : 'Cancelado'
+          }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Actions">
+      <th class="table-header-column" mat-header-cell *matHeaderCellDef>ACCIONES</th>
+      <td mat-cell *matCellDef="let transaction">
+        <button
+          *ngIf="roles.includes('Admin')"
+          mat-icon-button
+          class="action-button"
+          (click)="openDeleteConfirmDialog(transaction._id!)"
+        >
+          <mat-icon color="warn">delete_outline</mat-icon>
+        </button>
+        <button routerLink="/transactions/{{ transaction._id }}" mat-icon-button class="action-button">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="recordsPerPage"
+    [length]="transactions.length > 0 ? transactions[0].totalCount : 0"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+    aria-label="Select page of transactions"
+  >
+  </mat-paginator>
+</div>

@@ -1,0 +1,60 @@
+@import '../../../../variables';
+
+.chat-sidebar-container {
+  width: 100%;
+  height: 100%;
+}
+
+.chat-sidebar-footer {
+  box-sizing: border-box;
+  height: 100px;
+  padding: 1em;
+}
+
+.chat-sidebar-container {
+  height: 100%;
+}
+
+a.mat-button {
+  padding: 0;
+  min-width: none;
+  width: fit-content;
+  display: inline;
+  line-height: inherit;
+}
+
+mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 1.3em;
+  padding-top: -5px;
+  padding-bottom: 5px;
+}
+
+.action-button {
+  width: fit-content;
+  height: fit-content;
+  line-height: normal;
+  width: 20px;
+  height: 20px;
+}
+
+mat-list {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+.scrollable-chat-container {
+  display: flex;
+  align-items: flex-end;
+  overflow-y: scroll;
+  flex-direction: column-reverse;
+  height: calc(100% - 100px);
+  @include scrollbar;
+}
+
+.chat-message-field {
+  font-size: 1em;
+  width: 100%;
+}

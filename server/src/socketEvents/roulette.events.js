@@ -5,11 +5,11 @@ const axios = require('axios').default;
 let io;
 /** @type { string } */
 let rouletteId;
+/** @type { function } */
+let nextRandomNumber;
 
 const rouletteCurrentStatus = {
   lastRoll: undefined,
-  rollArray: [],
-  nextRollIdx: 0,
   roundDelay: 15000, // 15 seconds between rounds
   currentTimer: 15000,
   rollAnimationDuration: 7600,
@@ -19,11 +19,13 @@ const rouletteCurrentStatus = {
 
 /**
  * @param { Socket } ioSocket
- * @param { Socket } clientSocket
+ * @param { string } rouletteGameId
+ * @param { function } getNextRandomNumber
  */
-function initRouletteEventsSocket(ioSocket, rouletteGameId) {
+function initRouletteEventsSocket(ioSocket, rouletteGameId, getNextRandomNumber) {
   io = ioSocket;
   rouletteId = rouletteGameId;
+  nextRandomNumber = getNextRandomNumber;
   startRouletteServer();
   io.on('connection', rouletteEvents);
 }
@@ -80,11 +82,9 @@ function waitForRoundToStart(cbStartRoundForClients) {
       rouletteCurrentStatus.currentGameRoundId = response.data.insertedId;
       startClientRound(response.data.insertedId);
       const waitingRollInterval = startInternalCountdown();
-      checkAndUpdateResultsArray();
       setTimeout(() => {
         clearInterval(waitingRollInterval);
-        nextRandomResultIndex = rouletteCurrentStatus.nextRollIdx++;
-        cbStartRoundForClients(rouletteCurrentStatus.rollArray[nextRandomResultIndex]);
+        cbStartRoundForClients((nextRandomNumber() % 14) + 1);
       }, rouletteCurrentStatus.roundDelay + 100);
     })
     .catch(({ response }) => {
@@ -96,11 +96,9 @@ function waitForRoundToStartDevelopment(cbStartRoundForClientsDevelopment) {
   rouletteCurrentStatus.currentGameRoundId = 'DEV';
   startClientRound('DEV');
   const waitingRollInterval = startInternalCountdown();
-  checkAndUpdateResultsArray();
   setTimeout(() => {
     clearInterval(waitingRollInterval);
-    nextRandomResultIndex = rouletteCurrentStatus.nextRollIdx++;
-    cbStartRoundForClientsDevelopment(rouletteCurrentStatus.rollArray[nextRandomResultIndex]);
+    cbStartRoundForClientsDevelopment((nextRandomNumber() % 14) + 1);
   }, rouletteCurrentStatus.roundDelay + 100);
 }
 
@@ -126,29 +124,11 @@ function startRoundProduction(rollResult) {
       // After updating the game round, we can tell the users about the result and update their balances
 
       spinWheelForUsersAndResetCurrentStatus(rollResult, updateUserBalances);
+      io.emit('update-balance');
     })
     .catch(({ response }) => {
       console.log(response.data);
     });
-}
-
-function checkAndUpdateResultsArray() {
-  if (rouletteCurrentStatus.nextRollIdx >= rouletteCurrentStatus.rollArray.length - 1) {
-    if (process.env.enviroment === 'production') {
-      axios
-        .get('https://www.random.org/integers/?num=200&min=0&max=14&col=1&base=10&format=plain&rnd=new', {
-          headers: {
-            'User-Agent': process.env.request_email || 'tuksbet@gmail.com',
-          },
-        })
-        .then((res) => {
-          rouletteCurrentStatus.rollArray = res.data.split('\n').map((num) => parseInt(num));
-        });
-    } else {
-      rouletteCurrentStatus.rollArray = Array.from({ length: 100 }, () => Math.floor(Math.random() * 14.9999));
-    }
-    rouletteCurrentStatus.nextRollIdx = 0;
-  }
 }
 
 function startInternalCountdown() {

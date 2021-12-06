@@ -8,18 +8,18 @@ import { ParentService } from './parent.service';
   providedIn: 'root',
 })
 export class BetHistoryService extends ParentService {
-  betsEndpoint = '/bets/';
+  betsEndpoint = '/bets';
 
   constructor(httpClient: HttpClient, private authService: AuthService) {
     super(httpClient);
   }
 
-  getAllBets(): Promise<any> {
-    return this.get(this.betsEndpoint);
+  getAllBets(gameRoundId: string, page: number, limit: number): Promise<any> {
+    return this.get(this.betsEndpoint + '?gameRoundId=' + gameRoundId + '&page=' + page + '&limit=' + limit);
   }
 
   getBetDetails(betId: string): Promise<any> {
-    return this.get(this.betsEndpoint + betId);
+    return this.get(this.betsEndpoint + '/' + betId);
   }
 
   createBet(bet: Bet): Promise<any> {
@@ -28,11 +28,12 @@ export class BetHistoryService extends ParentService {
   }
 
   deleteBet(betId: string): Promise<any> {
-    return this.delete(this.betsEndpoint + betId);
+    const headers: HttpHeaders = this.authService.getAuthHeader();
+    return this.delete(this.betsEndpoint + '/' + betId, headers);
   }
 
   updateBet(bet: Bet, betId: string): Promise<any> {
     const headers: HttpHeaders = this.authService.getAuthHeader();
-    return this.update(this.betsEndpoint + betId, bet, headers);
+    return this.update(this.betsEndpoint + '/' + betId, bet, headers);
   }
 }

@@ -1,60 +1,19 @@
-<div class="footer-container grid">
-        <div class="col-4">
-            <div class="row head">
-                <p>Juegos</p>
-            </div>
-            <div class="row" *ngFor="let game of games">
-                <a routerLink="/{{game.gameName!.toLowerCase()}}">{{ game.gameName }}</a>
-            </div>
-    </div>
-        <div class="col-4">
-            <div class="row head">
-                <p>Síguenos</p>
-            </div>
-            <div class="row media">
-                <div>
-                    <img src="../../../assets/imgs/facebook.png">
-                </div>
-                <div>
-                    <p>Facebook</p>
-                </div>
-            </div>
-            <div class="row media">
-                <div>
-                    <img src="../../../assets/imgs/twitter.png">
-                </div>
-                <div>
-                    <p>Twitter</p>
-                </div>
-            </div>
-            <div class="row media">
-                <div>
-                    <img src="../../../assets/imgs/instagram.png">
-                </div>
-                <div>
-                    <p>Instagram</p>
-                </div>
-            </div>
-    </div>
-        <div class="col-4">
-            <div class="row head">
-                <p>Únete</p>
-            </div>
-            <div class="row media">
-                <div>
-                    <img src="../../../assets/imgs/discord.png">
-                </div>
-                <div>
-                    <p>Discord</p>
-                </div>
-            </div>
-            <div class="row media">
-                <div>
-                    <img src="../../../assets/imgs/youtube.png">
-                </div>
-                <div>
-                    <p>Youtube</p>
-                </div>
-            </div>
-    </div>
+<div class="footer-container mat-elevation-z8">
+  <div class="left-side">
+    <h2>Juegos</h2>
+    <ng-container *ngFor="let game of games">
+      <a mat-button routerLink="/{{ game.gameName!.toLowerCase() }}" class="game-link">{{ game.gameName }}</a>
+    </ng-container>
+  </div>
+  <div class="center-side">
+    <h2>Síguenos</h2>
+    <p><mat-icon svgIcon="facebook"></mat-icon>&nbsp;&nbsp;Facebook</p>
+    <p><mat-icon svgIcon="twitter"></mat-icon>&nbsp;&nbsp;Twitter</p>
+    <p><mat-icon svgIcon="insta"></mat-icon>&nbsp;&nbsp;Instagram</p>
+  </div>
+  <div class="right-side">
+    <h2>Únete</h2>
+    <p><mat-icon svgIcon="discord"></mat-icon>&nbsp;&nbsp;Discord</p>
+    <p><mat-icon svgIcon="youtube"></mat-icon>&nbsp;&nbsp;Youtube</p>
+  </div>
 </div>

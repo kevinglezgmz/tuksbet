@@ -1,0 +1,42 @@
+<div class="chat-sidebar-container">
+  <div #scrollableChatContainer class="scrollable-chat-container" (scroll)="scrollAdjustment($event)">
+    <mat-list>
+      <ng-container *ngFor="let message of chatMessages">
+        <mat-list-item class="chat-list-entry">
+          <button
+            *ngIf="roles.includes('Moderator')"
+            mat-icon-button
+            class="action-button"
+            (click)="openDeleteConfirmDialog(message._id!)"
+          >
+            <mat-icon color="warn">delete_outline</mat-icon>
+          </button>
+          <span>
+            <a mat-button routerLink="/users/{{ message.userId }}"> {{ message.username }}: </a>
+          </span>
+          <span>
+            {{ message.message }}
+          </span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </div>
+  <div class="chat-sidebar-footer">
+    <mat-form-field class="chat-message-field" appearance="outline">
+      <mat-label>{{ isLoggedIn ? 'Introduce un mensaje...' : 'Inicia sesión para chatear...' }}</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="currentMessage"
+        [disabled]="!isLoggedIn"
+        [placeholder]="isLoggedIn ? 'Introduce un mensaje...' : 'Inicia sesión para chatear...'"
+        autocomplete="off"
+        (keydown.enter)="sendMessage($event)"
+      />
+      <button *ngIf="currentMessage" matSuffix mat-icon-button aria-label="Clear" (click)="currentMessage = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>

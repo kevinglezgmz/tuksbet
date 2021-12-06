@@ -13,18 +13,62 @@ function validateUserData(userData) {
 
 class UsersController {
   static getAllUsers(req, res) {
+    const pagination = {
+      page: 0,
+      limit: 10,
+    };
+
+    const { page, limit } = req.query;
+
+    pagination.page = !isNaN(parseInt(page)) ? parseInt(page) : pagination.page;
+    pagination.limit = !isNaN(parseInt(limit)) ? parseInt(limit) : pagination.limit;
+
     const usersDb = new Database('Users');
     usersDb
-      .find({}, {})
+      .findAggregate([
+        {
+          $facet: {
+            totalCount: [{ $count: 'value' }],
+            pipelineResults: [
+              {
+                $match: { _id: { $exists: true } },
+              },
+            ],
+          },
+        },
+        {
+          $unwind: '$pipelineResults',
+        },
+        {
+          $unwind: '$totalCount',
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: ['$pipelineResults', { totalCount: '$totalCount.value' }],
+            },
+          },
+        },
+        {
+          $project: {
+            userId: '$_id',
+            username: 1,
+            email: 1,
+            avatar: 1,
+            balance: 1,
+            totalCount: 1,
+          },
+        },
+      ])
+      .sort({ _id: -1 })
+      .skip(pagination.limit * pagination.page)
+      .limit(pagination.limit)
       .toArray()
       .then((results) => {
         if (results.length === 0) {
           res.status(400).send({ msg: 'No users found!' });
         } else {
-          const filteredUsersData = results.map((user) => {
-            return { userId: user._id, username: user.username, roles: user.roles, email: user.email, avatar: user.avatar };
-          });
-          res.status(200).send(filteredUsersData);
+          res.send(results);
         }
       })
       .catch((err) => {
@@ -33,11 +77,6 @@ class UsersController {
   }
 
   static getUserById(req, res) {
-    //if (req.userId !== req.params.userId) {
-    //  res.status(401).send({ err: 'Not authorized' });
-    //  return;
-    // }
-
     const usersDb = new Database('Users');
     usersDb
       .findOne({ _id: getObjectId(req.params.userId) }, {})
@@ -92,11 +131,6 @@ class UsersController {
   }
 
   static deleteUser(req, res) {
-    if (req.userId !== req.params.userId) {
-      res.status(401).send({ err: 'Not authorized' });
-      return;
-    }
-
     const usersDb = new Database('Users');
     usersDb
       .deleteOne({ _id: getObjectId(req.params.userId) })
@@ -130,13 +164,14 @@ class UsersController {
     } else if (req.files) {
       newUserInfo.identification = { front: req.files[0].location, back: req.files[1].location };
     }
-
     const usersDb = new Database('Users');
     usersDb
       .updateOne({ _id: getObjectId(req.params.userId) }, { $set: newUserInfo })
       .then((result) => {
         const updatedField = password ? 'password' : username ? 'username' : 'avatar';
-        if (result.acknowledged) {
+        if (result.acknowledged && newUserInfo.avatar) {
+          res.send({ imgLink: newUserInfo.avatar });
+        } else if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfully' });
         } else {
           throw 'Unexpected error, please try again';

@@ -1,6 +1,54 @@
-<h1>Add funds</h1>
+<mat-button-toggle-group [(ngModel)]="currentPage" name="favoriteColor" aria-label="Sección de cartera">
+  <mat-button-toggle routerLink="/deposit" value="deposit">Depositar</mat-button-toggle>
+  <mat-button-toggle routerLink="/withdraw" value="withdraw">Retirar</mat-button-toggle>
+  <mat-button-toggle routerLink="/transactions" value="transactions">Transacciones</mat-button-toggle>
+</mat-button-toggle-group>
+<mat-card class="mat-card-paypal">
+  <mat-card-content>
+    <h1>Deposita fondos en tu cuenta con Paypal</h1>
+    <div class="content-container-paypal">
+      <form>
+        <mat-form-field class="paypal-input" appearance="fill">
+          <mat-label>Monto</mat-label>
+          <span matPrefix>$USD &nbsp; &nbsp;</span>
+          <input
+            type="text"
+            name="depositAmountPaypal"
+            [(ngModel)]="inputDepositPaypal"
+            matInput
+            placeholder="Cantidad a depositar"
+            (blur)="onBlurPaypal($event)"
+          />
+        </mat-form-field>
+      </form>
+      <div id="paypalButtons"></div>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-<label for="deposit">USD </label>
-<input id="deposit" type="number" min="1" step=".01" placeholder="1.00" [(ngModel)]="inputDeposit" />
-
-<div id="paypalButtons"></div>
+<mat-card class="mat-card-coins-container">
+  <mat-card-content>
+    <h1>Deposita fondos en tu cuenta con Criptomonedas</h1>
+    <div class="content-container-cripto">
+      <mat-spinner *ngIf="criptoPrices.length === 0"></mat-spinner>
+      <mat-card *ngFor="let coin of criptoPrices" class="mat-card-cripto">
+        <mat-card-header>
+          <div
+            mat-card-avatar
+            style="background-image: url('{{ coin.logo_url }}'); background-size: 40px 40px;"
+            class="example-header-image"
+          ></div>
+          <mat-card-title>Deposita con {{ coin.name }}</mat-card-title>
+          <mat-card-subtitle>Criptomonedas</mat-card-subtitle>
+        </mat-card-header>
+        <h1>${{ coin.price | number: '1.2-3' }}</h1>
+        <mat-card-actions>
+          <button mat-button (click)="openConfirmDialog()">DEPOSITAR AHORA</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <a mat-button *ngIf="criptoPrices.length > 0" href="https://nomics.com" class="nomics-link" target="_blank">
+      Crypto Market Cap & Pricing Data Provided By Nomics.
+    </a>
+  </mat-card-content>
+</mat-card>

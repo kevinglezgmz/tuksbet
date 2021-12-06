@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Bet } from 'src/app/common/data-types/bet';
 import { CrashStates } from 'src/app/common/data-types/crash-game-types';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { BalanceService } from 'src/app/common/services/balance.service';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 
@@ -20,7 +21,9 @@ export class CrashBettingSlotComponent implements OnInit {
   @Input('crashState') crashState: CrashStates = CrashStates.WAITING;
   @Input('currentMultiplier') currentMultiplier: number = 1.0;
   betToCrashAt: string = '2.0';
-  currentBetId: string | undefined;
+  currentBet: Bet | undefined;
+
+  currentBetsInternal: Bet[] = [];
 
   /** Destroy observables when we leave the page */
   private unsubscribe: Subject<void> = new Subject<void>();
@@ -28,18 +31,11 @@ export class CrashBettingSlotComponent implements OnInit {
   constructor(
     private betService: BetHistoryService,
     private webSocket: WebSocketService,
-    private authService: AuthService
+    private authService: AuthService,
+    private balanceService: BalanceService
   ) {}
 
   ngOnInit(): void {
-    this.webSocket
-      .listen('new-crash-bet')
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((bet: Bet) => {
-        this.currentBets.push(bet);
-        this.currentBets = this.currentBets.sort((bet1, bet2) => bet2.betAmount - bet1.betAmount);
-      });
-
     this.webSocket
       .listen('crash-game-round-waiting-status')
       .pipe(takeUntil(this.unsubscribe))
@@ -47,12 +43,17 @@ export class CrashBettingSlotComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.currentMultiplier) {
+      return;
+    }
     if (changes.currentBets) {
-      this.currentBets = this.currentBets.sort((bet1, bet2) => bet2.betAmount - bet1.betAmount);
+      this.currentBetsInternal = this.currentBets.sort((bet1, bet2) => bet2.betAmount - bet1.betAmount);
+      const { userId } = this.authService.getUserDetails();
+      this.currentBet = this.currentBets.find((bet) => bet.userId === userId);
     } else if (changes.crashState) {
       const newState: CrashStates = changes.crashState.currentValue;
       if (newState === 'CRASHED' || newState === 'WAITING') {
-        this.currentBetId = undefined;
+        this.currentBet = undefined;
       }
     }
   }
@@ -78,10 +79,13 @@ export class CrashBettingSlotComponent implements OnInit {
     this.betService
       .createBet(bet)
       .then((res) => {
-        this.currentBetId = res.insertedId;
-        this.currentBets.push(bet);
+        this.currentBet = bet;
+        this.currentBet._id = res.insertedId;
+        this.currentBetsInternal.push(bet);
+        this.currentBetsInternal = this.currentBetsInternal.sort((bet1, bet2) => bet2.betAmount - bet1.betAmount);
         // If bet was placed successfuly, notify the other users
         this.webSocket.emit('new-crash-bet', bet);
+        this.balanceService.updateUserBalance();
       })
       .catch((err) => {});
   }
@@ -94,14 +98,15 @@ export class CrashBettingSlotComponent implements OnInit {
     const bet: Bet = {
       userId: userId!,
       gameRoundId: this.currentGameRoundId,
-      betStake: 'crash-' + this.currentMultiplier + 'x',
+      betStake: 'crash-' + this.currentMultiplier + 'x-exited',
       betAmount: this.betAmount,
     };
 
     this.betService
-      .updateBet(bet, this.currentBetId || '')
+      .updateBet(bet, this.currentBet?._id || '')
       .then((res) => {
         // Here we could maybe update the bet visually and notify the other users that a user exited the crash
+        this.currentBet = bet;
       })
       .catch((err) => {});
   }

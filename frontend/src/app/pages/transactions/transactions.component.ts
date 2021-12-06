@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Subscription } from 'rxjs';
+import { ConfirmDialogContentComponent } from 'src/app/common/components/confirm-dialog-content/confirm-dialog-content.component';
 import { Transaction } from 'src/app/common/data-types/transaction';
+import { AuthService } from 'src/app/common/services/auth.service';
 import { TransactionService } from 'src/app/common/services/transaction.service';
 
 @Component({
@@ -8,12 +13,76 @@ import { TransactionService } from 'src/app/common/services/transaction.service'
   styleUrls: ['./transactions.component.scss'],
 })
 export class TransactionsComponent implements OnInit {
+  currentPage: string = 'transactions';
+
   transactions: Transaction[] = [];
-  constructor(private transactionService: TransactionService) {}
+  recordsPerPage: number = 10;
+  currentPagePagination: number = 0;
+  subscriptions: Subscription;
+
+  roles: string = '';
+
+  columnsToDisplay: string[] = [
+    'TransactionId',
+    'Username',
+    'TransactionDate',
+    'TransactionAmount',
+    'IsDeposit',
+    'TransactionStatus',
+    'Actions',
+  ];
+  constructor(private transactionService: TransactionService, private authService: AuthService, private dialog: MatDialog) {
+    this.subscriptions = this.authService.isLoggedIn().subscribe((isLoggedIn) => {
+      this.roles = authService.getUserDetails().roles || '';
+    });
+  }
 
   ngOnInit(): void {
-    this.transactionService.getAllTransactions().then((transactions: Transaction[]) => {
-      this.transactions = transactions.reverse();
+    this.getPaginatedTransactions(0, this.recordsPerPage);
+  }
+
+  onPageChange(event: PageEvent) {
+    this.recordsPerPage = event.pageSize;
+    this.currentPagePagination = event.pageIndex;
+    this.getPaginatedTransactions(event.pageIndex, this.recordsPerPage);
+  }
+
+  getPaginatedTransactions(currentPagination: number, recordsPerPage: number) {
+    this.transactionService.getAllTransactions(currentPagination, recordsPerPage).then((transactions: Transaction[]) => {
+      this.transactions = transactions;
+    });
+  }
+
+  deleteTransaction(transactionId: string): void {
+    this.transactionService
+      .deleteTransaction(transactionId)
+      .then((msg) => {
+        this.transactionService
+          .getAllTransactions(this.currentPagePagination, this.recordsPerPage)
+          .then((transactions: Transaction[]) => {
+            this.transactions = transactions;
+          });
+      })
+      .catch((err) => {
+        console.log('Hubo un problema en la eliminación de la transacción');
+      });
+  }
+
+  openDeleteConfirmDialog(transactionId: string) {
+    const dialogRef = this.dialog.open(ConfirmDialogContentComponent, {
+      data: {
+        title: '¿Borrar transacción?',
+        body:
+          '¿Está seguro que desea eliminar la transacción con id ' + transactionId + '? Esta acción no puede deshacerse.',
+        isDelete: true,
+      },
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteTransaction(transactionId);
+      }
     });
   }
 }
