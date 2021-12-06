@@ -8,8 +8,12 @@ export class IsDarkThemeService {
   isDarkTheme: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor() {
-    const currentTheme = localStorage.getItem('theme') || 'Dark';
-    this.isDarkTheme.next(currentTheme === 'Dark');
+    const currentTheme = localStorage.getItem('theme') || undefined;
+    if (!currentTheme) {
+      this.setDarkTheme();
+    } else {
+      this.isDarkTheme.next(currentTheme === 'Dark');
+    }
   }
 
   isCurrentThemeDark(): Observable<boolean> {

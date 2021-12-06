@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { BalanceService } from '../../services/balance.service';
 

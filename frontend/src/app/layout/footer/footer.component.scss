@@ -1,51 +1,79 @@
+// .footer-container {
+//   width: 100%;
+//   height: 14em;
+//   margin: 0;
+//   display: flex;
+//   text-align: center;
+
+//   margin: 20px 0px 0px 0px;
+
+//   .col-4 {
+//     margin: 30px 6px 0px 6px;
+//     text-align: center;
+//     .head {
+//       font-size: large;
+//       font-weight: bold;
+//     }
+//     .row {
+//       text-align: center;
+//       align-items: center;
+//       img,
+//       p {
+//         display: inline-block;
+//       }
+
+//       .game {
+//         margin: 1.5em;
+//       }
+//     }
+//   }
+// }
+
+// a {
+//   text-decoration: none;
+// }
+
+// ul {
+//   list-style-type: none;
+//   li {
+//     display: list-item;
+//   }
+// }
+
+// .mat-icon {
+//   height: 1.65em;
+//   width: 1.65em;
+//   margin-left: -3em;
+// }
+
+// a {
+//   margin-left: -3em;
+// }
+
 .footer-container {
-  width: 100%;
-  height: 14em;
-  margin: 0;
+  margin-top: 2em;
   display: flex;
-  text-align: center;
 
-  margin: 20px 0px 0px 0px;
+  h2 {
+    margin-bottom: 0.5em;
+  }
 
-  .col-4 {
-    margin: 30px 6px 0px 6px;
+  div {
     text-align: center;
-    .head {
-      font-size: large;
-      font-weight: bold;
-    }
-    .row {
-      text-align: center;
-      align-items: center;
-      img,
-      p {
-        display: inline-block;
-      }
-
-      .game {
-        margin: 1.5em;
-      }
-    }
+    width: calc(100% / 3);
   }
 }
 
-a {
-  text-decoration: none;
+.game-link {
+  display: block;
 }
 
-ul {
-  list-style-type: none;
-  li {
-    display: list-item;
+.center-side {
+  p {
+    text-align: center;
+    line-height: 24px;
+    font-size: larger;
+    vertical-align: middle;
+    margin-bottom: 2px;
   }
-}
-
-.mat-icon {
-  height: 1.65em;
-  width: 1.65em;
-  margin-left: -3em;
-}
-
-a {
-  margin-left: -3em;
 }

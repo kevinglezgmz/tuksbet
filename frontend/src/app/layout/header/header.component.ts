@@ -1,6 +1,8 @@
 import { IsDarkThemeService } from './../../common/services/is-dark-theme.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +13,20 @@ export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   isDarkTheme: boolean = false;
 
-  constructor(private authService: AuthService, private themeStatus: IsDarkThemeService) {
+  constructor(
+    private authService: AuthService,
+    private themeStatus: IsDarkThemeService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
     this.authService.isLoggedIn().subscribe((status) => {
       this.isLoggedIn = status;
     });
+
+    this.matIconRegistry.addSvgIcon(
+      'tuksbet',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('./../../../assets/imgs/tuksBet.svg')
+    );
 
     this.themeStatus.isCurrentThemeDark().subscribe((isDark) => {
       this.isDarkTheme = isDark;

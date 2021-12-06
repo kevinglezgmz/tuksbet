@@ -64,8 +64,8 @@ export class AppComponent {
   }
 
   private determineLayoutGap(): void {
-    if (this.isExtraSmallDevice() || this.isSmallDevice()) {
-      this.layoutGap = '0';
+    if (this.isExtraSmallDevice()) {
+      this.layoutGap = '56';
       return;
     }
 

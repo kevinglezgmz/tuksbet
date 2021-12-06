@@ -1,5 +1,9 @@
 @import '../../../../variables';
 
+.mat-elevation-z8 {
+  margin-top: 1em;
+}
+
 .mat-button {
   text-overflow: ellipsis;
   width: 100%;
@@ -53,6 +57,7 @@
     width: calc(100% / 7);
   }
 }
+
 @include desktop {
   .mat-column-BetId {
     display: table-cell;

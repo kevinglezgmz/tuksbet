@@ -1,4 +1,4 @@
-<table class="game-showcase-container">
+<!-- <table class="game-showcase-container">
     <tbody>
         <tr>
             <td *ngFor="let game of games" id="{{game.gameName!.toLowerCase()}}">
@@ -6,4 +6,13 @@
             </td>
         </tr>
     </tbody>
-</table>
+</table> -->
+
+<div *ngIf="games.length > 0" class="games-container">
+  <div
+    *ngFor="let game of games"
+    routerLink="/{{ game.gameName!.toLowerCase() }}"
+    [style.background-image]="'url(' + game.gameImage + ')'"
+    class="game-card mat-elevation-z8"
+  ></div>
+</div>

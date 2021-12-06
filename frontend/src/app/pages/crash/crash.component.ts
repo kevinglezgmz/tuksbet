@@ -8,6 +8,7 @@ import { CanvasDrawableNumber, CrashStates } from 'src/app/common/data-types/cra
 import { AuthService } from 'src/app/common/services/auth.service';
 import { BalanceService } from 'src/app/common/services/balance.service';
 import { BetHistoryService } from 'src/app/common/services/bet-history.service';
+import { IsDarkThemeService } from 'src/app/common/services/is-dark-theme.service';
 import { WebSocketService } from 'src/app/common/services/web-socket.service';
 
 @Component({
@@ -16,6 +17,8 @@ import { WebSocketService } from 'src/app/common/services/web-socket.service';
   styleUrls: ['./crash.component.scss'],
 })
 export class CrashComponent implements OnInit, AfterViewInit {
+  isDarkModeActive: boolean = true;
+
   isLoggedIn: boolean = false;
   betAmount: number = 5;
 
@@ -61,7 +64,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private betService: BetHistoryService,
     private dialogService: MatDialog,
-    private balanceService: BalanceService
+    private isDarkThemeService: IsDarkThemeService
   ) {
     this.webSocket.emit('join-crash-game', undefined);
 
@@ -109,6 +112,10 @@ export class CrashComponent implements OnInit, AfterViewInit {
       .subscribe((isLoggedIn) => {
         this.isLoggedIn = isLoggedIn;
       });
+
+    this.isDarkThemeService.isCurrentThemeDark().subscribe((isDarkMode) => {
+      this.isDarkModeActive = isDarkMode;
+    });
 
     this.crashWidth = 800;
     this.crashHeight = 421;
@@ -206,7 +213,8 @@ export class CrashComponent implements OnInit, AfterViewInit {
 
   private setInitialFontValues() {
     this.canvasContext!.font = 'bold 12px Arial';
-    this.canvasContext!.fillStyle = 'black';
+    this.canvasContext!.fillStyle = this.isDarkModeActive ? 'white' : 'black';
+    this.canvasContext!.strokeStyle = this.isDarkModeActive ? 'white' : 'black';
   }
 
   private getSpeedForXSecondsAndYDistance(distance: number, seconds: number) {
@@ -285,7 +293,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
       case CrashStates.RUNNING:
         this.canvasContext!.font =
           '100px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif';
-        this.canvasContext!.fillStyle = 'green';
+        this.canvasContext!.fillStyle = this.isDarkModeActive ? '#0ee07b' : 'green';
         if (this.nextGameRoundStartAt === 0) {
           textToDraw = 'Connecting...';
         } else {
@@ -299,7 +307,7 @@ export class CrashComponent implements OnInit, AfterViewInit {
       case CrashStates.WAITING:
         this.canvasContext!.font =
           '35px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif';
-        this.canvasContext!.fillStyle = 'black';
+        this.canvasContext!.fillStyle = this.isDarkModeActive ? 'white' : 'black';
         const counter = (this.nextGameRoundStartAt - Date.now() + this.lagAdjustment) / 1000;
         textToDraw = 'La siguiente ronda comenzará en: ' + (counter >= 0 ? counter : 0).toFixed(2);
         break;

@@ -19,7 +19,7 @@
     </div>
   </div>
 </div>
-<app-bet-amount-selector class="blackjack-bet-container" (newBetAmount)="setBetAmount($event)"></app-bet-amount-selector>
+<app-bet-amount-selector (newBetAmount)="setBetAmount($event)"></app-bet-amount-selector>
 
 <div id="btns-container" class="col-2">
   <button mat-raised-button color="primary" id="hit-btn" [disabled]="!game.gameStarted" (click)="blackjackHit()">Hit</button>

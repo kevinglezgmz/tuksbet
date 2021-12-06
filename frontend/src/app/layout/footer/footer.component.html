@@ -1,54 +1,19 @@
-<div class="footer-container grid mat-elevation-z8">
-  <div class="col-4">
-    <div class="row head">
-      <p>Juegos</p>
-    </div>
-    <div class="row media">
-      <ul>
-        <li *ngFor="let game of games" class="game">
-          <a mat-button routerLink="/{{ game.gameName!.toLowerCase() }}">{{ game.gameName }}</a>
-        </li>
-      </ul>
-    </div>
+<div class="footer-container mat-elevation-z8">
+  <div class="left-side">
+    <h2>Juegos</h2>
+    <ng-container *ngFor="let game of games">
+      <a mat-button routerLink="/{{ game.gameName!.toLowerCase() }}" class="game-link">{{ game.gameName }}</a>
+    </ng-container>
   </div>
-
-  <div class="col-4">
-    <div class="row head">
-      <p>Síguenos</p>
-    </div>
-    <div class="row media">
-      <ul>
-        <li>
-          <mat-icon svgIcon="facebook"></mat-icon>
-          <p>&nbsp;Facebook</p>
-        </li>
-        <li>
-          <mat-icon svgIcon="twitter"></mat-icon>
-          <p>&nbsp;Twitter</p>
-        </li>
-        <li>
-          <mat-icon svgIcon="insta"></mat-icon>
-          <p>&nbsp;Instagram</p>
-        </li>
-      </ul>
-    </div>
+  <div class="center-side">
+    <h2>Síguenos</h2>
+    <p><mat-icon svgIcon="facebook"></mat-icon>&nbsp;&nbsp;Facebook</p>
+    <p><mat-icon svgIcon="twitter"></mat-icon>&nbsp;&nbsp;Twitter</p>
+    <p><mat-icon svgIcon="insta"></mat-icon>&nbsp;&nbsp;Instagram</p>
   </div>
-
-  <div class="col-4">
-    <div class="row head">
-      <p>Únete</p>
-    </div>
-    <div class="row media">
-      <ul>
-        <li>
-          <mat-icon svgIcon="discord"></mat-icon>
-          <p>Discord</p>
-        </li>
-        <li>
-          <mat-icon svgIcon="youtube"></mat-icon>
-          <p>Youtube</p>
-        </li>
-      </ul>
-    </div>
+  <div class="right-side">
+    <h2>Únete</h2>
+    <p><mat-icon svgIcon="discord"></mat-icon>&nbsp;&nbsp;Discord</p>
+    <p><mat-icon svgIcon="youtube"></mat-icon>&nbsp;&nbsp;Youtube</p>
   </div>
 </div>

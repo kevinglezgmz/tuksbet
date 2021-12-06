@@ -1,25 +1,27 @@
-<div class="amount-input">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Monto</mat-label>
-    <span matPrefix>$USD &nbsp; &nbsp;</span>
-    <input
-      type="text"
-      name="betAmount"
-      [(ngModel)]="internalBetAmount"
-      matInput
-      placeholder="Has una apuesta..."
-      (blur)="onBlur($event)"
-    />
-  </mat-form-field>
-</div>
-<div class="amount-buttons">
-  <button mat-raised-button color="primary" (click)="clearAmount($event)">BORRAR</button>
-  <button mat-raised-button color="primary" (click)="addAmount($event, 0.5)">+$0.50</button>
-  <button mat-raised-button color="primary" (click)="addAmount($event, 1)">+$1</button>
-  <button mat-raised-button color="primary" (click)="addAmount($event, 5)">+$5</button>
-  <button mat-raised-button color="primary" (click)="addAmount($event, 25)">+$25</button>
-  <button mat-raised-button color="primary" (click)="addAmount($event, 100)">+$100</button>
-  <button mat-raised-button color="primary" (click)="halfAmount($event)">1/2</button>
-  <button mat-raised-button color="primary" (click)="doubleAmount($event)">X2</button>
-  <button mat-raised-button color="primary" (click)="setAmountToMax($event)">MAX</button>
+<div class="bet-selector-container">
+  <div class="amount-input">
+    <mat-form-field class="amount-field" appearance="fill">
+      <mat-label>Monto</mat-label>
+      <span matPrefix>$USD &nbsp; &nbsp;</span>
+      <input
+        type="text"
+        name="betAmount"
+        [(ngModel)]="internalBetAmount"
+        matInput
+        placeholder="Has una apuesta..."
+        (blur)="onBlur($event)"
+      />
+    </mat-form-field>
+  </div>
+  <div class="amount-buttons">
+    <button mat-raised-button color="primary" (click)="clearAmount($event)">BORRAR</button>
+    <button mat-raised-button color="primary" (click)="addAmount($event, 0.5)">+$0.50</button>
+    <button mat-raised-button color="primary" (click)="addAmount($event, 1)">+$1</button>
+    <button mat-raised-button color="primary" (click)="addAmount($event, 5)">+$5</button>
+    <button mat-raised-button color="primary" (click)="addAmount($event, 25)">+$25</button>
+    <button mat-raised-button color="primary" (click)="addAmount($event, 100)">+$100</button>
+    <button mat-raised-button color="primary" (click)="halfAmount($event)">1/2</button>
+    <button mat-raised-button color="primary" (click)="doubleAmount($event)">X2</button>
+    <button mat-raised-button color="primary" (click)="setAmountToMax($event)">MAX</button>
+  </div>
 </div>

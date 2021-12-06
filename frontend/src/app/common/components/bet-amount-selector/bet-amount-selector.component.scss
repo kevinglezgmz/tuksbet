@@ -1,28 +1,26 @@
 .amount-input {
-  width: fit-content;
-  display: inline-flex;
-  margin-right: 1em;
+  width: 100%;
+  max-width: 438px;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 1.1em;
+}
+
+.amount-field {
+  width: 100%;
 }
 
 .amount-buttons {
   width: auto;
-  display: inline-flex;
+  max-width: 438px;
+  margin: auto;
+  display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   button {
     width: 80px;
     height: 40px;
     margin: 0.1em 0.2em;
-
-    // border-radius: 4px;
-    // border: none;
-    // box-sizing: border-box;
-    // color: rgb(134, 24, 24);
-    // cursor: pointer;
-    // font-size: 16px;
-    // font-weight: bold;
-    // padding: 6px 7px;
-    // background: #bbb9b9;
   }
 }

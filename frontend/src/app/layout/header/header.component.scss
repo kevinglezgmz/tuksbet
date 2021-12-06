@@ -4,11 +4,17 @@
   flex: 1 1 auto;
 }
 
+.theme-slider {
+  display: none;
+  align-items: center;
+}
+
 .left-nav-item-container,
 .right-nav-item-container,
 .center-nav-item-container {
   display: flex;
-  width: 25%;
+  align-items: center;
+  width: 30%;
 }
 
 .left-nav-item-container {
@@ -24,16 +30,16 @@
 }
 
 .profile-btn {
-  margin-right: 0.75em;
+  margin-right: 0.5em;
 }
 
-.logo-btn,
-.profile-btn {
+.large-btn,
+.trademark {
   display: none;
 }
 
-.right-nav-item-container button {
-  width: 80px;
+.tuksbet-logo {
+  margin-right: 0.5em;
 }
 
 .day-icon {
@@ -69,8 +75,17 @@ mat-toolbar {
 }
 
 @include tablet {
-  .profile-btn,
-  .logo-btn {
+  .theme-button,
+  .mobile-btn {
+    display: none;
+  }
+
+  .theme-slider {
+    display: inline-flex;
+  }
+
+  .large-btn,
+  .trademark {
     display: inline;
   }
 }
