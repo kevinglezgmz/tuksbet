@@ -151,7 +151,7 @@ function registerUserFromSocial(userAuthDetails) {
   const userToInsert = {
     email: userAuthDetails.email,
     username: userAuthDetails.name,
-    balance: 0,
+    balance: 5000.0,
     roles: 'User',
   };
   return usersDb.insertOne(userToInsert);

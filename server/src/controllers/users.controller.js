@@ -115,7 +115,7 @@ class UsersController {
       email: userData.email.toLowerCase(),
       roles: 'User',
       password: hash,
-      balance: 0.0,
+      balance: 5000.0,
     };
 
     const usersDb = new Database('Users');

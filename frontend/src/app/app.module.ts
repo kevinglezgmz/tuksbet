@@ -11,6 +11,8 @@ import {
 
 import { MaterialModule } from './common/modules/material/material.module';
 
+import { OverlayContainer } from '@angular/cdk/overlay';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -48,6 +50,7 @@ import { BetAmountSelectorComponent } from './common/components/bet-amount-selec
 import { ChatSidenavTabGroupComponent } from './layout/chat-sidenav/chat-sidenav-tab-group/chat-sidenav-tab-group.component';
 import { ConfirmDialogContentComponent } from './common/components/confirm-dialog-content/confirm-dialog-content.component';
 import { WalletComponentComponent } from './layout/wallet-component/wallet-component.component';
+import { IsDarkThemeService } from './common/services/is-dark-theme.service';
 
 @NgModule({
   declarations: [
@@ -117,4 +120,14 @@ import { WalletComponentComponent } from './layout/wallet-component/wallet-compo
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(overlayContainer: OverlayContainer, isDarkThemeActive: IsDarkThemeService) {
+    isDarkThemeActive.isCurrentThemeDark().subscribe((isDark) => {
+      if (isDark) {
+        overlayContainer.getContainerElement().classList.add('dark-theme-mode');
+      } else {
+        overlayContainer.getContainerElement().classList.remove('dark-theme-mode');
+      }
+    });
+  }
+}
