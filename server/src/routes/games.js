@@ -31,6 +31,9 @@ module.exports = router;
  *              gameName:
  *                type: string
  *                example: Roulette
+ *              gameImage:
+ *                type: string
+ *                example: https://exampleLink/example.png
  *      400:
  *        description: Bad request
  *        schema:
@@ -70,6 +73,9 @@ module.exports = router;
  *            gameName:
  *              type: string
  *              example: Crash
+ *            gameImage:
+ *                type: string
+ *                example: https://exampleLink/example.png
  *    responses:
  *      201:
  *        description: Success response. Game created successfully.
@@ -130,6 +136,9 @@ module.exports = router;
  *            gameName:
  *              type: string
  *              example: NewAwesomeGame
+ *            gameImage:
+ *                type: string
+ *                example: https://exampleLink/example.png
  *    responses:
  *      200:
  *        description: Success response. Game name updated successfully
