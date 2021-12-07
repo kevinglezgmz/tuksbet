@@ -73,8 +73,6 @@ export class UpdateAvatarComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 3000,
-      verticalPosition: 'top',
-      horizontalPosition: 'right',
     });
   }
 }

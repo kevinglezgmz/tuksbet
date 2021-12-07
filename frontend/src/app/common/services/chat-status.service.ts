@@ -8,7 +8,7 @@ export class ChatStatusService {
   chatOpenStatus: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor() {
-    const chatStatus = localStorage.getItem('isChatOpen') || 'true';
+    const chatStatus = localStorage.getItem('isChatOpen') || 'false';
     this.chatOpenStatus.next(chatStatus === 'true');
   }
 
