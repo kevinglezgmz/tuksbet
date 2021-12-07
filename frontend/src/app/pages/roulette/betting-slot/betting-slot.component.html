@@ -9,7 +9,7 @@
     <ng-container *ngFor="let bet of currentBets">
       <mat-list-item class="bet-entry">
         <span>
-          <a mat-button routerLink="/users/{{ bet.userId }}"> {{ bet.username }}aaaa </a>
+          <a mat-button routerLink="/users/{{ bet.userId }}"> {{ bet.username }} </a>
         </span>
         <span class="example-spacer"></span>
         <span class="bet-amount-span"> ${{ bet.betAmount | number: '1.2-2' }}</span>
