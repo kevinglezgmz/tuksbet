@@ -1,6 +1,6 @@
 <h1 class="roulette-head">La siguiente ronda comenzará en: {{ counter | number: '1.2-2' }}s</h1>
 <h5>ID de la ronda: {{ currentGameRoundId }}</h5>
-<button mat-button (click)="openRouletteHistory()">Open dialog</button>
+<button mat-button (click)="openRouletteHistory()">Ver historial</button>
 <div class="roulette-wrapper" id="rouletteWrapper">
   <div
     [@rouletteRoll]="{
