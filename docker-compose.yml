@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:5.0.2
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+    ports:
+      - '27017:27017'
+    hostname: mongodb
+    container_name: tuksbet_database
+  server:
+    depends_on:
+      - mongodb
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ./server/.env
+    command: bash -c "npm start"
+    ports:
+      - '5000:5000'
+    links:
+      - 'mongodb:mongodb'
+    hostname: server
+    container_name: tuksbet_server
