@@ -28,11 +28,10 @@
   <div class="chatbox__footer">
     <mat-form-field appearance="fill">
       <mat-label>Escribe tus preguntas</mat-label>
-      <input matInput type="text" />
+      <input matInput type="text" [(ngModel)]="userInput" (keyup.enter)="askLex()" />
     </mat-form-field>
-    <button>
-    <mat-icon>send</mat-icon>
-  </button>
+    <button (click)="askLex()">
+      <mat-icon>send</mat-icon>
+    </button>
   </div>
-  
 </div>

@@ -1,5 +1,11 @@
 const { LexRuntimeServiceClient, PostTextCommand, PostTextCommandInput } = require('@aws-sdk/client-lex-runtime-service');
 const lexClient = new LexRuntimeServiceClient({
+  credentials: {
+    accessKeyId: 'ASIAZK2IAXXT5H3DMXXY',
+    secretAccessKey: 'FSzdqtwKnepkWMVgP+UBqPSr4irZva6kNiWlr+Es',
+    sessionToken:
+      'FwoGZXIvYXdzEH4aDChw/yc5sFTwfhQCPiLSAfRxfp+XrOwZQj9k/d44X2VpYY2ZFEMa3lWtSvla0crS3a9S1IR8ul6x5MZhqxyz4Js4GAjemF2yKQ/sBJHn11xw42VKECC/z9Ioe9WlEf2g/Atao4NEtUaQ2j3B6uB0vT6dPoFBcHbBd9vctlzm10PXDJHxxIOcjZaAlVL6Rtlc8LWKir9zKFFsTQpjH3vNo2OgkYFmyqofPGkeBbl7OrMo+40ngfMjIoS9t38HzqVghdD7EEUBSnUg4DBCssjcyDmd92vekUUoDZ77LA4vC3H6riiP5buTBjItSIFKmquhsVxCLvjceWCTmtSxKEzl04IcJy96zFDP1Uy0GtS4PMtbcQGTWMem',
+  },
   region: 'us-east-1',
 });
 
@@ -14,17 +20,19 @@ class ChatbotController {
     const params = {
       botAlias: 'TuksbetBot',
       botName: 'TuksBot',
-      inputText: req.body.text,
+      inputText: req.body.message,
       userId: sessionId,
     };
     const command = new PostTextCommand(params);
+    console.log('hola');
     const response = await lexClient.send(command);
+    console.log(response);
 
     if (
       response.intentName &&
       response.intentName === 'InfoAboutCripto' &&
       response.dialogState &&
-      response.dialogState === 'Fulfilled'
+      response.dialogState === 'ReadyForFulfillment'
     ) {
       response.message = `TuksBet se encuentra en constante evolución para darte la mejor experiencia de casino 
                           en línea, es por eso que los depósitos con Criptomonedas se encontrarán disponibles muy 
