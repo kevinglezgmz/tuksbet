@@ -36,9 +36,10 @@ function processImageBatch(records) {
 function processImage(s3Data) {
   return new Promise(async (resolve, reject) => {
     try {
+      s3Data.object.key = s3Data.object.key.replace(/\+/g, '%20');
       const decodedKey = decodeURIComponent(s3Data.object.key);
       const moderationLabels = await detectModerationLabels(s3Data.bucket.name, decodedKey);
-      if (moderationLabels.length > 0) {
+      if (moderationLabels && moderationLabels.length > 0) {
         const removedImage = await removeInappropiateImage(s3Data.bucket.name, decodedKey);
         resolve({ ...removedImage, moderationLabels });
       } else {
@@ -102,7 +103,7 @@ async function handler(event) {
     await clientSNS.send(new PublishCommand(snsParams));
     return results;
   } catch (err) {
-    return err;
+    throw err;
   }
 }
 module.exports = { handler };
