@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:5.0.2
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - '27017:27017'
+    hostname: mongodb
+    volumes:
+      - db:/data/db
+    container_name: tuksbet_database
+  server:
+    depends_on:
+      - mongodb
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    container_name: tuksbet_server
+volumes:
+  db:
