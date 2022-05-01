@@ -117,7 +117,7 @@ class BetsController {
       ])
       .sort({ _id: -1 })
       .skip(pagination.limit * pagination.page)
-      .limit(pagination.limit ? pagination.limit : Infinity)
+      .limit(pagination.limit ? pagination.limit : Number.MAX_SAFE_INTEGER)
       .toArray()
       .then((results) => {
         if (results.length === 0) {

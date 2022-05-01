@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class LoginService {
   url: string = environment.serverUrl + '/api/sessions';
+  cognitoUrl = environment.serverUrl + '/api/users/cognito';
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {}
 

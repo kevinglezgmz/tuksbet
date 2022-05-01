@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SocialAuthService } from 'angularx-social-login';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { CognitoService } from 'src/app/common/services/cognito.service';
 
 @Component({
   selector: 'app-logout',
@@ -9,17 +9,19 @@ import { AuthService } from 'src/app/common/services/auth.service';
   styleUrls: ['./logout.component.scss'],
 })
 export class LogoutComponent implements OnInit {
-  constructor(private authService: AuthService, private socialAuthService: SocialAuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private cognitoService: CognitoService) {}
 
   ngOnInit(): void {
-    this.authService.deleteUserDetails();
-    const subscription = this.socialAuthService.authState.subscribe((socialUser) => {
-      if (socialUser) {
-        this.socialAuthService.signOut(true);
-      }
-    });
-    this.router.navigate(['']).finally(() => {
-      subscription.unsubscribe();
-    });
+    this.cognitoService
+      .logoutCognito()
+      .then(() => {
+        this.authService.deleteUserDetails();
+        this.router.navigate(['']);
+      })
+      .catch(() => {
+        alert('error');
+        this.authService.deleteUserDetails();
+        this.router.navigate(['']);
+      });
   }
 }

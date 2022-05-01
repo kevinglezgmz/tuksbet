@@ -47,11 +47,11 @@ function setMainSocketInstance(ioSocket) {
 
 function getRandomNumbers() {
   return new Promise((success, reject) => {
-    if (process.env.enviroment === 'production') {
+    if (process.env.ENVIROMENT === 'production') {
       axios
         .get('https://www.random.org/integers/?num=500&min=0&max=10000&col=1&base=10&format=plain&rnd=new', {
           headers: {
-            'User-Agent': process.env.request_email || 'tuksbet@gmail.com',
+            'User-Agent': process.env.REQUEST_EMAIL || 'tuksbet@gmail.com',
           },
         })
         .then((res) => {

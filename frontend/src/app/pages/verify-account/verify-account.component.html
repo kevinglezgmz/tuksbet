@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-content>
+    <form class="login-form" (submit)="handleCodeSubmit($event)">
+      <h1>Verifica tu cuenta</h1>
+
+      <mat-form-field class="form-field">
+        <mat-label>Código de verificación</mat-label>
+        <input
+          matInput
+          [(ngModel)]="codigoVerificacion"
+          type="text"
+          name="codigo"
+          placeholder="Código de verificación"
+          maxlength="6"
+        />
+      </mat-form-field>
+
+      <span class="button-group">
+        <button (click)="resendVerificationCode()" type="button" class="form-btn" mat-raised-button color="primary">
+          Reenviar código
+        </button>
+        <button class="form-btn" mat-raised-button color="primary" type="submit">Verificar cuenta</button>
+      </span>
+    </form>
+    <button (click)="cancelVerification()" type="button" class="form-btn" mat-raised-button color="secondary">
+      Cancelar
+    </button>
+  </mat-card-content>
+</mat-card>

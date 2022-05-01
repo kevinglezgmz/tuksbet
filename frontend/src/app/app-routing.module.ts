@@ -19,6 +19,8 @@ import { BetDetailsComponent } from './pages/bet-details/bet-details.component';
 import { TransactionDetailsComponent } from './pages/transaction-details/transaction-details.component';
 import { NoAuthGuard } from './common/guards/no-auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { VerifyAccountComponent } from './pages/verify-account/verify-account.component';
+import { VerificationGuard } from './common/guards/verification-guard';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -31,12 +33,13 @@ const routes: Routes = [
   { path: 'transactions/:transactionId', component: TransactionDetailsComponent, canActivate: [AuthGuard] },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'users/:userId', component: UserDetailsComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard, VerificationGuard] },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
-  { path: 'signup', component: SignupComponent, canActivate: [NoAuthGuard] },
+  { path: 'signup', component: SignupComponent, canActivate: [NoAuthGuard, VerificationGuard] },
+  { path: 'verify', component: VerifyAccountComponent },
   { path: 'gamehistory/:gameRoundId', component: GameRoundDetailsComponent },
   { path: 'bets/:betId', component: BetDetailsComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },
 ];
 

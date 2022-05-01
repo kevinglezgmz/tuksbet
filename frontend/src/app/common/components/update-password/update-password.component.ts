@@ -3,6 +3,7 @@ import { UserService } from 'src/app/common/services/user.service';
 import { AuthService } from 'src/app/common/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CognitoService } from '../../services/cognito.service';
 
 @Component({
   selector: 'app-update-password',
@@ -11,15 +12,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UpdatePasswordComponent implements OnInit {
   updatePasswordForm: FormGroup;
+  hideActualPassword: boolean = true;
   hideNewPassword: boolean = true;
   hideConfirmPassword: boolean = true;
   updatePasswordError: string = '';
 
   constructor(
-    private userService: UserService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cognitoService: CognitoService
   ) {
     this.updatePasswordForm = this.formBuilder.group(
       {
@@ -31,6 +33,7 @@ export class UpdatePasswordComponent implements OnInit {
           ],
         ],
         newPasswordConfirm: ['', [Validators.required, Validators.minLength(9)]],
+        actualPassword: ['', [Validators.required]],
       },
       {
         validator: this.confirmPasswordValidation,
@@ -42,10 +45,11 @@ export class UpdatePasswordComponent implements OnInit {
 
   updatePassword() {
     if (this.updatePasswordForm.valid) {
+      const actualPassword = this.updatePasswordForm.value.actualPassword;
       const newPassword = this.updatePasswordForm.value.newPassword;
       const { userId } = this.authService.getUserDetails();
-      this.userService
-        .updateUser(newPassword, userId!)
+      this.cognitoService
+        .updatePassword(actualPassword, newPassword)
         .then((res) => {
           this.openSnackBar('Contraseña actualizada correctamente', 'OK');
         })

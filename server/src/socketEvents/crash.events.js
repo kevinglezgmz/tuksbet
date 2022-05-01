@@ -77,7 +77,7 @@ function startCrashRound() {
   crashCurrentStatus.crashState = 'WAITING';
   crashCurrentStatus.nextGameRoundStartAt = Date.now() + crashCurrentStatus.roundDelay;
 
-  if (process.env.enviroment === 'production') {
+  if (process.env.ENVIROMENT === 'production') {
     axios
       .post(process.env.SERVER_URL + 'api/gameRounds', { gameId: crashId })
       .then((response) => {
@@ -96,13 +96,13 @@ function startCrashRound() {
     crashCurrentStatus.nextGameRoundStartAt + crashCurrentStatus.roundDelay + ((nextRandomNumber() % 10) + 1) * 1000;
 
   // Generar ID de ronda
-  if (process.env.enviroment === 'dev') {
+  if (process.env.ENVIROMENT === 'dev') {
     crashWaitingStatusUpdate();
   }
   setTimeout(() => {
     crashCurrentStatus.crashState = 'RUNNING';
     crashRunningStatusUpdate();
-    if (process.env.enviroment === 'production') {
+    if (process.env.ENVIROMENT === 'production') {
       axios
         .patch(process.env.SERVER_URL + 'api/gameRounds/' + crashCurrentStatus.currentGameRoundId, {
           acceptingBets: false,
@@ -118,7 +118,7 @@ function startCrashRound() {
       const crashedAtMultiplier = getCurrentMultiplier(roundDurationsSeconds).toFixed(2);
 
       // Before sending the result to the clients we need to update the game round to not accept any more bets and store the result of the round
-      if (process.env.enviroment === 'production') {
+      if (process.env.ENVIROMENT === 'production') {
         axios
           .patch(process.env.SERVER_URL + 'api/gameRounds/' + crashCurrentStatus.currentGameRoundId, {
             acceptingBets: false,

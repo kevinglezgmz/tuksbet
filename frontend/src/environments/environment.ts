@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   serverUrl: 'http://localhost:5000',
+  redirectUrl: 'http://localhost:5000/api/cognito/login/token',
 };
 
 /*

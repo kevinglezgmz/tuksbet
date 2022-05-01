@@ -1,4 +1,4 @@
-const { Db, Collection, Document } = require('mongodb');
+const { Db, Collection, Document, Filter, FindOptions, UpdateOptions, UpdateFilter } = require('mongodb');
 
 /** @type { Db } */
 let database = undefined;
@@ -29,11 +29,19 @@ class Database {
     this.collection = database.collection(collectionName);
   }
 
+  /**
+   *  @param { Filter<Document>} query
+   *  @param { FindOptions } options
+   */
   find(query, options) {
     return this.collection.find(query, options);
   }
 
-  findOne(query, options) {
+  /**
+   *  @param { Filter<Document>} query
+   *  @param { FindOptions } options
+   */
+  findOne(query, options = {}) {
     return this.collection.findOne(query, options);
   }
 
@@ -53,7 +61,12 @@ class Database {
     return this.updateOne(query, updateOperations, options);
   }
 
-  updateOne(query, updateOperations, options) {
+  /**
+   *  @param { Filter<Document>} query
+   *  @param { UpdateFilter<Document> } updateOperations
+   *  @param { UpdateOptions } options
+   */
+  updateOne(query, updateOperations, options = {}) {
     return this.collection.updateOne(query, updateOperations, options);
   }
 

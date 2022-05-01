@@ -23,6 +23,6 @@
     *ngIf="user"
     (usernameChanged)="usernameChangedHandler($event)"
   ></app-update-user-name>
-  <app-update-password *ngIf="user"></app-update-password>
+  <app-update-password *ngIf="user && !isSocialUser"></app-update-password>
   <app-update-avatar *ngIf="user" (avatarChanged)="avatarChangedHandler($event)"></app-update-avatar>
 </div>

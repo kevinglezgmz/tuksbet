@@ -51,6 +51,7 @@ import { ChatSidenavTabGroupComponent } from './layout/chat-sidenav/chat-sidenav
 import { ConfirmDialogContentComponent } from './common/components/confirm-dialog-content/confirm-dialog-content.component';
 import { WalletComponentComponent } from './layout/wallet-component/wallet-component.component';
 import { IsDarkThemeService } from './common/services/is-dark-theme.service';
+import { VerifyAccountComponent } from './pages/verify-account/verify-account.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { IsDarkThemeService } from './common/services/is-dark-theme.service';
     ChatSidenavTabGroupComponent,
     ConfirmDialogContentComponent,
     WalletComponentComponent,
+    VerifyAccountComponent,
   ],
   imports: [
     BrowserModule,

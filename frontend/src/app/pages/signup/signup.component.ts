@@ -4,6 +4,8 @@ import { UserService } from 'src/app/common/services/user.service';
 import { LoginService } from 'src/app/common/services/login.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/common/services/auth.service';
+import { VerificationService } from 'src/app/common/services/verification.service';
+import { CognitoService } from 'src/app/common/services/cognito.service';
 
 @Component({
   selector: 'app-signup',
@@ -19,9 +21,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private userService: UserService,
-    private loginService: LoginService,
-    private authService: AuthService
+    private verificationService: VerificationService,
+    private cognitoService: CognitoService
   ) {
     this.form = this.formBuilder.group(
       {
@@ -45,30 +46,23 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {}
 
   signUp() {
-    console.log(this.form);
     if (this.form.valid) {
       let newUser = this.form.value;
       delete newUser.confirm;
 
-      this.userService
-        .createUser(newUser)
+      this.cognitoService
+        .createUserCognito(newUser)
         .then(() => {
-          delete newUser.username;
-
-          this.loginService.login(newUser).then((userDetails) => {
-            this.authService.saveUserDetails({
-              token: userDetails.token,
-              userId: userDetails.userId,
-              username: userDetails.username,
-              roles: userDetails.roles,
-            });
-            this.router.navigate(['']);
-          });
+          this.verificationService.setVerificationEmail(newUser.email);
+          this.router.navigate(['verify']);
         })
         .catch((err) => {
-          console.log(err.error);
-          if (err.error.err === 'This user already exists') {
-            this.signupError = 'Ese usuario ya existe';
+          console.log(err);
+          if (
+            err.error.err === 'This user already exists' ||
+            err.error.err === 'This email is already registered. Try to login with your account.'
+          ) {
+            this.signupError = 'Ese usuario ya existe, intenta con otro correo';
           } else {
             this.signupError = 'Ocurrió un error, intenta de nuevo';
           }
