@@ -52,6 +52,7 @@ MongoClient.connect(
   },
   function (err, client) {
     if (err) {
+      console.log(err);
       console.log('Failed to connect to MongoDB');
     } else {
       console.log('Succesfully connected to MongoDB');

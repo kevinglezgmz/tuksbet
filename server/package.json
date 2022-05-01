@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/kevinglezgmz/tuksbet#readme",
   "dependencies": {
+    "@aws-sdk/client-lex-runtime-service": "^3.81.0",
     "aws-sdk": "^2.1033.0",
     "axios": "^0.23.0",
     "bcrypt": "^5.0.1",

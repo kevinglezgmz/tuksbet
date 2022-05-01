@@ -1,10 +1,6 @@
-const {
-  LexRuntimeServiceClient,
-  PostTextCommand,
-  PostTextCommandInput
-} = require('@aws-sdk/client-lex-runtime-service');
+const { LexRuntimeServiceClient, PostTextCommand, PostTextCommandInput } = require('@aws-sdk/client-lex-runtime-service');
 const lexClient = new LexRuntimeServiceClient({
-  region: 'us-east-1'
+  region: 'us-east-1',
 });
 
 const blackjackExp = new RegExp(/(blackjack|black-jack)/i);
@@ -12,12 +8,12 @@ const rouletteExp = new RegExp(/(roulette|ruleta)/i);
 const crashExp = new RegExp(/crash/i);
 
 class ChatbotController {
-  static postMessage(req, res) {
+  static async postMessage(req, res) {
     const sessionId = req.session.id;
     /** @type { PostTextCommandInput } */
     const params = {
-      botAlias: "TuksbetBot",
-      botName: "TuksBot",
+      botAlias: 'TuksbetBot',
+      botName: 'TuksBot',
       inputText: req.body.text,
       userId: sessionId,
     };
@@ -26,9 +22,9 @@ class ChatbotController {
 
     if (
       response.intentName &&
-      response.intentName === "InfoAboutCripto" &&
+      response.intentName === 'InfoAboutCripto' &&
       response.dialogState &&
-      response.dialogState === "Fulfilled"
+      response.dialogState === 'Fulfilled'
     ) {
       response.message = `TuksBet se encuentra en constante evolución para darte la mejor experiencia de casino 
                           en línea, es por eso que los depósitos con Criptomonedas se encontrarán disponibles muy 
@@ -36,9 +32,9 @@ class ChatbotController {
       console.log('Info about crypto');
     } else if (
       response.intentName &&
-      response.intentName === "LearnAboutDeposits" &&
+      response.intentName === 'LearnAboutDeposits' &&
       response.dialogState &&
-      response.dialogState === "Fulfilled"
+      response.dialogState === 'Fulfilled'
     ) {
       response.message = `Se pueden realizar depósitos de manera rápida y sencilla ingresando a la sección de 
                           "Balance". Para acceder a esta sección basta con tener la sesión iniciada y hacer click 
@@ -49,9 +45,9 @@ class ChatbotController {
       console.log('Info about deposits');
     } else if (
       response.intentName &&
-      response.intentName === "LearnToBet" &&
+      response.intentName === 'LearnToBet' &&
       response.dialogState &&
-      response.dialogState === "Fulfilled"
+      response.dialogState === 'Fulfilled'
     ) {
       response.message = `Para poder realizar una apuesta, cada juego cuenta con un campo específico. Este campo se 
                           encuentra en la parte inferior de la pantalla y contiene botones para generar la apuesta. 
@@ -61,9 +57,9 @@ class ChatbotController {
       console.log('Info about bets');
     } else if (
       response.intentName &&
-      response.intentName === "LearnToChangePasswords" &&
+      response.intentName === 'LearnToChangePasswords' &&
       response.dialogState &&
-      response.dialogState === "Fulfilled"
+      response.dialogState === 'Fulfilled'
     ) {
       response.message = `Para cambiar la contraseña de tu cuenta es necesario que hayas iniciado sesión usando tu 
                           nombre de usuario y contraseña, de otra manera realizar este cambio no será posible.\n
@@ -73,9 +69,9 @@ class ChatbotController {
       console.log('Info about password changes');
     } else if (
       response.intentName &&
-      response.intentName === "LearnToEditProfile" &&
+      response.intentName === 'LearnToEditProfile' &&
       response.dialogState &&
-      response.dialogState === "Fulfilled"
+      response.dialogState === 'Fulfilled'
     ) {
       response.message = `Para editar los datos de tu cuenta, deberás acceder a "Mi perfil". Aquí podrás 
                           encontrar las secciones necesarias para editar datos como nombre de usuario o foto de 
@@ -83,12 +79,12 @@ class ChatbotController {
       console.log('Info about profile updates');
     } else if (
       response.intentName &&
-      response.intentName === "LearnToPlay" &&
+      response.intentName === 'LearnToPlay' &&
       response.dialogState &&
-      response.dialogState === "Fulfilled"
+      response.dialogState === 'Fulfilled'
     ) {
       console.log('Info about games');
-      if(blackjackExp.test(response.slots.Juego)){
+      if (blackjackExp.test(response.slots.Juego)) {
         response.message = `Este es el único juego de TuksBet que se juega de manera individual, sigue las reglas 
                             del juego clásico donde se reparten dos cartas a cada participante, en este caso a la 
                             computadora y al jugador. Dependiendo de las cartas obtenidas, cada jugador podrá 
@@ -96,12 +92,12 @@ class ChatbotController {
                             suma es mayor a 21, el jugador pierde automáticamente; si la suma es menor a 21, gana el 
                             jugador que tiene la suma más alta.`;
         console.log('crash info');
-      } else if(rouletteExp.test(response.slots.Juego)){
+      } else if (rouletteExp.test(response.slots.Juego)) {
         response.message = `Este juego consiste en la clasica Ruleta donde los jugadores podrán apostar al color 
                             verde, rojo o negro. Una nueva ronda inicia 15 segundos después de que la ronda anterior 
                             haya finalizado.`;
         console.log('roulette info');
-      } else if(crashExp.test(response.slots.Juego)) {
+      } else if (crashExp.test(response.slots.Juego)) {
         response.message = `Crash consiste en salir del juego antes de que el multiplicador incremental llegue a su 
                             tope. Este tope es aleatorio para cada ronda y dependiendo de si el jugador se salió antes 
                             de que el juego llegara a ese multiplicador, gana, o si no se salió, pierde, y se paga 
@@ -110,7 +106,7 @@ class ChatbotController {
       }
     }
     res.send({
-      resp: response.message
+      resp: response.message,
     });
   }
 }

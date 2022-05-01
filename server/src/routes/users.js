@@ -1,19 +1,19 @@
 const router = require('express').Router();
 const usersController = require('../controllers/users.controller.js');
 const multer = require('multer');
-const upload = require('../middlewares/file-upload.js');
+//const upload = require('../middlewares/file-upload.js');
 const authentication = require('../middlewares/authentication');
 
 router.get('/', usersController.getAllUsers);
 router.get('/:userId', usersController.getUserById);
 router.post('/', multer().none(), usersController.createUser);
-router.patch(
+/*router.patch(
   '/:userId',
   authentication,
   upload.single('avatar'),
   upload.array('identification', 2), //TODO: WRAP MIDDLEWARES IN ONE
   usersController.updateUser
-);
+);*/
 router.delete('/:userId', authentication, usersController.deleteUser);
 
 module.exports = router;
