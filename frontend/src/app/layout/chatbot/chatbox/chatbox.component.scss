@@ -18,9 +18,8 @@ p {
 }
 
 .chatbox__header {
-  position: sticky;
   top: 0;
-  background: orange;
+  background: #3f51b5;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -28,6 +27,24 @@ p {
   padding: 1rem 2rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.chatbox__content--header {
+  margin-left: 30px;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+mat-icon {
+  color: white;
+}
+
+mat-form-field {
+  margin-left: 10px;
+  width: 90%;
 }
 
 .chatbox__messages {
@@ -53,7 +70,7 @@ p {
 }
 
 .chatbox__footer {
-  position: sticky;
+  // position: sticky;
   bottom: 0;
 }
 

@@ -1,7 +1,7 @@
 <div class="chatbox__support" *ngIf="showChatbox">
   <div class="chatbox__header" color="primary">
     <div class="chatbox__image--header">
-      <img src="../../../../assets/imgs/bot.png" alt="" />
+      <img src="../../../../assets/imgs/chatbot.png" alt="" />
     </div>
     <div class="chatbox__content--header">
       <h3 class="chatbox__heading--header">TuksBot</h3>
@@ -9,7 +9,7 @@
     </div>
     <div class="chatbox__content--header">
       <button (click)="closeChatbox()">
-        <mat-icon>cancel</mat-icon>
+        <mat-icon>close</mat-icon>
       </button>
     </div>
   </div>
@@ -31,7 +31,8 @@
       <input matInput type="text" />
     </mat-form-field>
     <button>
-      <mat-icon>send</mat-icon>
-    </button>
+    <mat-icon>send</mat-icon>
+  </button>
   </div>
+  
 </div>
