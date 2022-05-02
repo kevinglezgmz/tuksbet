@@ -167,7 +167,7 @@ class CognitoController {
   static async loginUserCognito(req, res) {
     const usersDb = new Database('Users');
     const user = await usersDb.findOne({ email: req.body.email }, {});
-    if (!user.email) {
+    if (!user || !user.email) {
       res.status(400).send({ err: 'This user does not exist.' });
       return;
     }
