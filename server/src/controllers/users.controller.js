@@ -186,7 +186,7 @@ class UsersController {
         } else if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfully' });
         } else {
-          throw 'Unexpected error, please try again';
+          res.status(500).send({ err: 'Unexpected error, please try again'});
         }
       })
       .catch((err) => {

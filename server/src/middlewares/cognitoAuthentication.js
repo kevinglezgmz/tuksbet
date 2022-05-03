@@ -12,7 +12,7 @@ async function injectToken(req, res, next) {
   /** Extract token from headers */
   const authHeader = req.get('Authorization');
   const userId = req.get('UserId');
-  if (!authHeader || !authHeader.startsWith('Bearer ' || !userId)) {
+  if (!authHeader || !authHeader.startsWith('Bearer ') || !userId) {
     res.status(401).send({ err: 'Not authorized' });
     return;
   }

@@ -2,44 +2,18 @@ version: '3.8'
 
 services:
   mongodb_primary:
-    image: mongo:5.0.2
+    image: 789522973773.dkr.ecr.us-east-1.amazonaws.com/tuksbet-database:latest
     restart: unless-stopped
     ports:
       - '27017:27017'
     hostname: mongodb_primary
-    volumes:
-      - ./init-mongo:/docker-entrypoint-initdb.d:ro
-      - ./mongo-seed:/tmp/mongo-records:rw
     container_name: tuksbet_database_primary
-    # command: --replSet my-mongo-set
-  # mongodb_secondary_1:
-  #   image: mongo:5.0.2
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - mongodb_primary
-  #   ports:
-  #     - '30001:27017'
-  #   hostname: mongodb_secondary_1
-  #   container_name: tuksbet_database_secondary_1
-  #   command: --replSet my-mongo-set
-  # mongodb_secondary_2:
-  #   image: mongo:5.0.2
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - mongodb_secondary_1
-  #   ports:
-  #     - '30002:27017'
-  #   hostname: mongodb_secondary_2
-  #   container_name: tuksbet_database_secondary_2
-  #   command: --replSet my-mongo-set
   server:
+    image: 789522973773.dkr.ecr.us-east-1.amazonaws.com/tuksbet:latest
     depends_on:
       - mongodb_primary
-    build:
-      context: ./server
-      dockerfile: Dockerfile
     restart: unless-stopped
     hostname: tuksbet_server
     ports:
-      - '5000:5000'
+      - '80:5000'
     container_name: tuksbet_server

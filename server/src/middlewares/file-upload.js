@@ -3,13 +3,19 @@ const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 
-const S3Client = new AWS.S3({
-  region: process.env.AWS_S3_BUCKET_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  Bucket: process.env.AWS_S3_BUCKET,
-  sessionToken: process.env.AWS_SESSION_TOKEN,
-});
+let S3Client;
+if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_SESSION_TOKEN) {
+  S3Client = new AWS.S3({
+    region: process.env.AWS_S3_BUCKET_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    sessionToken: process.env.AWS_SESSION_TOKEN,
+  });
+} else {
+  S3Client = new AWS.S3({
+    region: process.env.AWS_S3_BUCKET_REGION,
+  });
+}
 
 const fileFilter = (req, file, cb) => {
   if (

@@ -344,7 +344,7 @@ class CognitoController {
     if (!user) {
       try {
         var insertedUser = await registerUserFromSocial(decodedIdToken);
-        user = { _id: insertedUser.insertedId };
+        user = { _id: insertedUser.insertedId, roles: "User", username: decodedIdToken.name };
       } catch (error) {
         res.send(error);
         return;
