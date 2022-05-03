@@ -26,9 +26,9 @@ export class RefreshTokenService {
   private async refreshToken() {
     const { userId, provider, username, roles } = this.authService.getUserDetails();
     const refreshToken = this.authService.getRefreshToken();
-    if (userId && provider && refreshToken && username && roles) {
+    if (userId && refreshToken && username && roles) {
       try {
-        var data: any = await this.cognitoService.loginCognitoRefresh(userId, provider);
+        var data: any = await this.cognitoService.loginCognitoRefresh(userId, provider || '');
       } catch (err) {
         await this.cognitoService.logoutCognito();
         this.authService.deleteUserDetails();
