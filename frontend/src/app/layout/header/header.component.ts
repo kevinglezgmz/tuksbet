@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/app/common/services/auth.service';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RefreshTokenService } from 'src/app/common/services/refresh-token.service';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,8 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private themeStatus: IsDarkThemeService,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private refreshTokenService: RefreshTokenService
   ) {
     this.authService.isLoggedIn().subscribe((status) => {
       this.isLoggedIn = status;

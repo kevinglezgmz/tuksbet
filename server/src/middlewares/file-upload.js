@@ -3,11 +3,19 @@ const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 
-const s3Config = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  Bucket: process.env.AWS_S3_BUCKET,
-});
+let S3Client;
+if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY && process.env.AWS_SESSION_TOKEN) {
+  S3Client = new AWS.S3({
+    region: process.env.AWS_S3_BUCKET_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    sessionToken: process.env.AWS_SESSION_TOKEN,
+  });
+} else {
+  S3Client = new AWS.S3({
+    region: process.env.AWS_S3_BUCKET_REGION,
+  });
+}
 
 const fileFilter = (req, file, cb) => {
   if (
@@ -23,13 +31,13 @@ const fileFilter = (req, file, cb) => {
 };
 
 const multerS3Config = multerS3({
-  s3: s3Config,
+  s3: S3Client,
   bucket: process.env.AWS_S3_BUCKET,
   metadata: function (req, file, cb) {
     cb(null, { fieldName: file.fieldname });
   },
   key: function (req, file, cb) {
-    cb(null, new Date().toISOString() + '-' + file.originalname);
+    cb(null, 'profile-images/' + (new Date().toISOString() + '-' + file.originalname));
   },
 });
 

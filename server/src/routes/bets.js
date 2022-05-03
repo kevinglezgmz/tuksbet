@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const BetsController = require('../controllers/bets.controller.js');
-const authentication = require('../middlewares/authentication');
+const { cognitoAccessTokenAuth } = require('../middlewares/cognitoAuthentication');
 
 router.get('/', BetsController.getAllBets);
 router.get('/:betId', BetsController.getBetById);
-router.post('/', authentication, BetsController.createBet);
+router.post('/', cognitoAccessTokenAuth, BetsController.createBet);
 router.patch('/:betId', BetsController.updateBet);
 router.patch('/', BetsController.updateAllBetsInGameRound);
 router.delete('/:betId', BetsController.deleteBet);

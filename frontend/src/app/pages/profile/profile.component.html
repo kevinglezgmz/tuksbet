@@ -6,10 +6,8 @@
 
     <mat-card-content>
       <img
-        src="{{
-          user.avatar ||
-            'https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640'
-        }}"
+        src="{{ user.avatar }}"
+        onerror="this.src='https://i0.wp.com/tualquiler.cr/wp-content/uploads/2017/03/default-user.png?fit=400%2C400&ssl=1&w=640';"
         alt=""
       />
       <h1>{{ user.username }}</h1>
@@ -23,6 +21,6 @@
     *ngIf="user"
     (usernameChanged)="usernameChangedHandler($event)"
   ></app-update-user-name>
-  <app-update-password *ngIf="user"></app-update-password>
+  <app-update-password *ngIf="user && !isSocialUser"></app-update-password>
   <app-update-avatar *ngIf="user" (avatarChanged)="avatarChangedHandler($event)"></app-update-avatar>
 </div>

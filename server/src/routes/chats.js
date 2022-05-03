@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const ChatsController = require('../controllers/chats.controller.js');
-const authentication = require('../middlewares/authentication.js');
+const { cognitoAccessTokenAuth } = require('../middlewares/cognitoAuthentication');
 
 router.get('/:chatRoomId/messages/', ChatsController.getAllChatMessages);
-router.post('/:chatRoomId/messages/', authentication, ChatsController.createNewChatMessage);
+router.post('/:chatRoomId/messages/', cognitoAccessTokenAuth, ChatsController.createNewChatMessage);
 router.patch('/:chatRoomId/messages/:chatMessageId', ChatsController.updateChatMessage);
 router.delete('/:chatRoomId/messages/:chatMessageId', ChatsController.deleteChatMessage);
 

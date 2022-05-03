@@ -53,6 +53,7 @@ import { WalletComponentComponent } from './layout/wallet-component/wallet-compo
 import { IsDarkThemeService } from './common/services/is-dark-theme.service';
 import { ChatbotComponent } from './layout/chatbot/chatbot.component';
 import { ChatboxComponent } from './layout/chatbot/chatbox/chatbox.component';
+import { VerifyAccountComponent } from './pages/verify-account/verify-account.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { ChatboxComponent } from './layout/chatbot/chatbox/chatbox.component';
     WalletComponentComponent,
     ChatbotComponent,
     ChatboxComponent,
+    VerifyAccountComponent,
   ],
   imports: [
     BrowserModule,

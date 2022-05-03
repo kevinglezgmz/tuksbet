@@ -130,6 +130,18 @@ class UsersController {
       });
   }
 
+  static async deleteUserImage(req, res) {
+    const userId = req.params.userId;
+    const usersDb = new Database('Users');
+    const user = await usersDb.findOne({ _id: getObjectId(userId) });
+    if (!user) {
+      res.send({ msg: 'ok' });
+      return;
+    }
+    const updateResult = await usersDb.updateOne({ _id: getObjectId(req.params.userId) }, { $unset: { avatar: '' } });
+    res.send({ msg: 'ok' });
+  }
+
   static deleteUser(req, res) {
     const usersDb = new Database('Users');
     usersDb
@@ -174,7 +186,7 @@ class UsersController {
         } else if (result.acknowledged) {
           res.send({ msg: 'User ' + updatedField + ' updated successfully' });
         } else {
-          throw 'Unexpected error, please try again';
+          res.status(500).send({ err: 'Unexpected error, please try again'});
         }
       })
       .catch((err) => {

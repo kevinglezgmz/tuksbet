@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/common/services/auth.service';
 export class ProfileComponent implements OnInit {
   userId: string = '';
   user: User | undefined = undefined;
+  isSocialUser: boolean = false;
   constructor(private activatedRoute: ActivatedRoute, private userService: UserService, private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -19,6 +20,9 @@ export class ProfileComponent implements OnInit {
     this.userId = userId!;
     this.userService.getUserDetails(this.userId).then((user: User) => {
       this.user = user;
+    });
+    this.authService.isSocialLogin().subscribe((isSocialLoggedIn) => {
+      this.isSocialUser = isSocialLoggedIn;
     });
   }
 

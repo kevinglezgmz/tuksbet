@@ -1,20 +1,21 @@
 const router = require('express').Router();
 const usersController = require('../controllers/users.controller.js');
 const multer = require('multer');
-//const upload = require('../middlewares/file-upload.js');
-const authentication = require('../middlewares/authentication');
+const upload = require('../middlewares/file-upload.js');
+const { cognitoAccessTokenAuth } = require('../middlewares/cognitoAuthentication');
 
-router.get('/', usersController.getAllUsers);
+router.get('/', cognitoAccessTokenAuth, usersController.getAllUsers);
+router.delete('/:userId/image', usersController.deleteUserImage);
 router.get('/:userId', usersController.getUserById);
-router.post('/', multer().none(), usersController.createUser);
-/*router.patch(
+router.post('/', usersController.createUser);
+router.patch(
   '/:userId',
-  authentication,
+  cognitoAccessTokenAuth,
   upload.single('avatar'),
   upload.array('identification', 2), //TODO: WRAP MIDDLEWARES IN ONE
   usersController.updateUser
-);*/
-router.delete('/:userId', authentication, usersController.deleteUser);
+);
+router.delete('/:userId', cognitoAccessTokenAuth, usersController.deleteUser);
 
 module.exports = router;
 

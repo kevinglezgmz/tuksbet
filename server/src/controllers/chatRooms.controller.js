@@ -10,6 +10,7 @@ class ChatRoomsController {
     const chatRoomsDb = new Database('ChatRooms');
     chatRoomsDb
       .find({}, {})
+      .sort({ _id: 1 })
       .toArray()
       .then((results) => {
         if (results.length === 0) {

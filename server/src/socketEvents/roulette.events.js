@@ -61,7 +61,7 @@ function spinWheel(rollResult) {
 }
 
 function startRouletteServer() {
-  if (process.env.enviroment === 'production') {
+  if (process.env.ENVIROMENT === 'production') {
     waitForRoundToStart(startRoundProduction);
     setInterval(() => {
       waitForRoundToStart(startRoundProduction);
@@ -145,7 +145,7 @@ function startInternalCountdown() {
 
 function spinWheelForUsersAndResetCurrentStatus(rollResult, cbUpdateUserBalances) {
   spinWheel(rollResult);
-  if (process.env.enviroment === 'production') {
+  if (process.env.ENVIROMENT === 'production') {
     cbUpdateUserBalances();
   }
   rouletteCurrentStatus.lastRoll = rollResult;

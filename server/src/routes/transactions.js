@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const TransactionsController = require('../controllers/transactions.controller.js');
-const authentication = require('../middlewares/authentication.js');
+const { cognitoAccessTokenAuth } = require('../middlewares/cognitoAuthentication');
 
-router.get('/', authentication, TransactionsController.getAllTransactions);
-router.get('/:transactionId', authentication, TransactionsController.getTransactionById);
-router.post('/', authentication, TransactionsController.createTransaction);
+router.get('/', cognitoAccessTokenAuth, TransactionsController.getAllTransactions);
+router.get('/:transactionId', cognitoAccessTokenAuth, TransactionsController.getTransactionById);
+router.post('/', cognitoAccessTokenAuth, TransactionsController.createTransaction);
 router.patch('/:transactionId', TransactionsController.updateTransaction);
-router.delete('/:transactionId', authentication, TransactionsController.deleteTransaction);
+router.delete('/:transactionId', cognitoAccessTokenAuth, TransactionsController.deleteTransaction);
 
 module.exports = router;
 

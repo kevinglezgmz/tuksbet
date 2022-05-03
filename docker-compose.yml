@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongodb_primary:
+    image: 789522973773.dkr.ecr.us-east-1.amazonaws.com/tuksbet-database:latest
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    hostname: mongodb_primary
+    container_name: tuksbet_database_primary
+  server:
+    image: 789522973773.dkr.ecr.us-east-1.amazonaws.com/tuksbet:latest
+    depends_on:
+      - mongodb_primary
+    restart: unless-stopped
+    hostname: tuksbet_server
+    ports:
+      - '80:5000'
+    container_name: tuksbet_server
