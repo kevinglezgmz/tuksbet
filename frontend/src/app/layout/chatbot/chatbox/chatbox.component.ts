@@ -10,6 +10,7 @@ import { ChatbotService } from 'src/app/common/services/chatbot.service';
   styleUrls: ['./chatbox.component.scss'],
 })
 export class ChatboxComponent implements OnInit {
+  chatbotMessages: ChatbotUserMessage[] = [];
   @Input() showChatbox: boolean = false;
   @Output() showChatbotIcon = new EventEmitter<boolean>();
 
@@ -26,14 +27,19 @@ export class ChatboxComponent implements OnInit {
     this.showChatbotIcon.emit(true);
   }
   askLex() {
-    console.log(this.userInput);
     const userMessage: ChatbotUserMessage = {
       userId: '00',
       message: this.userInput,
     };
+    this.chatbotMessages.push(userMessage);
     this.chatbotService.createUserMessage(userMessage).then((res) => {
-      console.log('mensaje recibido y contestado');
-      console.log(res);
+      const BotResponse: ChatbotUserMessage = {
+        userId: 'TuksBot',
+        message: res.resp,
+      };
+      this.chatbotMessages.push(BotResponse);
     });
+
+    this.userInput = '';
   }
 }

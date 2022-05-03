@@ -29,6 +29,10 @@ p {
   border-top-right-radius: 10px;
 }
 
+.chatbox__heading--header{
+  font-weight: 500;
+}
+
 .chatbox__content--header {
   margin-left: 30px;
 }
@@ -76,6 +80,7 @@ mat-form-field {
 
 .chatbox__support {
   background: #424242;
+  max-width: 500px;
 }
 
 .chatbox__messages {
@@ -89,13 +94,26 @@ mat-form-field {
 }
 
 .messages__item--visitor {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 12px;
+  margin-right: 12px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  text-align: right;
 }
 
 .messages__item--operator {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 12px;
+  margin-right: 12px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
+}
+
+.chatbox__header {
+  color: primary;
 }

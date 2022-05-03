@@ -1,5 +1,5 @@
 <div class="chatbox__support" *ngIf="showChatbox">
-  <div class="chatbox__header" color="primary">
+  <div class="chatbox__header">
     <div class="chatbox__image--header">
       <img src="../../../../assets/imgs/chatbot.png" alt="" />
     </div>
@@ -15,13 +15,15 @@
   </div>
   <div class="messages">
     <div>
-      <div class="messages__item--visitor">Hi!</div>
-      <div class="messages__item--operator">What is it?</div>
-      .
-      <div class="messages__item--typing">
-        <span class="messages__dot"></span>
-        <span class="messages__dot"></span>
-        <span class="messages__dot"></span>
+      <div class="messages__item--operator">Hola!</div>
+      <div class="messages__item--operator">¿Qué preguntas tienes sobre TuksBet?</div>
+      <div *ngFor="let message of chatbotMessages">
+        <div *ngIf="message.userId == 'TuksBot'; else userMessage" class="messages__item--operator">
+          {{ message.message }}
+        </div>
+        <ng-template #userMessage>
+          <div class="messages__item--visitor">{{ message.message }}</div>
+        </ng-template>
       </div>
     </div>
   </div>
