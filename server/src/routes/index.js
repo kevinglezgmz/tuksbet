@@ -10,6 +10,7 @@ const userRoutes = require('./users');
 const cognitoRoutes = require('./cognito');
 const gamesRoutes = require('./games');
 const criptoRoutes = require('./cripto');
+const chatbotRoutes = require('./chatbot');
 
 indexRouter.use('/bets', betRoutes);
 indexRouter.use('/chatrooms', chatRoutes);
@@ -21,5 +22,6 @@ indexRouter.use('/users', userRoutes);
 indexRouter.use('/cognito', cognitoRoutes);
 indexRouter.use('/games', gamesRoutes);
 indexRouter.use('/cripto', criptoRoutes);
+indexRouter.use('/chatbot', chatbotRoutes);
 
 module.exports = indexRouter;

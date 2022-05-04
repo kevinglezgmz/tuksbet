@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/kevinglezgmz/tuksbet#readme",
   "dependencies": {
+    "@aws-sdk/client-lex-runtime-service": "^3.81.0",
     "aws-sdk": "^2.1033.0",
     "axios": "^0.23.0",
     "bcrypt": "^5.0.1",
@@ -26,6 +27,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "google-auth-library": "^7.10.2",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.5",

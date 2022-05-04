@@ -20,6 +20,9 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 const mainRouter = require('./src/routes');
 
+/** Express Sessions */
+const session = require('express-session');
+
 /** Swagger configuration */
 const swaggerOptions = {
   swaggerDefinition: {
@@ -35,6 +38,15 @@ const swaggerOptions = {
 };
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 app.use('/swagger-ui', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
+/** Express Session Middleware for Lex Chatbot */
+app.use(
+  session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 /** Express middlewares */
 const cors = require('cors');
@@ -52,6 +64,7 @@ MongoClient.connect(
   },
   function (err, client) {
     if (err) {
+      console.log(err);
       console.log('Failed to connect to MongoDB');
     } else {
       console.log('Succesfully connected to MongoDB');

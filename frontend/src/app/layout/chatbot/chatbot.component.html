@@ -1,0 +1,8 @@
+<div class="chatbox">
+  <app-chatbox [showChatbox]="showChatbox" (showChatbotIcon)="hideChatbox()"></app-chatbox>
+  <div class="chatbox__button">
+    <button mat-fab color="primary" (click)="toogleShowChatIcon(); toogleShowChatbox()" *ngIf="showChatIcon">
+      <mat-icon>messages</mat-icon>
+    </button>
+  </div>
+</div>

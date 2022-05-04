@@ -1,0 +1,39 @@
+<div class="chatbox__support" *ngIf="showChatbox">
+  <div class="chatbox__header">
+    <div class="chatbox__image--header">
+      <img src="../../../../assets/imgs/chatbot.png" alt="" />
+    </div>
+    <div class="chatbox__content--header">
+      <h3 class="chatbox__heading--header">TuksBot</h3>
+      <p class="chatbox__description--header">Pregunta tus dudas, TuksBot está para servirte</p>
+    </div>
+    <div class="chatbox__content--header">
+      <button (click)="closeChatbox()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="messages">
+    <div>
+      <div class="messages__item--operator">Hola!</div>
+      <div class="messages__item--operator">¿Qué preguntas tienes sobre TuksBet?</div>
+      <div *ngFor="let message of chatbotMessages">
+        <div *ngIf="message.userId == 'TuksBot'; else userMessage" class="messages__item--operator">
+          {{ message.message }}
+        </div>
+        <ng-template #userMessage>
+          <div class="messages__item--visitor">{{ message.message }}</div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="chatbox__footer">
+    <mat-form-field appearance="fill">
+      <mat-label>Escribe tus preguntas</mat-label>
+      <input matInput type="text" [(ngModel)]="userInput" (keyup.enter)="askLex()" />
+    </mat-form-field>
+    <button (click)="askLex()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>
