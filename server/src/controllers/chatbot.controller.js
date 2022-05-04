@@ -1,11 +1,5 @@
 const { LexRuntimeServiceClient, PostTextCommand, PostTextCommandInput } = require('@aws-sdk/client-lex-runtime-service');
 const lexClient = new LexRuntimeServiceClient({
-  credentials: {
-    accessKeyId: 'ASIAV4UFGIQ6KCNFJ652',
-    secretAccessKey: 'wEf2oR85Om9b7rWOiocdsjoPqi/7whBsy46UTMJ7',
-    sessionToken:
-      'FwoGZXIvYXdzEJv//////////wEaDBUpXvi5G7qHtQyhiSLFARbWyjrbcqESIlsajoykWV/DrARy6menmW7sxSgjt0uFGyPsigXP30KVH7ns5eXWhYZAoZRSzTL/sO8s0PA3ZZC/l2DJ2/jwqv9t5aHXDU3ypmZiDeazpB8QKaZXDPBhtZxpgu3IjSVmKiyn4oswixqRYIIFifrd9ICqUtxlFt64ztfCava53UDUCK0n3rdUrUaiF9e523uZFQV5eIBHyflY+oe2Wy+aspNRLFf5EXaFnQuQ/uaoR6Jt20SZknlCFrqwuoQfKKCHwpMGMi2Eg+eArs1W+2akdwyMyfkGKHMdkH4ay0SS2luXHl6ClQSO8qUURNAZIuXAfKk=',
-  },
   region: 'us-east-1',
 });
 
