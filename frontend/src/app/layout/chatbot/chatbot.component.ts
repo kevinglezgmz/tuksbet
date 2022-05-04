@@ -13,15 +13,15 @@ export class ChatbotComponent implements OnInit {
   ngOnInit(): void {}
 
   toogleShowChatbox() {
-    console.log('chatbot');
     this.showChatbox = !this.showChatbox;
   }
+  
   toogleShowChatIcon() {
     console.log('chaticon');
     this.showChatIcon = !this.showChatIcon;
   }
+  
   hideChatbox() {
-    console.log('hide');
     this.toogleShowChatIcon();
     this.toogleShowChatbox();
   }
